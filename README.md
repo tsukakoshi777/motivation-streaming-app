@@ -5,6 +5,9 @@
 ChatGPTとは異なり「何を相談すればいいかわからない」を解消し、視聴者数・収益化・モチベーション維持など配信者特有の課題に対応します。
 過去の記録から成長を実感でき、目標が変化しても継続的にサポートし、必要なリソースや仲間との出会いも創出します。
 
+## ER図
+https://app.diagrams.net/?src=about#G1Mn3Fo1JmXokXuOZXDp3K77CDDZr67CKN#%7B%22pageId%22%3A%22HoqT9CWVDikT26MCecsN%22%7D
+
 ## 画面遷移図
 https://www.figma.com/design/cizJCSP8YJmHmw1O5jWpug/%E9%85%8D%E4%BF%A1%E8%80%85%E3%83%A2%E3%83%81%E3%83%99%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E7%B6%AD%E6%8C%81%E3%82%A2%E3%83%97%E3%83%AA?node-id=0-1&t=BrGSq0g1wSYAAull-1
 
