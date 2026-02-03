@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   db:
@@ -16,7 +15,7 @@ services:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
     volumes:
-      - .:/app
+      - .:/motivation-streaming-app
       - bundle_data:/usr/local/bundle
     ports:
       - "3000:3000"

@@ -33,3 +33,19 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Node modules
+/node_modules
+
+# Build files
+/app/assets/builds
+
+# Windows WSL metadata files
+*:Zone.Identifier
+
+# Log files
+*.log
+build.log
+
+# Yarn
+/yarn-error.log
