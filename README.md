@@ -239,10 +239,18 @@ MVPリリース
 
 ## 使用する技術スタック
 ### 基本構成
-- **フレームワーク**: Ruby on Rails 7.0.x
+- **フレームワーク**: Ruby on Rails 7.0.10
+- **Ruby**: 3.2.2
 - **データベース**: PostgreSQL
 - **デプロイ先**: AWS
 - **フロントエンド**: Hotwire (Turbo + Stimulus)
+
+## デプロイ
+- URL: http://35.74.180.37
+- 環境: AWS EC2
+
+## 今後の改善ポイント
+- HTTPS 化（ACM を使用）
 
 ### 認証・ユーザー管理
 - **Sorcery**
