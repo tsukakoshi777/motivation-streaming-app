@@ -9,9 +9,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       auto_login(@user) # Sorceryのメソッド：登録後自動ログイン
-      redirect_to root_path, success: 'ユーザー登録が完了しました'
+      redirect_to root_path, success: t('users.create.success')
     else
-      flash.now[:danger] = 'ユーザー登録に失敗しました'
+      flash.now[:danger] = t('users.create.failure')
       render :new, status: :unprocessable_entity
     end
   end

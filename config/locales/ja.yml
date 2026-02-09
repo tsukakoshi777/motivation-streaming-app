@@ -1,0 +1,19 @@
+ja:
+  defaults:
+    login: 'ログイン'
+    logout: 'ログアウト'
+    register: '新規登録'
+    message:
+      require_login: 'ログインしてください'
+      
+  user_sessions:
+    create:
+      success: 'ログインしました'
+      failure: 'メールアドレスまたはパスワードが正しくありません'
+    destroy:
+      success: 'ログアウトしました'
+      
+  users:
+    create:
+      success: 'ユーザー登録が完了しました'
+      failure: 'ユーザー登録に失敗しました'  # ← failure になっているか確認

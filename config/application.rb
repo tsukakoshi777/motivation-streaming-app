@@ -42,5 +42,11 @@ module App
       g.helper false
       g.test_framework nil
     end
+
+    # デフォルトのロケールを日本語に設定
+    config.i18n.default_locale = :ja
+
+    # 翻訳ファイルのパスを追加
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.yml')]
   end
 end
