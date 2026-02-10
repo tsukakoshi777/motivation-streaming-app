@@ -1,0 +1,22 @@
+# frozen_string_literal: true
+
+class SurveyProfile < ApplicationRecord
+  # アソシエーション
+  belongs_to :user
+  belongs_to :streaming_platform
+  belongs_to :streaming_category
+  belongs_to :streaming_experience
+
+  # 1対1の関係
+  has_one :survey_response, dependent: :destroy
+  has_one :survey_result, dependent: :destroy
+  has_one :goal, dependent: :destroy
+
+  # バリデーション
+  validates :weekly_frequency, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :average_listeners, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :total_listeners, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :listener_dropout_rate, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 },
+                                    allow_nil: true
+  validates :motivation_level, presence: true, inclusion: { in: 1..5 }
+end
