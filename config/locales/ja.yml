@@ -16,4 +16,13 @@ ja:
   users:
     create:
       success: 'ユーザー登録が完了しました'
-      failure: 'ユーザー登録に失敗しました'  # ← failure になっているか確認
+      failure: 'ユーザー登録に失敗しました'
+  goals:
+    show:
+      access_denied: 'アクセス権限がありません'
+      not_found: '成長の星⭐が見つかりませんでした'
+
+  survey_profiles:
+    create:
+      success: '成長の星が誕生しました! ✨🌟'
+      failure: '成長の星の作成に失敗しました。もう一度お試しください。'

@@ -16,7 +16,6 @@ class SurveyProfile < ApplicationRecord
   validates :weekly_frequency, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :average_listeners, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
   validates :total_listeners, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
-  validates :listener_dropout_rate, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 },
-                                    allow_nil: true
   validates :motivation_level, presence: true, inclusion: { in: 1..5 }
+  validates :listener_dropout_rate, presence: true, inclusion: { in: 0..3 }
 end
