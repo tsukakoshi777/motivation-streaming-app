@@ -1,0 +1,196 @@
+<div class="max-w-4xl mx-auto p-6">
+  <!-- ヘッダー部分 -->
+  <div class="text-center mb-8">
+    <h1 class="text-4xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-2">
+      ✨ あなたの成長の星 ✨
+    </h1>
+    <p class="text-gray-600">あなたのもやもやから生まれた、輝く目標です</p>
+  </div>
+
+  <!-- 目標カード -->
+  <div class="bg-gradient-to-br from-pink-100 to-purple-100 shadow-xl rounded-lg p-8 mb-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-3xl font-bold text-purple-700">🌟 <%= @goal.survey_result.goal_title %></h2>
+      <span class="text-sm text-gray-600">
+        作成日: <%= @goal.created_at.strftime('%Y年%m月%d日') %>
+      </span>
+    </div>
+    
+    <div class="bg-white rounded-lg p-6 shadow-inner">
+      <h3 class="text-lg font-bold text-gray-700 mb-3">📝 目標の詳細</h3>
+      <p class="text-gray-800 whitespace-pre-wrap leading-relaxed">
+        <%= @goal.survey_result.goal_description %>
+      </p>
+    </div>
+
+    <div class="mt-4 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <span class="px-3 py-1 bg-purple-200 text-purple-700 rounded-full text-sm font-semibold">
+          <%= @goal.survey_result.goal_source == 0 ? '🤖 AI提案' : '✍️ 自分で設定' %>
+        </span>
+      </div>
+      
+      <div class="flex space-x-2">
+        <%= link_to '編集する', edit_goal_path(@goal), 
+                    class: 'bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300' %>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================
+       基本情報セクション
+  ======================================== -->
+  <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+    <h2 class="text-2xl font-bold mb-4 text-blue-600">📊 基本情報</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-gray-50 p-4 rounded-lg">
+        <p class="text-sm text-gray-600 mb-1">配信プラットフォーム</p>
+        <p class="text-lg font-semibold text-gray-800">
+          <%= @goal.survey_profile.streaming_platform.name %>
+        </p>
+      </div>
+
+      <div class="bg-gray-50 p-4 rounded-lg">
+        <p class="text-sm text-gray-600 mb-1">配信ジャンル</p>
+        <p class="text-lg font-semibold text-gray-800">
+          <%= @goal.survey_profile.streaming_category.name %>
+        </p>
+      </div>
+
+      <div class="bg-gray-50 p-4 rounded-lg">
+        <p class="text-sm text-gray-600 mb-1">配信経験</p>
+        <p class="text-lg font-semibold text-gray-800">
+          <%= @goal.survey_profile.streaming_experience.name %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================
+       現在の活動状況セクション
+  ======================================== -->
+  <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+    <h2 class="text-2xl font-bold mb-4 text-green-600">📈 現在の活動状況</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-gray-50 p-4 rounded-lg">
+        <p class="text-sm text-gray-600 mb-1">週の配信頻度</p>
+        <p class="text-lg font-semibold text-gray-800">
+          週 <%= @goal.survey_profile.weekly_frequency %> 回
+        </p>
+      </div>
+
+      <div class="bg-gray-50 p-4 rounded-lg">
+        <p class="text-sm text-gray-600 mb-1">平均同時接続視聴者数</p>
+        <p class="text-lg font-semibold text-gray-800">
+          <%= @goal.survey_profile.average_listeners %> 人
+        </p>
+      </div>
+
+      <div class="bg-gray-50 p-4 rounded-lg">
+        <p class="text-sm text-gray-600 mb-1">累計視聴者数</p>
+        <p class="text-lg font-semibold text-gray-800">
+          <%= @goal.survey_profile.total_listeners %> 人
+        </p>
+      </div>
+
+      <div class="bg-gray-50 p-4 rounded-lg">
+        <p class="text-sm text-gray-600 mb-1">最近のリスナーの離脱率</p>
+        <p class="text-lg font-semibold text-gray-800">
+          <%= ['0人', '1〜2人', '3〜4人', '5人以上'][@goal.survey_profile.listener_dropout_rate] %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+   <!-- ========================================
+       モチベーション（あなたの気持ち）セクション
+  ======================================== -->
+  <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+    <h2 class="text-2xl font-bold mb-4 text-purple-600">💗 モチベーション（あなたの気持ち）</h2>
+    
+    <!-- モチベーションレベル -->
+    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+      <p class="text-sm text-gray-600 mb-2">現在のモチベーションレベル</p>
+      <div class="text-3xl">
+        <%= '💗' * @goal.survey_profile.motivation_level %>
+        <%= '🖤' * (5 - @goal.survey_profile.motivation_level) %>
+      </div>
+      <p class="text-sm text-gray-500 mt-1">
+        <%= @goal.survey_profile.motivation_level %> / 5
+      </p>
+    </div>
+
+    <!-- 配信で嬉しかったこと -->
+    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+      <p class="text-sm text-gray-600 mb-2">😊 配信で嬉しかったこと</p>
+      <p class="text-gray-800 whitespace-pre-wrap">
+        <%= @goal.survey_profile.survey_response.happy_moment %>
+      </p>
+    </div>
+
+    <!-- 配信で辛かったこと -->
+    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+      <p class="text-sm text-gray-600 mb-2">😢 配信で辛かったこと</p>
+      <p class="text-gray-800 whitespace-pre-wrap">
+        <%= @goal.survey_profile.survey_response.sad_moment %>
+      </p>
+    </div>
+
+    <!-- 配信を続ける理由 -->
+    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+      <p class="text-sm text-gray-600 mb-2">🔥 配信を続ける理由</p>
+      <div class="flex flex-wrap gap-2">
+        <% @goal.survey_profile.survey_response.streaming_reasons.split(',').each do |reason| %>
+          <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
+            <%= reason %>
+          </span>
+        <% end %>
+      </div>
+      <% if @goal.survey_profile.survey_response.streaming_reasons_other.present? %>
+        <p class="text-gray-800 mt-2">
+          <span class="font-semibold">その他:</span>
+          <%= @goal.survey_profile.survey_response.streaming_reasons_other %>
+        </p>
+      <% end %>
+    </div>
+
+    <!-- 理想の配信スタイル -->
+    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+      <p class="text-sm text-gray-600 mb-2">✨ 理想の配信スタイル</p>
+      <p class="text-gray-800 whitespace-pre-wrap">
+        <%= @goal.survey_profile.survey_response.desired_streaming_style %>
+      </p>
+    </div>
+
+    <!-- 理想の視聴者層 -->
+    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+      <p class="text-sm text-gray-600 mb-2">👥 理想の視聴者層</p>
+      <p class="text-gray-800 whitespace-pre-wrap">
+        <%= @goal.survey_profile.survey_response.desired_listener %>
+      </p>
+    </div>
+
+    <!-- 理想の月収 -->
+    <div class="bg-gray-50 p-4 rounded-lg">
+      <p class="text-sm text-gray-600 mb-2">💰 理想の月収</p>
+      <p class="text-2xl font-bold text-gray-800">
+        <%= number_to_currency(@goal.survey_profile.survey_response.desired_monthly_income, unit: '¥', precision: 0) %>
+      </p>
+    </div>
+  </div>
+
+  <!-- ========================================
+       アクションボタンエリア
+  ======================================== -->
+  <div class="bg-gradient-to-r from-pink-500 to-purple-500 shadow-lg rounded-lg p-6 text-center">
+    <h3 class="text-2xl font-bold text-white mb-4">
+      🌟 次のステップへ進もう! 🌟
+    </h3>
+    <p class="text-white mb-6">
+      成長の星を育てるために、日々の輝き（メモ）を記録していきましょう!
+    </p>
+  </div>
+
+</div>

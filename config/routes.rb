@@ -8,8 +8,19 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   root 'static_pages#top'
+
   resources :users, only: %i[new create]
   get 'login', to: 'user_sessions#new'
   post 'login', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
+
+  # もやもや結晶シート（入力・保存のみ）
+  resources :survey_profiles, only: %i[new create]
+
+  # 成長の星⭐（表示・編集・進捗管理）
+  resources :goals, only: %i[show edit update] do
+    member do
+      get :progress  # 進捗状況ページ（オプション）
+    end
+  end
 end
