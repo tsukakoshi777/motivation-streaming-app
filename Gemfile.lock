@@ -326,6 +326,8 @@ GEM
       logger
     ruby2_keywords (0.0.5)
     securerandom (0.4.1)
+    shoulda-matchers (5.3.0)
+      activesupport (>= 5.2.0)
     snaky_hash (2.0.3)
       hashie (>= 0.1.0, < 6)
       version_gem (>= 1.1.8, < 3)
@@ -394,6 +396,7 @@ DEPENDENCIES
   rubocop
   rubocop-checkstyle_formatter
   rubocop-rails
+  shoulda-matchers (~> 5.0)
   sorcery (= 0.16.3)
   sprockets-rails
   turbo-rails (= 1.1.1)
