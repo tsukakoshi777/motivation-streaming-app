@@ -1,15 +1,15 @@
 FactoryBot.define do
   factory :survey_profile do
     association :user
-    association :goal
+    association :streaming_platform
+    association :streaming_category
+    association :streaming_experience
     
-    platform { 'YouTube' }
-    category { 'ゲーム実況' }
-    experience { '初心者' }
-    frequency { '週3回' }
-    listener_count { 100 }
-    streaming_reason { '楽しいから' }
-    desired_style { 'エンタメ系' }
-    target_income { 10000 }
+    weekly_frequency { 3 }
+    average_listeners { 100 }
+    total_listeners { 1000 }
+    listener_dropout_rate { 2 }
+    motivation_level { 3 }
+    
   end
 end
