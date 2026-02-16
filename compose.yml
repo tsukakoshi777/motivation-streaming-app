@@ -21,12 +21,20 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - chrome  # Chrome コンテナへの依存を追加
     environment:
       DATABASE_HOST: db
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: password
+      SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub  # Chrome コンテナの URL を追加
     stdin_open: true
     tty: true
+
+  chrome:  # Chrome コンテナを追加
+    image: selenium/standalone-chrome:124.0
+    ports:
+      - "4444:4444"
+
 
 volumes:
   postgres_data:
