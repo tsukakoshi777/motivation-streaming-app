@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
@@ -10,25 +12,25 @@ RSpec.describe User, type: :model do
     it 'nicknameがなければ無効' do
       user = build(:user, nickname: nil)
       user.valid?
-      expect(user.errors[:nickname]).to include("を入力してください")
+      expect(user.errors[:nickname]).to include('を入力してください')
     end
 
     it 'emailがなければ無効' do
       user = build(:user, email: nil)
       user.valid?
-      expect(user.errors[:email]).to include("を入力してください")
+      expect(user.errors[:email]).to include('を入力してください')
     end
 
     it 'passwordがなければ無効' do
       user = build(:user, password: nil)
       user.valid?
-      expect(user.errors[:password]).to include("を入力してください")
+      expect(user.errors[:password]).to include('を入力してください')
     end
 
     it 'passwordが6文字未満なら無効' do
       user = build(:user, password: '12345', password_confirmation: '12345')
       user.valid?
-      expect(user.errors[:password]).to include("は6文字以上で入力してください")
+      expect(user.errors[:password]).to include('は6文字以上で入力してください')
     end
 
     it '重複したemailは無効' do
@@ -41,7 +43,7 @@ RSpec.describe User, type: :model do
     it 'nicknameが50文字を超えると無効' do
       user = build(:user, nickname: 'a' * 51)
       user.valid?
-      expect(user.errors[:nickname]).to include("は50文字以内で入力してください")
+      expect(user.errors[:nickname]).to include('は50文字以内で入力してください')
     end
   end
 

@@ -94,8 +94,20 @@ GEM
       debug_inspector (>= 1.2.0)
     bootsnap (1.22.0)
       msgpack (~> 1.2)
+    bootstrap5-kaminari-views (0.0.1)
+      kaminari (>= 0.13)
+      rails (>= 3.1)
     builder (3.3.0)
     byebug (12.0.0)
+    capybara (3.40.0)
+      addressable
+      matrix
+      mini_mime (>= 0.1.3)
+      nokogiri (~> 1.11)
+      rack (>= 1.6.0)
+      rack-test (>= 0.6.3)
+      regexp_parser (>= 1.5, < 3.0)
+      xpath (~> 3.2)
     carrierwave (2.2.2)
       activemodel (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -165,6 +177,18 @@ GEM
     json (2.18.0)
     jwt (2.10.2)
       base64
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
+      actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
     logger (1.7.0)
@@ -178,6 +202,7 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
+    matrix (0.4.3)
     method_source (1.1.0)
     mini_magick (5.3.1)
       logger
@@ -278,6 +303,7 @@ GEM
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
+    rexml (3.4.4)
     rouge (4.7.0)
     rspec-core (3.13.6)
       rspec-support (~> 3.13.0)
@@ -325,7 +351,14 @@ GEM
       ffi (~> 1.12)
       logger
     ruby2_keywords (0.0.5)
+    rubyzip (3.2.2)
     securerandom (0.4.1)
+    selenium-webdriver (4.40.0)
+      base64 (~> 0.2)
+      logger (~> 1.4)
+      rexml (~> 3.2, >= 3.2.5)
+      rubyzip (>= 1.2.2, < 4.0)
+      websocket (~> 1.0)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
     snaky_hash (2.0.3)
@@ -364,10 +397,13 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
+    websocket (1.2.11)
     websocket-driver (0.8.0)
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    xpath (3.2.0)
+      nokogiri (~> 1.8)
     zeitwerk (2.6.18)
 
 PLATFORMS
@@ -377,6 +413,8 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootsnap
+  bootstrap5-kaminari-views
+  capybara
   carrierwave (= 2.2.2)
   cssbundling-rails
   dartsass-rails (~> 0.4.0)
@@ -386,6 +424,7 @@ DEPENDENCIES
   faker
   jbuilder
   jsbundling-rails
+  kaminari (= 1.2.2)
   pg
   pry-byebug
   puma (~> 5.0)
@@ -396,6 +435,7 @@ DEPENDENCIES
   rubocop
   rubocop-checkstyle_formatter
   rubocop-rails
+  selenium-webdriver
   shoulda-matchers (~> 5.0)
   sorcery (= 0.16.3)
   sprockets-rails

@@ -57,6 +57,10 @@ gem 'carrierwave', '2.2.2'
 
 gem 'turbo-rails', '1.1.1'
 
+# ページネーション関連のGem
+gem 'bootstrap5-kaminari-views'
+gem 'kaminari', '1.2.2'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'better_errors'
@@ -84,5 +88,7 @@ group :development do
 end
 
 group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 5.0'
 end
