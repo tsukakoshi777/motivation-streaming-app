@@ -1,0 +1,288 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6 text-center">もやもや結晶シートを編集 📝</h1>
+  <p class="mb-8 text-center text-gray-600">君のもやもやを見直してみよう。新しい星が生まれるかも! 🌟</p>
+
+  <%= form_with model: @survey_profile, url: goal_survey_profile_path(@goal), method: :patch, local: true do |f| %>
+    <!-- エラーメッセージ表示 -->
+    <% if @survey_profile.errors.any? %>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <p class="font-bold"><%= pluralize(@survey_profile.errors.count, "error") %> prohibited this survey_profile from being saved:</p>
+        <ul class="list-disc list-inside">
+          <% @survey_profile.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- ========================================
+         基本情報セクション
+    ======================================== -->
+    <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+      <h2 class="text-2xl font-bold mb-4 text-blue-600">📊 基本情報</h2>
+      
+      <!-- 配信プラットフォーム -->
+      <div class="mb-4">
+        <%= f.label :streaming_platform_id, '配信プラットフォーム', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.collection_select :streaming_platform_id, 
+                                @streaming_platforms, 
+                                :id, 
+                                :name, 
+                                { prompt: '選択してください' }, 
+                                class: 'w-full border border-gray-300 rounded px-3 py-2' %>
+      </div>
+
+      <!-- 配信カテゴリ -->
+      <div class="mb-4">
+        <%= f.label :streaming_category_id, '配信ジャンル', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.collection_select :streaming_category_id, 
+                                @streaming_categories, 
+                                :id, 
+                                :name, 
+                                { prompt: '選択してください' }, 
+                                class: 'w-full border border-gray-300 rounded px-3 py-2' %>
+      </div>
+
+      <!-- 配信経験 -->
+      <div class="mb-4">
+        <%= f.label :streaming_experience_id, '配信経験', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.collection_select :streaming_experience_id, 
+                                @streaming_experiences, 
+                                :id, 
+                                :name, 
+                                { prompt: '選択してください' }, 
+                                class: 'w-full border border-gray-300 rounded px-3 py-2' %>
+      </div>
+    </div>
+
+    <!-- ========================================
+         現在の活動状況セクション
+    ======================================== -->
+    <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+      <h2 class="text-2xl font-bold mb-4 text-green-600">📈 現在の活動状況</h2>
+
+      <!-- 週の配信頻度 -->
+      <div class="mb-4">
+        <%= f.label :weekly_frequency, '週の配信頻度（回数）', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.number_field :weekly_frequency, 
+                           class: 'w-full border border-gray-300 rounded px-3 py-2', 
+                           placeholder: '例: 3',
+                           min: 0 %>
+        <p class="text-sm text-gray-500 mt-1">週に何回配信していますか？</p>
+      </div>
+
+      <!-- 平均視聴者数 -->
+      <div class="mb-4">
+        <%= f.label :average_listeners, '平均同時接続視聴者数', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.number_field :average_listeners, 
+                           class: 'w-full border border-gray-300 rounded px-3 py-2', 
+                           placeholder: '例: 10',
+                           min: 0 %>
+        <p class="text-sm text-gray-500 mt-1">配信中の平均的な同時視聴者数を教えてください</p>
+      </div>
+
+      <!-- 累計視聴者数 -->
+      <div class="mb-4">
+        <%= f.label :total_listeners, '累計視聴者数（おおよその人数）', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.number_field :total_listeners, 
+                           class: 'w-full border border-gray-300 rounded px-3 py-2', 
+                           placeholder: '例: 100',
+                           min: 0 %>
+        <p class="text-sm text-gray-500 mt-1">これまでの累計視聴者数（おおよそ）を教えてください</p>
+      </div>
+
+      <!-- 視聴者の離脱率 -->
+      <div class="mb-4">
+        <%= f.label :listener_dropout_rate, '最近のリスナーの離脱率', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.select :listener_dropout_rate,
+                     [
+                       ['0人', 0],
+                       ['1〜2人', 1],
+                       ['3〜4人', 2],
+                       ['5人以上', 3]
+                     ],
+                     { prompt: '選択してください' },
+                     class: 'w-full border border-gray-300 rounded px-3 py-2' %>
+        <p class="text-sm text-gray-500 mt-1">配信中に退出するリスナーの数を教えてください</p>
+      </div>
+    </div>
+
+    <!-- ========================================
+         モチベーション（あなたの気持ち）セクション
+    ======================================== -->
+    <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+      <h2 class="text-2xl font-bold mb-4 text-purple-600">💗 モチベーション（あなたの気持ち）</h2>
+
+      <!-- モチベーションレベル -->
+      <div class="mb-4">
+        <%= f.label :motivation_level, 'モチベーションレベル', class: 'block mb-2 font-bold text-gray-700' %>
+        <div class="flex gap-4">
+          <% (1..5).each do |level| %>
+            <label class="flex items-center">
+              <%= f.radio_button :motivation_level, level, class: 'mr-2' %>
+              <span class="text-2xl"><%= '💗' * level %></span>
+            </label>
+          <% end %>
+        </div>
+        <p class="text-sm text-gray-500 mt-1">今のモチベーションを教えてください（1: とても低い 〜 5: とても高い）</p>
+      </div>
+
+      <!-- 配信で嬉しかった瞬間 -->
+      <div class="mb-4">
+        <%= label_tag 'survey_profile[happy_moment]', '配信をしていて嬉しかったこと', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= text_area_tag 'survey_profile[happy_moment]',
+                          @survey_profile.survey_response&.happy_moment,
+                          class: 'w-full border border-gray-300 rounded px-3 py-2',
+                          rows: 4,
+                          placeholder: '例: リスナーさんからコメントをもらえたとき' %>
+      </div>
+
+      <!-- 配信で辛かった瞬間 -->
+      <div class="mb-4">
+        <%= label_tag 'survey_profile[sad_moment]', '配信をしていて悲しかったこと（もやもやの原因）', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= text_area_tag 'survey_profile[sad_moment]',
+                          @survey_profile.survey_response&.sad_moment,
+                          class: 'w-full border border-gray-300 rounded px-3 py-2',
+                          rows: 4,
+                          placeholder: '例: リスナーが全然増えない、コメントがもらえない' %>
+        <p class="text-sm text-gray-500 mt-1">ここにもやもやの原因が隠れているかも...正直に書いてみてね</p>
+      </div>
+
+      <!-- 配信を続ける理由や目的（複数選択） -->
+      <div class="mb-4">
+        <%= label_tag 'survey_profile[streaming_reasons]', '配信を続ける理由や目的（3つまで）', class: 'block mb-2 font-bold text-gray-700' %>
+        <div class="space-y-2">
+          <% streaming_reasons = [
+            '稼ぎたい',
+            '有名になりたい',
+            '承認欲求を満たしたい（褒められたい、ちやほやされたい）',
+            '様々な夢を叶えたい',
+            'コミュニケーション力を鍛えたい',
+            '友達を作りたい',
+            '自己肯定感を高めたい（自信をつけたい）',
+            '憧れの配信者やアイドルに近づきたい',
+            '心の避難所として（寂しい、心の穴を埋めたい）'
+          ] %>
+
+          <% 
+            # バリデーションエラー時に選択されていた値を保持
+            selected_reasons = @survey_profile.survey_response&.streaming_reasons&.split(',') || []
+          %>
+
+          <% streaming_reasons.each do |reason| %>
+            <label class="flex items-center">
+              <%= check_box_tag 'survey_profile[streaming_reasons][]',
+                                reason,
+                                selected_reasons.include?(reason),
+                                class: 'mr-2' %>
+              <%= reason %>
+            </label>
+          <% end %>
+        </div>
+        <p class="text-sm text-gray-500 mt-1">最大3つまで選択できます</p>
+      </div>
+
+      <!-- 配信を続ける理由（その他） -->
+      <div class="mb-4">
+        <%= label_tag 'survey_profile[streaming_reasons_other]', '配信を続ける理由や目的（その他）', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= text_area_tag 'survey_profile[streaming_reasons_other]',
+                          @survey_profile.survey_response&.streaming_reasons_other,
+                          class: 'w-full border border-gray-300 rounded px-3 py-2',
+                          rows: 3,
+                          placeholder: '上記以外の理由があれば教えてください' %>
+      </div>
+
+      <!-- 理想の配信スタイル -->
+      <div class="mb-4">
+        <%= label_tag 'survey_profile[desired_streaming_style]', '理想の配信スタイル（どんな枠にしたい?）', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= text_area_tag 'survey_profile[desired_streaming_style]',
+                          @survey_profile.survey_response&.desired_streaming_style,
+                          class: 'w-full border border-gray-300 rounded px-3 py-2',
+                          rows: 4,
+                          placeholder: '例: みんなでワイワイ楽しめる配信、まったり癒し系の配信' %>
+      </div>
+
+      <!-- 理想の視聴者層 -->
+      <div class="mb-4">
+        <%= label_tag 'survey_profile[desired_listener]', '理想の視聴者層（どんなリスナーに来てほしい?）', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= text_area_tag 'survey_profile[desired_listener]',
+                          @survey_profile.survey_response&.desired_listener,
+                          class: 'w-full border border-gray-300 rounded px-3 py-2',
+                          rows: 4,
+                          placeholder: '例: 優しくて楽しい人、一緒に盛り上がってくれる人' %>
+      </div>
+
+      <!-- 理想の月収 -->
+      <div class="mb-4">
+        <%= label_tag 'survey_profile[desired_monthly_income]', '理想の月収（配信を続けるためにあると嬉しい月収）', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= number_field_tag 'survey_profile[desired_monthly_income]',
+                             @survey_profile.survey_response&.desired_monthly_income,
+                             class: 'w-full border border-gray-300 rounded px-3 py-2',
+                             placeholder: '例: 50000',
+                             min: 0 %>
+        <p class="text-sm text-gray-500 mt-1">円単位で入力してください</p>
+      </div>
+    </div>
+
+    <!-- ========================================
+         目指す方向性（未来を描く）セクション
+    ======================================== -->
+    <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+      <h2 class="text-2xl font-bold mb-4 text-pink-600">🌟 目指す方向性（未来を描く）</h2>
+
+      <!-- 目標の出典選択 -->
+      <div class="mb-4">
+        <%= label_tag 'survey_result[goal_source]', '成長の星(目標)の出典選択', class: 'block mb-2 font-bold text-gray-700' %>
+        <div class="space-y-2">
+          <% 
+            # バリデーションエラー時に選択されていた値を保持
+            # enum の値は文字列として比較する必要がある
+            selected_goal_source = @survey_profile.survey_result&.goal_source
+          %>
+          <label class="flex items-center">
+            <%= radio_button_tag 'survey_result[goal_source]', 
+                                 0, 
+                                 selected_goal_source == 'ai_suggestion' || selected_goal_source.nil?, 
+                                 class: 'mr-2' %>
+            AI提案から選択する
+          </label>
+          <label class="flex items-center">
+            <%= radio_button_tag 'survey_result[goal_source]', 
+                                 1, 
+                                 selected_goal_source == 'self_set', 
+                                 class: 'mr-2' %>
+            自分で設定する
+          </label>
+        </div>
+        <p class="text-sm text-gray-500 mt-1">AIがあなたに合った目標を提案します。もちろん自分で設定することもできます!</p>
+      </div>
+
+      <!-- 目標のタイトル -->
+      <div class="mb-4">
+        <%= label_tag 'survey_result[goal_title]', '成長の星（目標）のタイトル', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= text_field_tag 'survey_result[goal_title]',
+                           @survey_profile.survey_result&.goal_title,
+                           class: 'w-full border border-gray-300 rounded px-3 py-2',
+                           placeholder: '例: 3ヶ月で平均視聴者数20人を目指す!' %>
+        <p class="text-sm text-gray-500 mt-1">自分で設定する場合は入力してください</p>
+      </div>
+
+      <!-- 目標の詳細説明 -->
+      <div class="mb-4">
+        <%= label_tag 'survey_result[goal_description]', '成長の星（目標）の詳細説明', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= text_area_tag 'survey_result[goal_description]',
+                          @survey_profile.survey_result&.goal_description,
+                          class: 'w-full border border-gray-300 rounded px-3 py-2',
+                          rows: 5,
+                          placeholder: '例: 毎日配信を続けて、リスナーとのコミュニケーションを大切にする。視聴者参加型の企画を月1回実施する。' %>
+        <p class="text-sm text-gray-500 mt-1">自分で設定する場合は入力してください</p>
+      </div>
+    </div>
+
+    <!-- 送信ボタン -->
+    <div class="text-center">
+      <%= f.submit '成長の星を更新する ✨', 
+                   class: 'bg-gradient-to-r from-pink-500 to-purple-500 text-white font-bold py-3 px-8 rounded-lg hover:from-pink-600 hover:to-purple-600 transition duration-300 text-lg cursor-pointer' %>
+    </div>
+  <% end %>
+</div>

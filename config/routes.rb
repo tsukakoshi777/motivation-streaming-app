@@ -19,6 +19,9 @@ Rails.application.routes.draw do
 
   # 成長の星⭐（表示・編集・進捗管理）
   resources :goals, only: %i[index show edit update destroy] do
+    # survey_profile の編集・更新をネストする
+    resource :survey_profile, only: %i[edit update]  # ← ここを確認!
+
     member do
       get :progress  # 進捗状況ページ（オプション）
     end

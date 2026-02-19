@@ -4,38 +4,32 @@ class GoalsController < ApplicationController
   before_action :require_login
   before_action :set_goal, only: %i[show edit update destroy]
 
-  # 一覧表示
   def index
     @goals = current_user.goals
                          .includes(goal_associations)
                          .order(created_at: :desc)
                          .page(params[:page])
-                         .per(4) # 1ページ4件表示
+                         .per(4)
   end
 
-  # 詳細表示
-  def show; end
+  def show
+    @streaming_reasons = @goal.survey_profile&.survey_response&.streaming_reasons&.split(',') || []
+  end
 
-  # 編集画面
   def edit
-    # set_goalで@goalが設定済み
+    # 編集画面用のデータを準備
+    @survey_profile = @goal.survey_profile
+    load_select_options
+
+    # streaming_reasons を配列に変換
+    @streaming_reasons = @survey_profile&.survey_response&.streaming_reasons&.split(',') || []
   end
 
-  # 更新処理
-  def update
-    if update_goal_with_nested_attributes
-      redirect_to @goal, notice: t('.success')
-    else
-      render :edit, status: :unprocessable_entity
-    end
-  end
-
-  # 削除処理
   def destroy
     @goal.destroy!
     redirect_to goals_path, notice: t('.success')
-  rescue ActiveRecord::RecordNotDestroyed => e
-    redirect_to @goal, alert: t('.failure', error: e.message)
+  rescue ActiveRecord::RecordNotDestroyed
+    redirect_to @goal, alert: t('.failure')
   end
 
   private
@@ -45,7 +39,7 @@ class GoalsController < ApplicationController
                         .includes(goal_associations)
                         .find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to goals_path
+    redirect_to goals_path, alert: t('goals.show.not_found')
   end
 
   def goal_associations
@@ -60,18 +54,42 @@ class GoalsController < ApplicationController
     }
   end
 
-  def update_goal_with_nested_attributes
-    # survey_resultの更新
-    if params[:goal][:survey_result_attributes]
-      @goal.survey_profile.survey_result.update(survey_result_params)
-    else
-      true
-    end
+  def load_select_options
+    @streaming_platforms = StreamingPlatform.all
+    @streaming_categories = StreamingCategory.all
+    @streaming_experiences = StreamingExperience.all
+  end
+
+  def survey_profile_params
+    params.require(:survey_profile).permit(
+      :streaming_platform_id,
+      :streaming_category_id,
+      :streaming_experience_id,
+      :weekly_frequency,
+      :average_listeners,
+      :total_listeners,
+      :listener_dropout_rate,
+      :motivation_level
+    )
+  end
+
+  def survey_response_params
+    params.require(:survey_profile).permit(
+      :happy_moment,
+      :sad_moment,
+      :desired_streaming_style,
+      :desired_listener,
+      :desired_monthly_income,
+      :streaming_reasons_other,
+      streaming_reasons: []
+    )
   end
 
   def survey_result_params
-    params.require(:goal)
-          .require(:survey_result_attributes)
-          .permit(:goal_title, :goal_description)
+    params.require(:survey_result).permit(
+      :goal_source,
+      :goal_title,
+      :goal_description
+    )
   end
 end
