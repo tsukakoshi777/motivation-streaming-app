@@ -5,22 +5,31 @@ ja:
     register: '新規登録'
     message:
       require_login: 'ログインしてください'
-      
+
   user_sessions:
     create:
       success: 'ログインしました'
       failure: 'メールアドレスまたはパスワードが正しくありません'
     destroy:
       success: 'ログアウトしました'
-      
+
   users:
     create:
       success: 'ユーザー登録が完了しました'
       failure: 'ユーザー登録に失敗しました'
+
   goals:
     show:
       access_denied: 'アクセス権限がありません'
       not_found: '成長の星⭐が見つかりませんでした'
+    edit:
+      title: '成長の星を編集'
+    update:
+      success: '成長の星を更新しました'
+      failure: '成長の星の更新に失敗しました'
+    destroy:
+      success: '成長の星を削除しました'
+      failure: '成長の星の削除に失敗しました'
 
   survey_profiles:
     create:

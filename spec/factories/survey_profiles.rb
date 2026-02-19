@@ -13,8 +13,9 @@ FactoryBot.define do
     listener_dropout_rate { 2 }
     motivation_level { 3 }
 
-    # survey_profile 作成後に survey_result も自動作成
+    # survey_response と survey_result を自動作成
     after(:create) do |survey_profile|
+      create(:survey_response, survey_profile: survey_profile)
       create(:survey_result, survey_profile: survey_profile)
     end
   end

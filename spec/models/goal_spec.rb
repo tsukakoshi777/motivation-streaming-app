@@ -27,13 +27,14 @@ RSpec.describe Goal, type: :model do
     end
 
     it 'survey_profile_id が重複していれば無効' do
-      # 同じ user を使う（循環参照を避けるため）
+      # 同じ user を使う(循環参照を避けるため)
       user = create(:user)
       survey_profile = create(:survey_profile, user: user)
+
+      # 最初の goal を作成
       create(:goal, user: user, survey_profile: survey_profile)
 
-      # 別の survey_profile を作成
-      create(:survey_profile, user: user)
+      # 同じ survey_profile を使って2つ目の goal を作成しようとする
       goal = build(:goal, user: user, survey_profile: survey_profile)
 
       expect(goal).to be_invalid

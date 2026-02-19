@@ -96,13 +96,14 @@
         <span class="text-xs text-muted">
           更新: <%= l(goal.updated_at, format: :short) %>
         </span>
-        <%= link_to goal_path(goal), 
-            data: { 
-              turbo_method: :delete,
-              turbo_confirm: "本当に削除しますか?\nこの操作は取り消せません。" 
+        <%= button_to goal_path(goal), 
+            method: :delete,
+            form: {
+              style: "display: inline;",
+              onsubmit: "return confirm('本当に削除しますか?\\nこの操作は取り消せません。');"
             },
-            class: "text-xs text-danger fw-bold text-decoration-none" do %>
-          <span class="me-1">🗑️</span> 削除
+            class: "btn text-xs text-danger fw-bold text-decoration-none border-0 bg-transparent p-0" do %>
+           <span class="me-1">🗑️</span> 削除
         <% end %>
       </div>
     </div>
