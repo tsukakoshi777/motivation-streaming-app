@@ -73,6 +73,46 @@
         </div>
       </div>
 
+      <!-- ✨ ここから輝き機能セクション ✨ -->
+      <div class="sparks-section mb-4">
+        <!-- セクションヘッダー -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="h4 fw-bold mb-0" style="color: #9333ea;">
+            ✨ 輝きの記録
+          </h2>
+          <span class="badge rounded-pill px-3 py-2" 
+                style="background-color: #f3e8ff; color: #7c3aed; font-size: 1rem;">
+            <%= @goal.sparks.count %>件
+          </span>
+        </div>
+
+        <!-- フラッシュメッセージ -->
+        <div id="flash-messages" class="mb-3">
+          <%= render 'shared/flash_messages' if flash.any? %>
+        </div>
+
+        <!-- 投稿フォーム -->
+        <div class="spark-form-wrapper mb-4" id="spark_form_wrapper">
+            <%= render 'sparks/form', goal: @goal, spark: Spark.new %>
+        </div>
+
+        <!-- 輝き一覧 -->
+        <div id="sparks_list">
+          <%= render @goal.sparks.order(created_at: :desc) %>
+        </div>
+
+        <% if @goal.sparks.empty? %>
+          <div id="sparks_empty_message" class="card shadow-sm text-center py-5">
+            <div class="card-body">
+              <p class="text-muted mb-2" style="font-size: 3rem;">✨</p>
+              <p class="text-muted mb-1">まだ輝きが記録されていません</p>
+              <p class="small text-muted mb-0">最初の一歩を記録してみましょう！</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+
       <!-- 基本情報セクション -->
       <div class="card shadow-lg mb-4">
         <div class="card-body p-4 p-md-5">

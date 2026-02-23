@@ -1,0 +1,19 @@
+<!-- 1. 空のメッセージを削除（存在する場合） -->
+<%= turbo_stream.remove "sparks_empty_message" %>
+
+<!-- 2. 新しい輝きを一覧の先頭に追加 -->
+<%= turbo_stream.prepend "sparks_list" do %>
+  <%= render partial: 'sparks/spark', locals: { spark: @spark } %>
+<% end %>
+
+<!-- 3. フォームをリセット -->
+<%= turbo_stream.replace "spark_form" do %>
+  <%= turbo_frame_tag "spark_form" do %>
+    <%= render 'sparks/form', goal: @goal, spark: Spark.new %>
+  <% end %>
+<% end %>
+
+<!-- 4. フラッシュメッセージを更新 -->
+<%= turbo_stream.update "flash-messages" do %>
+  <%= render 'shared/flash_message' %>
+<% end %>
