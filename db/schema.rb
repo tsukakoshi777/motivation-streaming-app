@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_02_10_060248) do
+ActiveRecord::Schema[7.0].define(version: 2026_02_23_072727) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,16 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_10_060248) do
     t.datetime "updated_at", null: false
     t.index ["survey_profile_id"], name: "index_goals_on_survey_profile_id", unique: true
     t.index ["user_id"], name: "index_goals_on_user_id"
+  end
+
+  create_table "sparks", force: :cascade do |t|
+    t.text "content"
+    t.bigint "user_id", null: false
+    t.bigint "goal_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["goal_id"], name: "index_sparks_on_goal_id"
+    t.index ["user_id"], name: "index_sparks_on_user_id"
   end
 
   create_table "streaming_categories", force: :cascade do |t|
@@ -101,6 +111,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_10_060248) do
 
   add_foreign_key "goals", "survey_profiles"
   add_foreign_key "goals", "users"
+  add_foreign_key "sparks", "goals"
+  add_foreign_key "sparks", "users"
   add_foreign_key "survey_profiles", "streaming_categories"
   add_foreign_key "survey_profiles", "streaming_experiences"
   add_foreign_key "survey_profiles", "streaming_platforms"

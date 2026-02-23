@@ -5,6 +5,7 @@ class User < ApplicationRecord
 
   has_many :survey_profiles, dependent: :destroy
   has_many :goals, dependent: :destroy
+  has_many :sparks, dependent: :destroy
 
   validates :nickname, presence: true, length: { maximum: 50 }
   validates :email, presence: true, uniqueness: true

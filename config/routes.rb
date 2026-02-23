@@ -25,6 +25,9 @@ Rails.application.routes.draw do
     # survey_profile の編集・更新をネストする
     resource :survey_profile, only: %i[edit update]  # ← ここを確認!
 
+    # 輝き（Spark）の投稿機能
+    resources :sparks, only: [:create]  # ← この位置で正解！
+
     member do
       get :progress  # 進捗状況ページ（オプション）
     end
