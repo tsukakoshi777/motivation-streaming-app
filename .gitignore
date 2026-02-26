@@ -49,3 +49,4 @@ build.log
 
 # Yarn
 /yarn-error.log
+public/uploads/
