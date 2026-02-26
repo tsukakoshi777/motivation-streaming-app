@@ -58,6 +58,12 @@ gem 'carrierwave', '2.2.2'
 gem 'fog-aws' # 本番環境でS3を使用するため
 gem 'mini_magick' # 画像のリサイズ用
 
+# AWS S3連携（本番環境で使用）
+gem 'aws-sdk-s3', require: false
+
+# 環境変数管理（本番環境で .env ファイルを読み込むため）
+gem 'dotenv-rails', groups: [:development, :production]
+
 gem 'turbo-rails', '1.1.1'
 
 # ページネーション関連のGem
