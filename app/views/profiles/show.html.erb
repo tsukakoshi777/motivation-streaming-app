@@ -1,0 +1,36 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <!-- プロフィール画像（丸型） -->
+          <div class="mb-4">
+            <% if @user.avatar? %>
+              <%= image_tag @user.avatar.url, alt: "#{@user.nickname}のアバター", 
+                  class: "rounded-circle img-thumbnail", 
+                  style: "width: 150px; height: 150px; object-fit: cover;" %>
+            <% else %>
+              <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mx-auto" 
+                   style="width: 150px; height: 150px;">
+                <i class="bi bi-person-fill text-white" style="font-size: 4rem;"></i>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- ニックネーム -->
+          <h3 class="mb-3"><%= @user.nickname %></h3>
+
+          <!-- メールアドレス -->
+          <p class="text-muted mb-4">
+            <i class="bi bi-envelope me-2"></i><%= @user.email %>
+          </p>
+
+          <!-- 編集ボタン -->
+          <%= link_to edit_profile_path, class: 'btn btn-primary btn-lg w-100' do %>
+            <i class="bi bi-pencil me-2"></i>編集
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
