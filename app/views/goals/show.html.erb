@@ -86,10 +86,8 @@
           </span>
         </div>
 
-        <!-- フラッシュメッセージ -->
-        <div id="flash-messages" class="mb-3">
-          <%= render 'shared/flash_messages' if flash.any? %>
-        </div>
+        <%# ⭐ 成功メッセージ表示用のコンテナ %>
+        <div id="spark-flash-messages" class="mb-3"></div>
 
         <!-- 投稿フォーム -->
         <div class="spark-form-wrapper mb-4" id="spark_form_wrapper">

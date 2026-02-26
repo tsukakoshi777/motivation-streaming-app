@@ -1,0 +1,59 @@
+<div id="<%= dom_id(spark) %>" class="mt-3 p-3 rounded" style="background-color: #f0f9ff; border: 2px solid #3b82f6;">
+  <%= form_with model: [goal, spark], 
+                class: "spark-edit-form" do |f| %>
+    
+    <!-- ⭐ エラーメッセージ（IDを追加して競合を防ぐ） -->
+    <% if spark.errors.any? %>
+      <div id="spark-error-messages-<%= spark.id %>" class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+        <strong>エラーが発生しました：</strong>
+        <ul class="mb-0 mt-2">
+          <% spark.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+
+    <!-- テキストエリア -->
+    <%= f.text_area :content,
+                    class: "form-control shadow-sm",
+                    rows: 4,
+                    placeholder: "輝きを編集...",
+                    id: "spark_edit_content_#{spark.id}",
+                    style: "border: 2px solid #3b82f6; border-radius: 0.5rem;" %>
+
+    <!-- 文字数カウント -->
+    <div class="d-flex justify-content-between align-items-center mt-3">
+      <span class="text-muted small">
+        <span id="edit-char-count-<%= spark.id %>">
+          <%= spark.content.length %>
+        </span> / 500文字
+      </span>
+
+      <!-- ボタン -->
+      <div class="d-flex gap-2">
+        <%= link_to "キャンセル",
+                    cancel_goal_spark_path(goal, spark),
+                    data: { turbo_stream: true },
+                    class: "btn btn-sm btn-secondary" %>
+        <%= f.submit "更新する",
+                     class: "btn btn-primary fw-bold",
+                     data: { disable_with: "更新中..." } %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  (function() {
+    const textarea = document.getElementById('spark_edit_content_<%= spark.id %>');
+    const counter = document.getElementById('edit-char-count-<%= spark.id %>');
+    
+    if (textarea && counter) {
+      textarea.addEventListener('input', function() {
+        counter.textContent = this.value.length;
+      });
+    }
+  })();
+</script>
