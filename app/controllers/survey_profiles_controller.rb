@@ -55,7 +55,7 @@ class SurveyProfilesController < ApplicationController
     @streaming_reasons = params[:survey_profile][:streaming_reasons]&.reject(&:blank?) || []
 
     flash.now[:alert] = t('goals.update.failure')
-    render :edit
+    render :edit, status: :unprocessable_entity
   end
 
   private

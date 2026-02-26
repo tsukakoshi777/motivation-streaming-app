@@ -1,30 +1,53 @@
-<div class="spark-item mb-3" id="<%= dom_id(spark) %>">
-  <div class="card shadow-sm">
-    <div class="card-body p-3 p-md-4">
-      <div class="d-flex align-items-start gap-3">
-        <!-- アバター -->
-        <div class="flex-shrink-0">
-          <div class="rounded-circle d-flex align-items-center justify-content-center" 
-               style="width: 48px; height: 48px; background: linear-gradient(to bottom right, #ec4899, #a855f7);">
-            <span class="text-white fw-bold" style="font-size: 1.25rem;">
-              <%= spark.user.nickname.first %>
-            </span>
-          </div>
-        </div>
-        
-        <!-- コンテンツ -->
-        <div class="flex-grow-1">
-          <div class="d-flex justify-content-between align-items-start mb-2">
-            <div>
-              <p class="fw-bold mb-0 text-dark"><%= spark.user.nickname %></p>
-              <small class="text-muted">
-                <%= l spark.created_at, format: :short %>
-              </small>
+<div id="<%= dom_id(spark) %>">
+  <div class="spark-item mb-3">
+    <div class="card shadow-sm">
+      <div class="card-body p-3 p-md-4">
+        <div class="d-flex align-items-start gap-3">
+          <!-- アバター -->
+          <div class="flex-shrink-0">
+            <div class="rounded-circle d-flex align-items-center justify-content-center" 
+                 style="width: 48px; height: 48px; background: linear-gradient(to bottom right, #ec4899, #a855f7);">
+              <span class="text-white fw-bold" style="font-size: 1.25rem;">
+                <%= spark.user.nickname.first %>
+              </span>
             </div>
           </div>
           
-          <div class="spark-content p-3 rounded" style="background-color: #f9fafb;">
-            <%= simple_format(h(spark.content), class: "mb-0 text-dark") %>
+          <!-- コンテンツ -->
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <p class="fw-bold mb-0 text-dark"><%= spark.user.nickname %></p>
+                <small class="text-muted">
+                  投稿日時: <%= l spark.created_at, format: :short %>
+                  <% if spark.created_at != spark.updated_at %>
+                    （最終更新: <%= l spark.updated_at, format: :short %>）
+                  <% end %>
+                </small>
+              </div>
+              
+              <!-- 編集・削除ボタン（自分の投稿のみ表示） -->
+              <% if spark.user == current_user %>
+                <div class="d-flex gap-2">
+                  <%= link_to "編集",
+                                edit_goal_spark_path(spark.goal, spark),
+                                data: { turbo_stream: true },  # ← これを追加
+                                class: "btn btn-sm btn-outline-primary" %>
+                  <%= button_to "削除",
+                                goal_spark_path(spark.goal, spark),
+                                method: :delete,
+                                data: { 
+                                  turbo_confirm: "本当に削除しますか?",
+                                  turbo_frame: "_top"
+                                },
+                                class: "btn btn-sm btn-outline-danger" %>
+                </div>
+              <% end %>
+            </div>
+
+            <div class="spark-content p-3 rounded" style="background-color: #f9fafb;">
+              <%= simple_format(h(spark.content), class: "mb-0 text-dark") %>
+            </div>
           </div>
         </div>
       </div>

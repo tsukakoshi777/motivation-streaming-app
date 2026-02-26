@@ -1,0 +1,31 @@
+<% if @spark.errors.any? %>
+  <%# ⭐ エラー時：編集フォームを再表示 %>
+  <%= turbo_stream.replace dom_id(@spark) do %>
+     <%= render "sparks/edit_form", goal: @goal, spark: @spark %>
+  <% end %>
+
+<% else %>
+  <%# ⭐ 成功時：投稿を更新 %>
+  <%= turbo_stream.replace dom_id(@spark) do %>
+    <%= render @spark, goal: @goal %>
+  <% end %>
+
+  <%# ⭐ 成功メッセージを投稿の直前に表示 %>
+  <%= turbo_stream.before dom_id(@spark) do %>
+    <div class="alert alert-success alert-dismissible fade show mb-3" role="alert" id="flash-success-<%= @spark.id %>">
+      輝きを更新しました
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <script>
+      (function() {
+        const alert = document.getElementById('flash-success-<%= @spark.id %>');
+        if (alert) {
+          setTimeout(() => {
+            alert.classList.remove('show');
+            setTimeout(() => alert.remove(), 150);
+          }, 3000);
+        }
+      })();
+    </script>
+  <% end %>
+<% end %>
