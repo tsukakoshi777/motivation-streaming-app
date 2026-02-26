@@ -7,6 +7,9 @@ class User < ApplicationRecord
   has_many :goals, dependent: :destroy
   has_many :sparks, dependent: :destroy
 
+  # CarrierWaveのアップローダーをマウント
+  mount_uploader :avatar, AvatarUploader
+
   validates :nickname, presence: true, length: { maximum: 50 }
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true, length: { minimum: 6 }, if: -> { new_record? || changes[:crypted_password] }

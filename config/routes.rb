@@ -17,6 +17,9 @@ Rails.application.routes.draw do
   post 'login', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
 
+  # プロフィールのルーティング
+  resource :profile, only: [:show, :edit, :update]
+
   # もやもや結晶シート（入力・保存のみ）
   resources :survey_profiles, only: %i[new create]
 

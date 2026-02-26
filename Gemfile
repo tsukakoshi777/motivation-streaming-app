@@ -53,7 +53,10 @@ gem 'rails-i18n', '~> 7.0.0'
 
 gem 'draper', '4.0.2'
 
+# 画像アップロード機能
 gem 'carrierwave', '2.2.2'
+gem 'fog-aws' # 本番環境でS3を使用するため
+gem 'mini_magick' # 画像のリサイズ用
 
 gem 'turbo-rails', '1.1.1'
 
