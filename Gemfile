@@ -62,7 +62,7 @@ gem 'mini_magick' # 画像のリサイズ用
 gem 'aws-sdk-s3', require: false
 
 # 環境変数管理（本番環境で .env ファイルを読み込むため）
-gem 'dotenv-rails', groups: [:development, :production]
+gem 'dotenv-rails', groups: %i[development production]
 
 gem 'turbo-rails', '1.1.1'
 

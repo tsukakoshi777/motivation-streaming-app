@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AvatarUploader < CarrierWave::Uploader::Base
   # 画像のリサイズを行う場合は mini_magick を使用
   include CarrierWave::MiniMagick
@@ -26,7 +28,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   # ファイルサイズの制限（5MBまで）
   def size_range
-    1..5.megabytes
+    1..(5.megabytes)
   end
 
   # 画像のリサイズ（必要に応じて）
