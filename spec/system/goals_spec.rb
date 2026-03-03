@@ -38,39 +38,9 @@ RSpec.describe 'Goals', type: :system do
       let!(:goal2) { create(:goal, user: user, survey_profile: survey_profile2) }
 
       before do
-        # ⭐ デバッグ用: survey_result が存在するか確認
-        puts '========== survey_profile1 =========='
-        puts "ID: #{survey_profile1.id}"
-        puts "survey_result: #{survey_profile1.survey_result.inspect}"
-        puts "goal_title: #{survey_profile1.survey_result.goal_title}"
-        puts '===================================='
-
-        puts '========== survey_profile2 =========='
-        puts "ID: #{survey_profile2.id}"
-        puts "survey_result: #{survey_profile2.survey_result.inspect}"
-        puts "goal_title: #{survey_profile2.survey_result.goal_title}"
-        puts '===================================='
-
         # ⭐ goal_title を更新
         survey_profile1.survey_result.update!(goal_title: '目標1', goal_description: '説明1')
         survey_profile2.survey_result.update!(goal_title: '目標2', goal_description: '説明2')
-
-        # ⭐ デバッグ用: 更新後の goal_title を確認
-        puts '========== 更新後 =========='
-        puts "survey_profile1.goal_title: #{survey_profile1.survey_result.goal_title}"
-        puts "survey_profile2.goal_title: #{survey_profile2.survey_result.goal_title}"
-        puts '============================'
-
-        # ⭐ デバッグ用: goal が作成されているか確認
-        puts '========== goal1 =========='
-        puts "ID: #{goal1.id}"
-        puts "survey_profile_id: #{goal1.survey_profile_id}"
-        puts '===================================='
-
-        puts '========== goal2 =========='
-        puts "ID: #{goal2.id}"
-        puts "survey_profile_id: #{goal2.survey_profile_id}"
-        puts '===================================='
 
         # ⭐ ログイン処理（手動）
         visit login_path
@@ -115,13 +85,6 @@ RSpec.describe 'Goals', type: :system do
     end
 
     it '編集画面が表示されること' do
-      # ⭐ デバッグ用: 編集ボタンの存在を確認
-      if page.has_css?('.btn-secondary', text: '編集')
-        puts '✅ 編集ボタンが見つかりました'
-      else
-        puts '❌ 編集ボタンが見つかりませんでした'
-      end
-
       # ⭐ 編集ボタンをクリック
       first('.btn-secondary', text: '編集').click
 
@@ -129,19 +92,6 @@ RSpec.describe 'Goals', type: :system do
     end
 
     it '編集内容が保存されること' do
-      # 🔍 デバッグ: goal が取得できているか確認
-      puts '=== デバッグ情報 ==='
-      puts "survey_profile: #{survey_profile.inspect}"
-      puts "goal: #{goal.inspect}"
-      puts "goal.id: #{goal&.id}"
-      puts "goal.class: #{goal&.class}"
-      puts '==================='
-
-      # 🔍 デバッグ: パスの確認
-      path = edit_goal_path(goal)
-      puts "edit_goal_path(goal): #{path}"
-      puts '==================='
-
       visit edit_goal_path(goal)
 
       # 🔍 デバッグ: ページのHTMLを保存

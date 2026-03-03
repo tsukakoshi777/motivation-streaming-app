@@ -37,7 +37,10 @@
             <!-- ニックネーム -->
             <div class="mb-3">
               <%= f.label :nickname, 'ニックネーム', class: 'form-label' %>
-              <%= f.text_field :nickname, class: 'form-control', placeholder: 'ニックネームを入力' %>
+              <%= f.text_field :nickname, 
+                 class: 'form-control', 
+                 style: 'width: 100%; max-width: 300px;',
+                 placeholder: 'ニックネームを入力' %>
             </div>
 
             <!-- メールアドレス -->

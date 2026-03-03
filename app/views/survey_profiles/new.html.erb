@@ -1,6 +1,6 @@
 <div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold mb-6 text-center">もやもや結晶シート ✨</h1>
-  <p class="mb-8 text-center text-gray-600">君のもやもやを教えてね。きっと素敵な星が生まれるよ! 🌟</p>
+  <h1 class="text-3xl font-bold mb-6 mt-5 text-center">もやもや結晶シート ✨</h1>
+  <p class="text-center text-gray-600 mb-5">君のもやもやを教えてね。きっと素敵な星が生まれるよ! 🌟</p>
 
   <%= form_with model: @survey_profile, url: survey_profiles_path, local: true do |f| %>
     <!-- エラーメッセージ表示 -->
@@ -18,7 +18,7 @@
     <!-- ========================================
          基本情報セクション
     ======================================== -->
-    <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+    <div class="bg-white shadow-lg rounded-lg p-3 pb-1 mb-4">
       <h2 class="text-2xl font-bold mb-4 text-blue-600">📊 基本情報</h2>
       
       <!-- 配信プラットフォーム -->
@@ -58,7 +58,7 @@
     <!-- ========================================
          現在の活動状況セクション
     ======================================== -->
-    <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+    <div class="bg-white shadow-lg rounded-lg p-3 pb-1 mb-4">
       <h2 class="text-2xl font-bold mb-4 text-green-600">📈 現在の活動状況</h2>
 
       <!-- 週の配信頻度 -->
@@ -83,17 +83,17 @@
 
       <!-- 累計視聴者数 -->
       <div class="mb-4">
-        <%= f.label :total_listeners, '累計視聴者数（おおよその人数）', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.label :total_listeners, '総合視聴者数（おおよその人数）', class: 'block mb-2 font-bold text-gray-700' %>
         <%= f.number_field :total_listeners, 
                            class: 'w-full border border-gray-300 rounded px-3 py-2', 
                            placeholder: '例: 100',
                            min: 0 %>
-        <p class="text-sm text-gray-500 mt-1">これまでの累計視聴者数（おおよそ）を教えてください</p>
+        <p class="text-sm text-gray-500 mt-1">1回の配信での総合視聴者数（おおよそ）を教えてください</p>
       </div>
 
       <!-- 視聴者の離脱率 -->
       <div class="mb-4">
-        <%= f.label :listener_dropout_rate, '最近のリスナーの離脱率', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.label :listener_dropout_rate, '最近のリスナーの離脱人数', class: 'block mb-2 font-bold text-gray-700' %>
         <%= f.select :listener_dropout_rate,
                      [
                        ['0人', 0],
@@ -103,14 +103,14 @@
                      ],
                      { prompt: '選択してください' },
                      class: 'w-full border border-gray-300 rounded px-3 py-2' %>
-        <p class="text-sm text-gray-500 mt-1">配信中に退出するリスナーの数を教えてください</p>
+        <p class="text-sm text-gray-500 mt-1">頻繫に来ていたリスナーで枠に来なくなってしまったリスナーの人数を教えてください</p>
       </div>
     </div>
 
     <!-- ========================================
          モチベーション（あなたの気持ち）セクション
     ======================================== -->
-    <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+    <div class="bg-white shadow-lg rounded-lg p-3 pb-1 mb-4">
       <h2 class="text-2xl font-bold mb-4 text-purple-600">💗 モチベーション（あなたの気持ち）</h2>
 
       <!-- モチベーションレベル -->
@@ -227,7 +227,7 @@
     <!-- ========================================
          目指す方向性（未来を描く）セクション
     ======================================== -->
-    <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+    <div class="bg-white shadow-lg rounded-lg p-3 pb-1 mb-4">
       <h2 class="text-2xl font-bold mb-4 text-pink-600">🌟 目指す方向性（未来を描く）</h2>
 
       <!-- 目標の出典選択 -->
@@ -261,9 +261,10 @@
       <div class="mb-4">
         <%= label_tag 'survey_result[goal_title]', '成長の星（目標）のタイトル', class: 'block mb-2 font-bold text-gray-700' %>
         <%= text_field_tag 'survey_result[goal_title]',
-                           @survey_profile.survey_result&.goal_title,
-                           class: 'w-full border border-gray-300 rounded px-3 py-2',
-                           placeholder: '例: 3ヶ月で平均視聴者数20人を目指す!' %>
+                   @survey_profile.survey_result&.goal_title,
+                   class: 'border border-gray-300 rounded px-3 py-2',
+                   style: 'width: 100%; max-width: 500px;',
+                   placeholder: '例: 3ヶ月で平均視聴者数20人を目指す!' %>
         <p class="text-sm text-gray-500 mt-1">自分で設定する場合は入力してください</p>
       </div>
 
@@ -281,8 +282,9 @@
 
     <!-- 送信ボタン -->
     <div class="text-center">
-      <%= f.submit '成長の星を誕生させる ✨', 
-                   class: 'bg-gradient-to-r from-pink-500 to-purple-500 text-white font-bold py-3 px-8 rounded-lg hover:from-pink-600 hover:to-purple-600 transition duration-300 text-lg cursor-pointer' %>
+       <%= f.submit '成長の星を誕生させる ✨', 
+               class: 'text-white font-bold py-3 px-8 transition duration-300 text-lg cursor-pointer',
+               style: 'background: linear-gradient(to right, #d9ec48, #5590f7); border-radius: 0.5rem; border: none;' %>
     </div>
   <% end %>
 </div>
