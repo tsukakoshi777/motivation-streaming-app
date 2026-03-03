@@ -1,4 +1,4 @@
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-4 py-8" style="max-width: 1000px;">
   <!-- ヘッダーエリア -->
   <div class="mb-8">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
@@ -8,7 +8,7 @@
     </div>
     
     <!-- 説明文とボタンエリアを横並びに -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mt-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mt-4 mb-4">
       <!-- 説明文 -->
       <p class="text-gray-600 mb-0">
         あなたのもやもやから生まれた成長の星たちです。<br class="md:hidden">
@@ -46,13 +46,13 @@
     </div>
 
     <!-- ページネーション -->
-    <div class="flex justify-center mt-8">
+    <div class="flex justify-center mt-8 mb-4">
       <%= paginate @goals, theme: 'bootstrap-5' %>
     </div>
 
   <% else %>
     <!-- 成長の星が0件の場合 -->
-    <div class="text-center py-16 bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl shadow-lg">
+    <div class="text-center py-16 bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl shadow-lg p-4">
       <div class="text-6xl mb-4 animate-bounce">🌟</div>
       <h2 class="text-2xl font-bold text-gray-800 mb-4">
         まだ成長の星⭐が見つかっていません
@@ -63,14 +63,6 @@
       <p class="text-gray-600 mb-8">
         あなたの成長の星⭐を見つけましょう！
       </p>
-      
-      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <%= link_to new_survey_profile_path,
-            class: "bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105" do %>
-          <span class="text-2xl">🔍</span>
-          <span class="ml-2">もやもや結晶シートを始める</span>
-        <% end %>
-      </div>
       
       <div class="mt-6 text-sm text-gray-500">
         <p>📝 もやもや結晶シートでは...</p>

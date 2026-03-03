@@ -31,7 +31,7 @@
                 <div class="d-flex gap-2">
                   <%= link_to "編集",
                                 edit_goal_spark_path(spark.goal, spark),
-                                data: { turbo_stream: true },  # ← これを追加
+                                data: { turbo_stream: true },
                                 class: "btn btn-sm btn-outline-primary" %>
                   <%= button_to "削除",
                                 goal_spark_path(spark.goal, spark),

@@ -172,7 +172,7 @@
 
             <div class="col-12 col-md-6">
               <div class="p-3 rounded" style="background-color: #f9fafb;">
-                <p class="small text-muted mb-1">累計視聴者数</p>
+                <p class="small text-muted mb-1">総合視聴者数</p>
                 <p class="h6 fw-semibold text-dark mb-0">
                   <%= @goal.survey_profile.total_listeners %> 人
                 </p>
@@ -181,7 +181,7 @@
 
             <div class="col-12 col-md-6">
               <div class="p-3 rounded" style="background-color: #f9fafb;">
-                <p class="small text-muted mb-1">最近のリスナーの離脱率</p>
+                <p class="small text-muted mb-1">最近のリスナーの離脱人数</p>
                 <p class="h6 fw-semibold text-dark mb-0">
                   <%= ['0人', '1〜2人', '3〜4人', '5人以上'][@goal.survey_profile.listener_dropout_rate] %>
                 </p>
