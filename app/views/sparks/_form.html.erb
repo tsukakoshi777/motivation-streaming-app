@@ -6,7 +6,7 @@
         
         <div class="form-group">
           <%= f.text_area :content, 
-              placeholder: "今日の配信での成長を記録しよう✨（最大500文字）",
+              placeholder:  t('.placeholder'),
               rows: 4,
               class: "form-control shadow-sm",
               id: "spark_content",
@@ -19,14 +19,11 @@
           <% end %>
         </div>
         
-        <div class="d-flex justify-content-between align-items-center mt-3">
-          <span class="text-muted small">
-            <span id="current-count">0</span> / 500文字
-          </span>
-          <%= f.submit "✨ 輝きを記録", 
+        <div class="d-flex justify-content-end align-items-center mt-3">
+          <%= f.submit t('.submit_button'), 
               class: "btn btn-lg fw-bold shadow",
               style: "background: linear-gradient(to right, #ec4899, #a855f7); color: white; border: none;",
-              data: { disable_with: "記録中..." } %>
+              data: { disable_with: t('.submitting') } %>
         </div>
       <% end %>
     </div>

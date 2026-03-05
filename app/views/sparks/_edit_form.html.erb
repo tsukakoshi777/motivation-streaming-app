@@ -5,7 +5,7 @@
     <!-- ⭐ エラーメッセージ（IDを追加して競合を防ぐ） -->
     <% if spark.errors.any? %>
       <div id="spark-error-messages-<%= spark.id %>" class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
-        <strong>エラーが発生しました：</strong>
+        <strong><%= t('sparks.edit_form.error_title') %></strong>
         <ul class="mb-0 mt-2">
           <% spark.errors.full_messages.each do |message| %>
             <li><%= message %></li>
@@ -19,7 +19,7 @@
     <%= f.text_area :content,
                     class: "form-control shadow-sm",
                     rows: 4,
-                    placeholder: "輝きを編集...",
+                    placeholder: t('sparks.edit_form.placeholder'),
                     id: "spark_edit_content_#{spark.id}",
                     style: "border: 2px solid #3b82f6; border-radius: 0.5rem;" %>
 
@@ -33,11 +33,11 @@
 
       <!-- ボタン -->
       <div class="d-flex gap-2">
-        <%= link_to "キャンセル",
+        <%= link_to t('sparks.edit_form.cancel'),
                     cancel_goal_spark_path(goal, spark),
                     data: { turbo_stream: true },
                     class: "btn btn-sm btn-secondary" %>
-        <%= f.submit "更新する",
+        <%= f.submit t('sparks.edit_form.submit'),
                      class: "btn btn-primary fw-bold",
                      data: { disable_with: "更新中..." } %>
       </div>

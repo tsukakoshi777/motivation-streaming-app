@@ -19,8 +19,8 @@ RSpec.describe 'Sparks', type: :system do
     expect(page).to have_content('ログイン'), 'ログインページが表示されません'
 
     # ⭐ フォームのフィールド名を確認
-    fill_in 'email', with: user.email
-    fill_in 'password', with: 'password'
+    fill_in 'メールアドレス', with: user.email
+    fill_in 'パスワード', with: 'password'
 
     click_button 'ログイン'
 

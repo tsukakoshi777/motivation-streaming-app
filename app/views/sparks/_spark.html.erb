@@ -19,9 +19,9 @@
               <div>
                 <p class="fw-bold mb-0 text-dark"><%= spark.user.nickname %></p>
                 <small class="text-muted">
-                  投稿日時: <%= l spark.created_at, format: :short %>
+                  <%= t('sparks.show.posted_at') %>: <%= l spark.created_at, format: :short %>
                   <% if spark.created_at != spark.updated_at %>
-                    （最終更新: <%= l spark.updated_at, format: :short %>）
+                    （<%= t('sparks.show.last_updated') %>: <%= l spark.updated_at, format: :short %>）
                   <% end %>
                 </small>
               </div>
@@ -29,15 +29,15 @@
               <!-- 編集・削除ボタン（自分の投稿のみ表示） -->
               <% if spark.user == current_user %>
                 <div class="d-flex gap-2">
-                  <%= link_to "編集",
+                  <%= link_to t('sparks.show.edit'),
                                 edit_goal_spark_path(spark.goal, spark),
                                 data: { turbo_stream: true },
                                 class: "btn btn-sm btn-outline-primary" %>
-                  <%= button_to "削除",
+                  <%= button_to t('sparks.show.delete'),
                                 goal_spark_path(spark.goal, spark),
                                 method: :delete,
                                 data: { 
-                                  turbo_confirm: "本当に削除しますか?",
+                                  turbo_confirm:  t('defaults.delete_confirm'),
                                   turbo_frame: "_top"
                                 },
                                 class: "btn btn-sm btn-outline-danger" %>

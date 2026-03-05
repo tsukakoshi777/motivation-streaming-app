@@ -13,7 +13,7 @@
   <%# ⭐ 成功メッセージを投稿の直前に表示 %>
   <%= turbo_stream.before dom_id(@spark) do %>
     <div class="alert alert-success alert-dismissible fade show mb-3" role="alert" id="flash-success-<%= @spark.id %>">
-      輝きを更新しました
+      <%= t('sparks.update.success') %>
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <script>

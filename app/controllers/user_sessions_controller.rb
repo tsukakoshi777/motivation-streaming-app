@@ -6,7 +6,7 @@ class UserSessionsController < ApplicationController
   def new; end
 
   def create
-    @user = login(params[:email], params[:password])
+    @user = login(params[:user_session][:email], params[:user_session][:password])
 
     if @user
       redirect_to root_path, success: t('.success')

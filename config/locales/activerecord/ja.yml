@@ -1,0 +1,59 @@
+ja:
+  helpers:
+    submit:
+      create: "登録"
+      update: "更新"
+    label:
+      user_session:
+        email: "メールアドレス"
+        password: "パスワード"
+
+  activerecord:
+    models:
+      goal: "成長の星"
+      spark: "きっかけ"
+      user: "ユーザー"
+      profile: "プロフィール"
+      survey_profile: "もやもや結晶シート調査"
+    
+    attributes:
+      goal:
+        title: "タイトル"
+        description: "説明"
+        deadline: "期限"
+        motivation: "モチベーション"
+        user: "ユーザー"
+      
+      spark:
+        title: "タイトル"
+        content: "内容"
+        spark_type: "種類"
+        goal: "成長の星"
+      
+      user:
+        nickname: "ニックネーム"
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード（確認）"
+      
+      profile:
+        nickname: "ニックネーム"
+        bio: "自己紹介"
+        avatar: "アバター"
+      
+      survey_profile:
+        streaming_platform: "配信プラットフォーム"
+        streaming_category: "配信カテゴリー"
+        streaming_experience: "配信経験"
+        weekly_frequency: "週あたりの配信回数"
+        average_listeners: "平均視聴者数"
+        total_listeners: "総合視聴者数"
+        motivation_level: "モチベーションレベル"
+        listener_dropout_rate: "最近のリスナー離脱人数"
+
+  errors:
+    template:
+      body: "次の項目を確認してください"
+      header:
+        one: "%{model}に1個のエラーが発生しました"
+        other: "%{model}に%{count}個のエラーが発生しました"

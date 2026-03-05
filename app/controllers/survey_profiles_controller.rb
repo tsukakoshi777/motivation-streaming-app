@@ -17,6 +17,7 @@ class SurveyProfilesController < ApplicationController
     if save_all_records
       redirect_to goal_path(@goal), notice: t('.success')
     else
+      flash.now[:alert] = t('.failure')
       load_select_options
       render :new, status: :unprocessable_entity
     end
