@@ -6,8 +6,9 @@
           <!-- プロフィール画像（丸型） -->
           <div class="mb-4">
             <% if @user.avatar? %>
-              <%= image_tag @user.avatar.url, alt: "#{@user.nickname}のアバター", 
-                  class: "rounded-circle img-thumbnail", 
+              <%= image_tag @user.avatar.url,
+                  alt: t('profiles.show.avatar_alt', nickname: @user.nickname),
+                  class: "rounded-circle img-thumbnail",
                   style: "width: 150px; height: 150px; object-fit: cover;" %>
             <% else %>
               <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mx-auto" 
@@ -27,7 +28,7 @@
 
           <!-- 編集ボタン -->
           <%= link_to edit_profile_path, class: 'btn btn-primary btn-lg w-100' do %>
-            <i class="bi bi-pencil me-2"></i>編集
+            <i class="bi bi-pencil me-2"></i><%= t('profiles.show.edit_button') %>
           <% end %>
         </div>
       </div>

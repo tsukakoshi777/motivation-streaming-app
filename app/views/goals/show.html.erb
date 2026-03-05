@@ -5,9 +5,9 @@
       <!-- ヘッダー部分 -->
       <div class="text-center mb-4">
         <h1 class="display-5 fw-bold mb-2" style="background: linear-gradient(to right, #fffb00ff, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-          ✨ あなたの成長の星 ✨
+          <%= t('.title') %>
         </h1>
-        <p class="text-muted">あなたのもやもやから生まれた、輝く目標です</p>
+        <p class="text-muted"><%= t('.description') %></p>
       </div>
 
       <!-- 目標カード -->
@@ -27,17 +27,17 @@
             <!-- 編集・削除ボタン -->
             <div class="d-flex gap-2">
               <%= link_to edit_goal_path(@goal), class: "btn btn-lg btn-outline-primary shadow fw-bold" do %>
-                <i class="bi bi-pencil"></i> 編集
+                <i class="bi bi-pencil"></i> <%= t('.actions.edit') %>
               <% end %>
 
               <%= button_to goal_path(@goal), 
                   method: :delete,
                   form: { 
                     style: "display: inline;",
-                    onsubmit: "return confirm('本当に削除しますか?\\nこの操作は取り消せません。');" 
+                    onsubmit: "return confirm('#{t('.actions.delete_confirm')}');" 
                   },
                   class: "btn btn-lg btn-outline-danger shadow fw-bold" do %>
-                <i class="bi bi-trash"></i> 削除
+                <i class="bi bi-trash"></i> <%= t('.actions.delete') %>
               <% end %>
             </div>
           </div>

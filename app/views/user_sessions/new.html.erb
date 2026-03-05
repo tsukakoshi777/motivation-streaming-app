@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row">
     <div class=" col-md-10 col-lg-8 mt-3 mx-auto">
-      <h1>ログイン</h1>
-      <%= form_with url: login_path do |f| %>
+      <h1><%= t('.title') %></h1>
+      <%= form_with url: login_path, scope: :user_session do |f| %>
         <div class="mb-3">
           <%= f.label :email %>
           <%= f.email_field :email, class: "form-control" %>
@@ -11,11 +11,11 @@
           <%= f.label :password %>
           <%= f.password_field :password, class: "form-control" %>
         </div>
-        <%= f.submit "ログイン", class: "btn btn-primary" %>
+        <%= f.submit t('.login'), class: "btn btn-primary" %>
       <% end %>
       <div class='text-center mt-5'>
-        <%= link_to '登録ページへ', new_user_path %>
-        <%= link_to 'パスワードをお忘れの方はこちら', '#' %>
+        <%= link_to t('.to_register_page'), new_user_path %>
+        <%= link_to t('.password_forget'), '#' %>
       </div>
     </div>
   </div>

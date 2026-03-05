@@ -1,6 +1,10 @@
 <% if object.errors.any? %>
-  <div class="alert alert-danger">
-    <ul>
+  <div class="bg-white border border-gray-300 px-4 py-3 rounded mb-4">
+    <h4 class="font-bold text-lg mb-2">
+      <%= t('errors.template.header', model: object.class.model_name.human, count: object.errors.count) %>
+    </h4>
+    <p class="mb-2 text-gray-700"><%= t('errors.template.body') %></p>
+    <ul class="list-disc list-inside text-gray-700">
       <% object.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>

@@ -80,12 +80,12 @@
       <div class="d-flex gap-2">
         <%= link_to goal_path(goal), 
             class: "flex-fill btn btn-primary btn-sm d-flex align-items-center justify-content-center" do %>
-          <span class="me-1">✨</span> 詳細
+          <span class="me-1">✨</span> <%= t('.actions.detail') %>
         <% end %>
         
         <%= link_to edit_goal_path(goal), 
             class: "flex-fill btn btn-secondary btn-sm d-flex align-items-center justify-content-center" do %>
-          <span class="me-1">✏️</span> 編集
+          <span class="me-1">✏️</span> <%= t('.actions.edit') %>
         <% end %>
       </div>
     </div>
@@ -100,10 +100,10 @@
             method: :delete,
             form: {
               style: "display: inline;",
-              onsubmit: "return confirm('本当に削除しますか?\\nこの操作は取り消せません。');"
+              onsubmit: "return confirm('#{t('.actions.delete_confirm')}');"
             },
             class: "btn text-xs text-danger fw-bold text-decoration-none border-0 bg-transparent p-0" do %>
-           <span class="me-1">🗑️</span> 削除
+           <span class="me-1">🗑️</span> <%= t('.actions.delete') %>
         <% end %>
       </div>
     </div>

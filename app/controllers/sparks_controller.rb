@@ -22,10 +22,10 @@ class SparksController < ApplicationController
 
     respond_to do |format|
       if @spark.save
-        flash.now[:success] = '✨ 輝きを記録しました！'
+        # flash.now[:success] = t('sparks.create.success')
         format.turbo_stream
       else
-        flash.now[:danger] = '輝きの記録に失敗しました'
+        # flash.now[:danger] = t('sparks.create.failure')
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace('spark_form', partial: 'sparks/form',
                                                                   locals: { goal: @goal, spark: @spark })
@@ -57,7 +57,7 @@ class SparksController < ApplicationController
   def destroy
     @spark.destroy
     respond_to do |format|
-      flash.now[:success] = '輝きを削除しました'
+      flash.now[:success] = t('.success')
       format.turbo_stream
     end
   end
@@ -67,13 +67,17 @@ class SparksController < ApplicationController
   def set_goal
     @goal = current_user.goals.find(params[:goal_id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to goals_path, alert: '目標が見つかりませんでした'
+    # 現在はTurbo Streamレスポンスのみを使用しているため、リダイレクトは実行されない
+    # 将来的にHTMLレスポンスに対応する場合は、以下のコメントを外してください
+    # redirect_to goals_path, alert: t('goals.not_found')
   end
 
   def set_spark
     @spark = @goal.sparks.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to goal_path(@goal), alert: '輝きが見つかりませんでした'
+    # 現在はTurbo Streamレスポンスのみを使用しているため、リダイレクトは実行されない
+    # 将来的にHTMLレスポンスに対応する場合は、以下のコメントを外してください
+    # redirect_to goal_path(@goal), alert: t('sparks.not_found')
   end
 
   def spark_params

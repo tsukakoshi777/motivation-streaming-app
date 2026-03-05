@@ -13,8 +13,8 @@ RSpec.describe 'Goals', type: :system do
     expect(page).to have_content('ログイン'), 'ログインページが表示されません'
 
     # ⭐ フォームのフィールド名を確認
-    fill_in 'email', with: user.email
-    fill_in 'password', with: 'password'
+    fill_in 'メールアドレス', with: user.email
+    fill_in 'パスワード', with: 'password'
 
     # ⭐ デバッグ: スクリーンショットを撮影
     # page.save_screenshot('tmp/capybara/before_click_login.png')
@@ -44,8 +44,8 @@ RSpec.describe 'Goals', type: :system do
 
         # ⭐ ログイン処理（手動）
         visit login_path
-        fill_in 'Email', with: user.email
-        fill_in 'Password', with: 'password' # FactoryBot で設定したパスワード
+        fill_in 'メールアドレス', with: user.email
+        fill_in 'パスワード', with: 'password' # FactoryBot で設定したパスワード
         click_button 'ログイン'
 
         # ⭐ goals_path にアクセス
@@ -112,7 +112,7 @@ RSpec.describe 'Goals', type: :system do
 
       click_button '成長の星を更新'
 
-      expect(page).to have_content('Weekly frequencyを入力してください')
+      expect(page).to have_content('週あたりの配信回数を入力してください')
     end
   end
 

@@ -3,10 +3,22 @@ ja:
     login: 'ログイン'
     logout: 'ログアウト'
     register: '新規登録'
+    delete_confirm: '本当に削除しますか?'
     message:
       require_login: 'ログインしてください'
 
+  static_pages:
+    top:
+      description_html: |
+        配信でのもやもやな結晶(想い)を調べて、<br>
+        成長の星⭐(目標)に大変身 星を空に描いて、輝く大星座 君だけの銀河を創り上げよう✨
+
   user_sessions:
+    new:
+      title: 'ログイン'
+      login: 'ログイン'
+      to_register_page: '登録ページへ'
+      password_forget: 'パスワードをお忘れの方はこちら'
     create:
       success: 'ログインしました'
       failure: 'メールアドレスまたはパスワードが正しくありません'
@@ -14,16 +26,51 @@ ja:
       success: 'ログアウトしました'
 
   users:
+    new:
+      title: "ユーザー登録"
+      to_login_page: "ログインページへ"
     create:
       success: 'ユーザー登録が完了しました'
       failure: 'ユーザー登録に失敗しました'
 
   goals:
+    index:
+      title: '⭐ 成長の星 一覧'
+      new_survey_button: '+もやもや結晶を調査🔍'
+      description_html: |
+        あなたのもやもやから生まれた成長の星たちです。<br class="md:hidden">
+        それぞれの星を育てて、輝かせましょう!
+      no_goals:
+        title: 'まだ成長の星⭐が見つかっていません'
+        subtitle: 'もやもや結晶シートから'
+        description: 'あなたの成長の星⭐を見つけましょう！'
+
+    not_found: '目標が見つかりませんでした'
+
+    goal_card:
+      actions:
+        detail: '詳細'
+        edit: '編集'
+        delete: '削除'
+        delete_confirm: '本当に削除しますか?\nこの操作は取り消せません。'
+
     show:
+      title: '✨ あなたの成長の星 ✨'
+      description: 'あなたのもやもやから生まれた、輝く目標です'
       access_denied: 'アクセス権限がありません'
       not_found: '成長の星⭐が見つかりませんでした'
+
+      actions:
+        edit: '編集'
+        delete: '削除'
+        delete_confirm: '本当に削除しますか?\nこの操作は取り消せません。'
+
     edit:
       title: '成長の星を編集'
+      submit_button: '成長の星を更新する ✨'
+      title: '✨ 成長の星を編集 ✨'
+      description: '君のもやもや結晶を見直してみよう。今以上に輝く星になれるよ🌟'
+
     update:
       success: '成長の星を更新しました'
       failure: '成長の星の更新に失敗しました'
@@ -32,6 +79,70 @@ ja:
       failure: '成長の星の削除に失敗しました'
 
   survey_profiles:
+    new:
+      title: 'もやもや結晶シート ✨'
+      description: '君のもやもやを教えてね。きっと素敵な星が生まれるよ! 🌟'
+      submit_button: '成長の星を誕生させる ✨'
     create:
       success: '成長の星が誕生しました! ✨🌟'
       failure: '成長の星の作成に失敗しました。もう一度お試しください。'
+    edit:
+      submit_button: '成長の星を更新する ✨'
+      title: '✨ 成長の星を編集 ✨'
+      description: '君のもやもや結晶を見直してみよう。今以上に輝く星になれるよ🌟'
+
+  sparks:
+    form:
+      submit_button: '✨ 輝きを記録'
+      submitting: '記録中...'
+      placeholder: '今日の配信での成長を記録しよう✨（最大500文字）'
+    edit_form:
+      placeholder: '輝きを編集...'
+      cancel: 'キャンセル'
+      submit: '更新する'
+      submitting: '更新中...'
+      error_title: 'エラーが発生しました：'
+    show:
+      edit: 編集
+      delete: 削除
+      posted_at: 投稿日時
+      last_updated: 最終更新
+
+    not_found: '輝きが見つかりませんでした'
+
+    create:
+      success: '✨ 輝きを記録しました！'
+      failure: '輝きの記録に失敗しました'
+    update:
+      success: '✨ 輝きを更新しました！'
+      failure: '輝きの更新に失敗しました'
+    destroy:
+      success: '輝きを削除しました'
+      failure: '輝きの削除に失敗しました'
+
+  profiles:
+    show:
+      avatar_alt: '%{nickname}のアバター'
+      edit_button: '編集'
+    edit:
+      title: 'プロフィール編集'
+      current_avatar: '現在のアバター'
+      avatar_label: 'プロフィール画像を変更'
+      remove_avatar: '画像を削除'
+      nickname_label: 'ニックネーム'
+      nickname_placeholder: 'ニックネームを入力'
+      email_label: 'メールアドレス'
+      email_placeholder: 'メールアドレスを入力'
+      submit: '更新'
+      cancel: 'キャンセル'
+    update:
+      success: 'プロフィールを更新しました'
+      failure: 'プロフィールの更新に失敗しました'
+
+  static_pages:
+    contact:
+      title: 'お問い合わせ'
+    privacy:
+      title: 'プライバシーポリシー'
+    terms:
+      title: '利用規約'

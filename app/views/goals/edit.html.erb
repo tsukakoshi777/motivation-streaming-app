@@ -1,19 +1,10 @@
 <div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold mt-5 mb-6 text-center">✨ 成長の星を編集 📝✨</h1>
-  <p class="text-center text-gray-600 mb-5">君のもやもやを見直してみよう🌟</p>
+  <h1 class="text-3xl font-bold mt-5 mb-6 text-center"><%= t('.title') %></h1>
+  <p class="text-center text-gray-600 mb-5"><%= t('.description') %></p>
 
   <%= form_with model: [@goal, @survey_profile], local: true do |f| %>
     <!-- エラーメッセージ表示 -->
-    <% if @survey_profile.errors.any? %>
-      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-        <p class="font-bold"><%= pluralize(@survey_profile.errors.count, "error") %> prohibited this survey_profile from being saved:</p>
-        <ul class="list-disc list-inside">
-          <% @survey_profile.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+    <%= render 'shared/error_messages', object: f.object %>
 
     <!-- ========================================
          基本情報セクション
@@ -282,7 +273,7 @@
 
     <!-- 送信ボタン -->
     <div class="text-center">
-      <%= f.submit '成長の星を更新する ✨', 
+      <%= f.submit t('.submit_button'), 
                class: 'text-white font-bold py-3 px-8 transition duration-300 text-lg cursor-pointer',
                style: 'background: linear-gradient(to right, #d9ec48, #5590f7); border-radius: 0.5rem; border: none;' %>
     </div>
