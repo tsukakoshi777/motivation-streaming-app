@@ -67,17 +67,13 @@ class SparksController < ApplicationController
   def set_goal
     @goal = current_user.goals.find(params[:goal_id])
   rescue ActiveRecord::RecordNotFound
-    # 現在はTurbo Streamレスポンスのみを使用しているため、リダイレクトは実行されない
-    # 将来的にHTMLレスポンスに対応する場合は、以下のコメントを外してください
-    # redirect_to goals_path, alert: t('goals.not_found')
+    Rails.logger.warn("Goal not found: #{params[:goal_id]} for user: #{current_user.id}")
   end
 
   def set_spark
     @spark = @goal.sparks.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    # 現在はTurbo Streamレスポンスのみを使用しているため、リダイレクトは実行されない
-    # 将来的にHTMLレスポンスに対応する場合は、以下のコメントを外してください
-    # redirect_to goal_path(@goal), alert: t('sparks.not_found')
+    Rails.logger.warn("Spark not found: #{params[:id]} for goal: #{@goal&.id}")
   end
 
   def spark_params

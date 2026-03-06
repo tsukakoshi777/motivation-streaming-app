@@ -18,7 +18,8 @@ class SurveyProfilesController < ApplicationController
       redirect_to goal_path(@goal), notice: t('.success')
     else
       flash.now[:alert] = t('.failure')
-      load_select_options
+      prepare_for_render
+
       render :new, status: :unprocessable_entity
     end
   end
@@ -33,27 +34,42 @@ class SurveyProfilesController < ApplicationController
     # survey_result が存在しない場合は build する
     survey_result = @survey_profile.survey_result || @survey_profile.build_survey_result
 
+    # パラメータを assign する
+    @survey_profile.assign_attributes(survey_profile_params)
+    survey_response.assign_attributes(survey_response_params)
+    survey_result.assign_attributes(survey_result_params)
+
+    # 各モデルのバリデーションを先にチェック
+    valid_profile = @survey_profile.valid?
+    valid_response = survey_response.valid?
+    valid_result = survey_result.valid?
+
+    # いずれかのバリデーションが失敗した場合
+    unless valid_profile && valid_response && valid_result
+      # エラーメッセージを集約
+      aggregate_errors(survey_response, survey_result)
+
+      # ビューの表示に必要な変数を設定
+      prepare_for_render
+
+      flash.now[:alert] = t('goals.update.failure')
+      render :edit, status: :unprocessable_entity
+      return
+    end
+
     # トランザクションで一括更新
     ActiveRecord::Base.transaction do
-      # survey_profile を更新
-      @survey_profile.update!(survey_profile_params)
-
-      # survey_response を更新
-      survey_response.update!(survey_response_params)
-
-      # survey_result を更新
-      survey_result.update!(survey_result_params)
+      @survey_profile.save!
+      survey_response.save!
+      survey_result.save!
 
       redirect_to @goal, notice: t('goals.update.success')
     end
-  rescue ActiveRecord::RecordInvalid
-    # バリデーションエラー時
-    @streaming_platforms = StreamingPlatform.all
-    @streaming_categories = StreamingCategory.all
-    @streaming_experiences = StreamingExperience.all
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.debug { "RecordInvalid: #{e.message}" }
 
-    # エラー時に @streaming_reasons を設定（チェックボックスの状態を復元）
-    @streaming_reasons = params[:survey_profile][:streaming_reasons]&.reject(&:blank?) || []
+    # ビューの表示に必要な変数を設定
+    prepare_for_render
 
     flash.now[:alert] = t('goals.update.failure')
     render :edit, status: :unprocessable_entity
@@ -72,12 +88,26 @@ class SurveyProfilesController < ApplicationController
 
   def save_all_records
     ActiveRecord::Base.transaction do
+      # 各モデルのバリデーションを先にチェック
+      valid_profile = @survey_profile.valid?
+      valid_response = @survey_profile.survey_response.valid?
+      valid_result = @survey_profile.survey_result.valid?
+
+      # いずれかのバリデーションが失敗した場合
+      unless valid_profile && valid_response && valid_result
+        # エラーメッセージを集約
+        aggregate_errors(@survey_profile.survey_response, @survey_profile.survey_result)
+
+        raise ActiveRecord::Rollback
+      end
+
       @survey_profile.save!
       @survey_profile.survey_response.save!
       @survey_profile.survey_result.save!
       @goal = create_goal
       @goal.persisted?
-    rescue ActiveRecord::RecordInvalid
+    rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.debug { "RecordInvalid: #{e.message}" }
       false
     end
   end
@@ -102,6 +132,25 @@ class SurveyProfilesController < ApplicationController
     @streaming_platforms = StreamingPlatform.all
     @streaming_categories = StreamingCategory.all
     @streaming_experiences = StreamingExperience.all
+  end
+
+  # エラーメッセージを @survey_profile.errors に集約するメソッド
+  def aggregate_errors(survey_response, survey_result)
+    # survey_response のエラーメッセージを追加
+    survey_response.errors.each do |error|
+      @survey_profile.errors.add(:base, error.full_message)
+    end
+
+    # survey_result のエラーメッセージを追加
+    survey_result.errors.each do |error|
+      @survey_profile.errors.add(:base, error.full_message)
+    end
+  end
+
+  # ビューの表示に必要な変数を設定するメソッド
+  def prepare_for_render
+    load_select_options
+    @streaming_reasons = params[:survey_profile][:streaming_reasons]&.reject(&:blank?) || []
   end
 
   def survey_profile_params

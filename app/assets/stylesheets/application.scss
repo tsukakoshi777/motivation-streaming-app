@@ -52,3 +52,12 @@
     }
   }
 }
+
+// フォーム要素を縦並びでフォームの長さを整えるためのカスタムクラス
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  width: 100%;
+  max-width: 640px;
+}
