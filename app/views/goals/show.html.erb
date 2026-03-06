@@ -55,7 +55,7 @@
           <!-- フッター（AI提案バッジ） -->
           <div class="mt-4">
             <span class="badge rounded-pill px-3 py-2" style="background-color: #ddd6fe; color: #7c3aed; font-size: 0.875rem;">
-              <%= @goal.survey_result.goal_source == 0 ? '🤖 AI提案' : '✍️ 自分で設定' %>
+              <%= @goal.survey_result.ai_suggestion? ? '🤖 AI提案' : '✍️ 自分で設定' %>
             </span>
           </div>
         </div>
@@ -268,7 +268,10 @@
           <div class="p-3 rounded" style="background-color: #f9fafb;">
             <p class="small text-muted mb-2">💰 理想の月収</p>
             <p class="h4 fw-bold text-dark mb-0">
-              <%= number_to_currency(@goal.survey_profile.survey_response.desired_monthly_income, unit: '¥', precision: 0) %>
+              <%= number_to_currency(@goal.survey_profile.survey_response.desired_monthly_income, 
+                         unit: '円', 
+                         format: '%n%u',
+                         precision: 0) %>
             </p>
           </div>
         </div>

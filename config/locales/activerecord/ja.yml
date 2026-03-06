@@ -51,6 +51,9 @@ ja:
         motivation_level: "モチベーションレベル"
         listener_dropout_rate: "最近のリスナー離脱人数"
 
+      survey_response:
+        streaming_reasons: "配信を続ける理由や目的"
+
   errors:
     template:
       body: "次の項目を確認してください"

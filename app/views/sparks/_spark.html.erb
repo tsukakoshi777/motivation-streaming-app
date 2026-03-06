@@ -21,9 +21,16 @@
                 <small class="text-muted">
                   <%= t('sparks.show.posted_at') %>: <%= l spark.created_at, format: :short %>
                   <% if spark.created_at != spark.updated_at %>
-                    （<%= t('sparks.show.last_updated') %>: <%= l spark.updated_at, format: :short %>）
+                    <span class="d-none d-sm-inline">
+                      （<%= t('sparks.show.last_updated') %>: <%= l spark.updated_at, format: :short %>）
+                    </span>
                   <% end %>
                 </small>
+                <% if spark.created_at != spark.updated_at %>
+                  <small class="text-muted d-block d-sm-none">
+                    <%= t('sparks.show.last_updated') %>: <%= l spark.updated_at, format: :short %>
+                  </small>
+                <% end %>
               </div>
               
               <!-- 編集・削除ボタン（自分の投稿のみ表示） -->
