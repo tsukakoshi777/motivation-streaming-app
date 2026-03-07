@@ -30,26 +30,26 @@ Metrics/BlockLength:
     - 'spec/**/*'
     - 'config/environments/*'
 
-# ⭐ 日本語メッセージを許可
+# 日本語メッセージを許可
 Rails/I18nLocaleTexts:
   Enabled: false
 
-# ⭐ メソッドの長さを緩和
+# メソッドの長さを緩和
 Metrics/MethodLength:
   Max: 30
 
-# ⭐ クラスの長さを緩和
+# クラスの長さを緩和
 Metrics/ClassLength:
   Max: 150
 
-# ⭐ ABC サイズを緩和
+# ABC サイズを緩和
 Metrics/AbcSize:
   Max: 45
 
-# ⭐ Safe Navigation の長さを緩和
+# Safe Navigation の長さを緩和
 Style/SafeNavigationChainLength:
   Max: 4
 
-# ⭐ アクションフィルターの警告を無効化
+# アクションフィルターの警告を無効化
 Rails/LexicallyScopedActionFilter:
   Enabled: false

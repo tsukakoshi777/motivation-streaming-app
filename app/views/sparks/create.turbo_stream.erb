@@ -1,5 +1,5 @@
 <% if @spark.errors.any? %>
-  <%# ⭐ エラー時：フォームを再表示 %>
+  <%#  エラー時：フォームを再表示 %>
   <%= turbo_stream.replace "spark_form" do %>
     <%= turbo_frame_tag "spark_form" do %>
       <%= render 'sparks/form', goal: @goal, spark: @spark %>
@@ -22,7 +22,7 @@
     <% end %>
   <% end %>
 
-  <%# 4. 成功メッセージを「✨ 輝きの記録」のタイトル下に表示 %>
+  <%# 4. 成功メッセージを「 輝きの記録」のタイトル下に表示 %>
   <%= turbo_stream.update "spark-flash-messages" do %>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
       <%= t('sparks.create.success') %>

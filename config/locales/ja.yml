@@ -7,6 +7,11 @@ ja:
     message:
       require_login: 'ログインしてください'
 
+  header:
+    goals_index: '成長⭐一覧'
+    profile: 'プロフィール'
+
+
   static_pages:
     top:
       description_html: |

@@ -5,7 +5,7 @@ class SurveyResult < ApplicationRecord
   enum :goal_source, { ai_suggestion: 0, user_defined: 1 }
 
   # アソシエーション
-  belongs_to :survey_profile
+  belongs_to :survey_profile, touch: true
 
   # バリデーション
   validates :survey_profile_id, uniqueness: true
