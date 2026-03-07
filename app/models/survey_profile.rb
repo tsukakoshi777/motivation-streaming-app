@@ -10,7 +10,7 @@ class SurveyProfile < ApplicationRecord
   # 1対1の関係
   has_one :survey_response, dependent: :destroy
   has_one :survey_result, dependent: :destroy
-  has_one :goal, dependent: :destroy
+  has_one :goal, dependent: :destroy, touch: true
 
   # バリデーション
   validates :weekly_frequency, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }

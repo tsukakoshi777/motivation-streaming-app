@@ -15,13 +15,13 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
-  # ⭐ 元の設定
+  # 元の設定
   config.use_transactional_fixtures = true
 
   # FactoryBot の設定
   config.include FactoryBot::Syntax::Methods
 
-  # ⭐ Capybara の設定を修正
+  # Capybara の設定
   config.before(:each, type: :system) do
     driven_by :remote_chrome # ← :selenium から :remote_chrome に変更
     Capybara.server_host = IPSocket.getaddress(Socket.gethostname)

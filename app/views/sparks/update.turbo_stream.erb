@@ -1,16 +1,16 @@
 <% if @spark.errors.any? %>
-  <%# ⭐ エラー時：編集フォームを再表示 %>
+  <%#  エラー時：編集フォームを再表示 %>
   <%= turbo_stream.replace dom_id(@spark) do %>
      <%= render "sparks/edit_form", goal: @goal, spark: @spark %>
   <% end %>
 
 <% else %>
-  <%# ⭐ 成功時：投稿を更新 %>
+  <%#  成功時：投稿を更新 %>
   <%= turbo_stream.replace dom_id(@spark) do %>
     <%= render @spark, goal: @goal %>
   <% end %>
 
-  <%# ⭐ 成功メッセージを投稿の直前に表示 %>
+  <%#  成功メッセージを投稿の直前に表示 %>
   <%= turbo_stream.before dom_id(@spark) do %>
     <div class="alert alert-success alert-dismissible fade show mb-3" role="alert" id="flash-success-<%= @spark.id %>">
       <%= t('sparks.update.success') %>

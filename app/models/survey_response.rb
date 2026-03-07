@@ -2,7 +2,7 @@
 
 class SurveyResponse < ApplicationRecord
   # アソシエーション
-  belongs_to :survey_profile
+  belongs_to :survey_profile, touch: true
 
   # バリデーション
   validates :survey_profile_id, uniqueness: true

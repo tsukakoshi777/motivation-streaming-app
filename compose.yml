@@ -13,11 +13,11 @@ services:
 
   web:
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bin/dev"  # ← ここを修正 ✅
+    command: bash -c "rm -f tmp/pids/server.pid && bin/dev"
     volumes:
       - .:/motivation-streaming-app
       - bundle_data:/usr/local/bundle
-      - node_modules:/motivation-streaming-app/node_modules  # ← これを追加 ✅
+      - node_modules:/motivation-streaming-app/node_modules
     ports:
       - "3000:3000"
     depends_on:
@@ -40,4 +40,4 @@ services:
 volumes:
   postgres_data:
   bundle_data:
-  node_modules:  # ← これを追加 ✅
+  node_modules:

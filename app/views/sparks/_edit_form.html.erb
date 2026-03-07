@@ -2,7 +2,7 @@
   <%= form_with model: [goal, spark], 
                 class: "spark-edit-form" do |f| %>
     
-    <!-- ⭐ エラーメッセージ（IDを追加して競合を防ぐ） -->
+    <!-- エラーメッセージ -->
     <% if spark.errors.any? %>
       <div id="spark-error-messages-<%= spark.id %>" class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
         <strong><%= t('sparks.edit_form.error_title') %></strong>

@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      auto_login(@user) # Sorceryのメソッド：登録後自動ログイン
+      auto_login(@user)
       redirect_to root_path, success: t('.success')
     else
       flash.now[:danger] = t('.failure')

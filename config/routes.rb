@@ -17,26 +17,22 @@ Rails.application.routes.draw do
   post 'login', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
 
-  # プロフィールのルーティング
+  # プロフィール
   resource :profile, only: [:show, :edit, :update]
 
   # もやもや結晶シート（入力・保存のみ）
   resources :survey_profiles, only: %i[new create]
 
-  # 成長の星⭐（表示・編集・進捗管理）
+  # 成長の星
   resources :goals, only: %i[index show edit update destroy] do
     # survey_profile の編集・更新をネストする
-    resource :survey_profile, only: %i[edit update]  # ← ここを確認!
+    resource :survey_profile, only: %i[edit update]
 
-    # 輝き（Spark）の投稿機能
+    # 輝き（Spark）
     resources :sparks, only: [:create, :edit, :update, :destroy] do
       member do
-        get :cancel  # キャンセルアクション
+        get :cancel
       end
-    end
-
-    member do
-      get :progress  # 進捗状況ページ（オプション）
     end
   end
 end
