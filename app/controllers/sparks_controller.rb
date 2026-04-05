@@ -3,11 +3,9 @@
 class SparksController < ApplicationController
   before_action :require_login
   before_action :set_goal
-  before_action :set_spark, only: %i[edit update destroy]
+  before_action :set_spark, only: %i[edit update cancel destroy]
 
   def edit
-    @goal = current_user.goals.find(params[:goal_id])
-    @spark = @goal.sparks.find(params[:id])
 
     respond_to do |format|
       format.turbo_stream
@@ -18,7 +16,6 @@ class SparksController < ApplicationController
   def create
     @spark = current_user.sparks.build(spark_params)
     @spark.goal_id = params[:goal_id]
-    @goal = Goal.find(params[:goal_id])
 
     respond_to do |format|
       if @spark.save
@@ -35,8 +32,6 @@ class SparksController < ApplicationController
   end
 
   def update
-    @goal = current_user.goals.find(params[:goal_id])
-    @spark = @goal.sparks.find(params[:id])
 
     @spark.update(spark_params)
 
@@ -46,9 +41,6 @@ class SparksController < ApplicationController
   end
 
   def cancel
-    @goal = current_user.goals.find(params[:goal_id])
-    @spark = @goal.sparks.find(params[:id])
-
     respond_to do |format|
       format.turbo_stream
     end
@@ -65,15 +57,17 @@ class SparksController < ApplicationController
   private
 
   def set_goal
-    @goal = current_user.goals.find(params[:goal_id])
+    @goal = current_user.goals.find(params[:goal_id])  # ← includes を削除
   rescue ActiveRecord::RecordNotFound
     Rails.logger.warn("Goal not found: #{params[:goal_id]} for user: #{current_user.id}")
+    redirect_to goals_path, alert: t('goals.show.not_found')
   end
 
   def set_spark
     @spark = @goal.sparks.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     Rails.logger.warn("Spark not found: #{params[:id]} for goal: #{@goal&.id}")
+    redirect_to goal_path(@goal), alert: t('sparks.not_found')
   end
 
   def spark_params
