@@ -96,7 +96,7 @@
 
         <!-- 輝き一覧 -->
         <div id="sparks_list">
-          <%= render @goal.sparks.order(created_at: :desc) %>
+          <%= render @sparks %>
         </div>
 
         <% if @goal.sparks.empty? %>

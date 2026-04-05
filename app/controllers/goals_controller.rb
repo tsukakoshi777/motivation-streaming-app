@@ -14,6 +14,7 @@ class GoalsController < ApplicationController
 
   def show
     @streaming_reasons = @goal.survey_profile&.survey_response&.streaming_reasons&.split(',') || []
+    @sparks = @goal.sparks.includes(:user).order(created_at: :desc)  # ← 追加
   end
 
   def edit
@@ -36,7 +37,7 @@ class GoalsController < ApplicationController
 
   def set_goal
     @goal = current_user.goals
-                        .includes(goal_associations)
+                        .eager_load(goal_associations)  # ← preload から eager_load に変更
                         .find(params[:id])
   rescue ActiveRecord::RecordNotFound
     redirect_to goals_path, alert: t('goals.show.not_found')
@@ -51,7 +52,6 @@ class GoalsController < ApplicationController
         survey_response
         survey_result
       ],
-      sparks: :user
     }
   end
 
