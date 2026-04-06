@@ -66,6 +66,9 @@ gem 'dotenv-rails', groups: %i[development production]
 
 gem 'turbo-rails', '1.1.1'
 
+# OGP設定用のGem
+gem 'meta-tags'
+
 # ページネーション関連のGem
 gem 'bootstrap5-kaminari-views'
 gem 'kaminari', '1.2.2'
