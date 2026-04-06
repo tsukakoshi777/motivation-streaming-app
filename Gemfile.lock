@@ -247,6 +247,8 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.3)
+    meta-tags (2.23.0)
+      actionpack (>= 6.0.0)
     method_source (1.1.0)
     mime-types (3.7.0)
       logger
@@ -476,6 +478,7 @@ DEPENDENCIES
   jbuilder
   jsbundling-rails
   kaminari (= 1.2.2)
+  meta-tags
   mini_magick
   pg
   pry-byebug
