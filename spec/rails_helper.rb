@@ -20,15 +20,6 @@ RSpec.configure do |config|
 
   # FactoryBot の設定
   config.include FactoryBot::Syntax::Methods
-
-  # Capybara の設定
-  config.before(:each, type: :system) do
-    driven_by :remote_chrome # ← :selenium から :remote_chrome に変更
-    Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
-    Capybara.server_port = 4444
-    Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
-    Capybara.ignore_hidden_elements = false
-  end
 end
 
 Shoulda::Matchers.configure do |config|
