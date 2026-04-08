@@ -35,11 +35,22 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2.2'  # プロジェクトのRubyバージョンに合わせてください
+          ruby-version: '3.2.2'
           bundler-cache: true
 
       - name: Install dependencies
         run: bundle install
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install JavaScript dependencies
+        run: npm install
+
+      - name: Precompile assets
+        run: bundle exec rails assets:precompile
 
       - name: Set up database
         run: |
