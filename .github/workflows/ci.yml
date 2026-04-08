@@ -11,17 +11,18 @@ jobs:
 
     services:
       db:
-        image: mysql:5.7
+        image: postgres:14
         env:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: motivation_streaming_app_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: motivation_streaming_app_test
         ports:
-          - 3306:3306
+          - 5432:5432
         options: >-
-          --health-cmd="mysqladmin ping"
+          --health-cmd="pg_isready -U postgres"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=3
+          --health-retries=5
 
       chrome:
         image: selenium/standalone-chrome:latest
@@ -47,7 +48,7 @@ jobs:
         env:
           RAILS_ENV: test
           DATABASE_HOST: 127.0.0.1
-          DATABASE_USERNAME: root
+          DATABASE_USERNAME: postgres  # ← root から postgres に変更 ✅
           DATABASE_PASSWORD: password
         run: |
           bundle exec rails db:create
@@ -57,7 +58,7 @@ jobs:
         env:
           RAILS_ENV: test
           DATABASE_HOST: 127.0.0.1
-          DATABASE_USERNAME: root
+          DATABASE_USERNAME: postgres  # ← root から postgres に変更 ✅
           DATABASE_PASSWORD: password
           SELENIUM_REMOTE_URL: http://localhost:4444
         run: bundle exec rspec
