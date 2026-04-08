@@ -41,14 +41,28 @@ jobs:
           ruby-version: 3.2.2
           bundler-cache: true
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
       - name: Install dependencies
         run: bundle install
+
+      - name: Install Node modules
+        run: yarn install
+
+      - name: Build assets
+        run: |
+          bundle exec rails dartsass:build
+          bundle exec rails javascript:build
 
       - name: Set up database
         env:
           RAILS_ENV: test
           DATABASE_HOST: 127.0.0.1
-          DATABASE_USERNAME: postgres  # ← root から postgres に変更 ✅
+          DATABASE_USERNAME: postgres
           DATABASE_PASSWORD: password
         run: |
           bundle exec rails db:create
@@ -58,7 +72,7 @@ jobs:
         env:
           RAILS_ENV: test
           DATABASE_HOST: 127.0.0.1
-          DATABASE_USERNAME: postgres  # ← root から postgres に変更 ✅
+          DATABASE_USERNAME: postgres
           DATABASE_PASSWORD: password
           SELENIUM_REMOTE_URL: http://localhost:4444
         run: bundle exec rspec
