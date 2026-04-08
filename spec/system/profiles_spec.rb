@@ -209,11 +209,8 @@ RSpec.describe 'Profiles', type: :system do
           # 5MBを超える画像ファイルを作成（ダミー）
           large_image_path = Rails.root.join('tmp/large_avatar.png')
 
-          # ランダムなノイズ画像を生成（5MBを超えるサイズ）
-          system("convert -size 2000x2000 plasma: #{large_image_path}")
-
-          # ファイルサイズを確認（デバッグ用）
-          File.size(large_image_path)
+          # 6MBのダミーファイルを生成
+          File.binwrite(large_image_path, '0' * 6.megabytes)
 
           # 5MBを超えるファイルをアップロード
           attach_file 'user[avatar]', large_image_path

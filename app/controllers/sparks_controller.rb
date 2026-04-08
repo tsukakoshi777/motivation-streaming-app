@@ -6,7 +6,6 @@ class SparksController < ApplicationController
   before_action :set_spark, only: %i[edit update cancel destroy]
 
   def edit
-
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to goal_path(@goal) } # HTML リクエストの場合はリダイレクト
@@ -32,7 +31,6 @@ class SparksController < ApplicationController
   end
 
   def update
-
     @spark.update(spark_params)
 
     respond_to do |format|
@@ -57,7 +55,7 @@ class SparksController < ApplicationController
   private
 
   def set_goal
-    @goal = current_user.goals.find(params[:goal_id])  # ← includes を削除
+    @goal = current_user.goals.find(params[:goal_id]) # ← includes を削除
   rescue ActiveRecord::RecordNotFound
     Rails.logger.warn("Goal not found: #{params[:goal_id]} for user: #{current_user.id}")
     redirect_to goals_path, alert: t('goals.show.not_found')
