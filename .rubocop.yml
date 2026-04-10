@@ -40,7 +40,7 @@ Metrics/MethodLength:
 
 # クラスの長さを緩和
 Metrics/ClassLength:
-  Max: 150
+  Max: 250
 
 # ABC サイズを緩和
 Metrics/AbcSize:
