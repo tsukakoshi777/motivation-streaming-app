@@ -82,24 +82,36 @@ class GeminiService
 
   # テキスト生成の共通メソッド
   def generate_text(prompt)
-    result = @client.stream_generate_content(
-      { contents: { role: 'user', parts: { text: prompt } } }
-    )
+    max_retries = 3
+    retry_count = 0
 
-    response_text = extract_text_from_result(result)
+    begin
+      result = @client.stream_generate_content(
+        { contents: { role: 'user', parts: { text: prompt } } }
+      )
 
-    if response_text.blank?
-      Rails.logger.error 'Gemini API returned empty response'
-      raise InvalidResponseError, 'Empty response from Gemini API'
+      response_text = extract_text_from_result(result)
+
+      if response_text.blank?
+        Rails.logger.error 'Gemini API returned empty response'
+        raise InvalidResponseError, 'Empty response from Gemini API'
+      end
+
+      response_text
+    rescue Faraday::TooManyRequestsError => e
+      Rails.logger.error "Gemini API rate limit exceeded: #{e.message}"
+      raise RateLimitError, 'API rate limit exceeded. Please try again later.'
+    rescue StandardError => e
+      retry_count += 1
+      if retry_count <= max_retries
+        Rails.logger.warn "Gemini API error (retry #{retry_count}/#{max_retries}): #{e.message}"
+        sleep(2**retry_count) # 指数バックオフ(2秒、4秒、8秒)
+        retry
+      else
+        Rails.logger.error "Gemini API error after #{max_retries} retries: #{e.message}"
+        raise ApiError, "Failed to generate text: #{e.message}"
+      end
     end
-
-    response_text
-  rescue Faraday::TooManyRequestsError => e
-    Rails.logger.error "Gemini API rate limit exceeded: #{e.message}"
-    raise RateLimitError, 'API rate limit exceeded. Please try again later.'
-  rescue StandardError => e
-    Rails.logger.error "Gemini API error: #{e.message}"
-    raise ApiError, "Failed to generate text: #{e.message}"
   end
 
   # レスポンスからテキストを抽出
