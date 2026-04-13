@@ -14,6 +14,9 @@ class SurveyProfilesController < ApplicationController
     @survey_profile = build_survey_profile
     build_associated_records
 
+    # AI による目標提案を生成（goal_source が ai の場合のみ）
+    generate_ai_goal_suggestion if params.dig(:survey_result, :goal_source).to_i == SurveyResult.goal_sources[:ai]
+
     if save_all_records
       redirect_to goal_path(@goal), notice: t('.success')
     else
@@ -191,10 +194,31 @@ class SurveyProfilesController < ApplicationController
     params.require(:survey_result).permit(
       :goal_source,
       :goal_title,
-      :goal_description
+      :goal_description,
+      :action_plan
     ).tap do |whitelisted|
       # goal_source を整数に変換
       whitelisted[:goal_source] = whitelisted[:goal_source].to_i if whitelisted[:goal_source].present?
     end
+  end
+
+  # AI による目標提案を生成するメソッド
+  def generate_ai_goal_suggestion
+    service = GeminiService.new
+    result = service.suggest_streamer_goal(
+      survey_profile: @survey_profile,
+      survey_response: @survey_profile.survey_response
+    )
+
+    # AI の提案を survey_result に設定
+    @survey_profile.survey_result.assign_attributes(
+      goal_title: result[:goal_title],
+      goal_description: result[:goal_description],
+      action_plan: result[:action_plan]
+    )
+  rescue GeminiService::ApiError => e
+    Rails.logger.error "AI 目標提案の生成に失敗しました: #{e.message}"
+    @survey_profile.errors.add(:base, 'AI による目標提案の生成に失敗しました。もう一度お試しください。')
+    raise ActiveRecord::Rollback
   end
 end

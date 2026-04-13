@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_02_23_072727) do
+ActiveRecord::Schema[7.0].define(version: 2026_04_12_010210) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -95,6 +95,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_23_072727) do
     t.text "ai_improvement_suggestion"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "action_plan"
     t.index ["survey_profile_id"], name: "index_survey_results_on_survey_profile_id", unique: true
   end
 
