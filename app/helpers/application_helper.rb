@@ -27,4 +27,31 @@ module ApplicationHelper
       }
     }
   end
+
+  def markdown(text)
+    return '' if text.blank?
+    
+    renderer = Redcarpet::Render::HTML.new(
+      filter_html: false,
+      hard_wrap: true,
+      link_attributes: { target: '_blank' }
+    )
+    
+    markdown = Redcarpet::Markdown.new(
+      renderer,
+      autolink: true,
+      tables: true,
+      fenced_code_blocks: true,
+      strikethrough: true,
+      lax_spacing: true,
+      space_after_headers: true
+    )
+    
+    sanitized_html = Sanitize.fragment(
+      markdown.render(text),
+      Sanitize::Config::RELAXED
+    )
+    
+    sanitized_html.html_safe
+  end
 end

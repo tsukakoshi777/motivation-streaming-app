@@ -1,9 +1,10 @@
 import "@hotwired/turbo-rails"
 
+// ========================================
 // Bootstrap の Collapse を初期化する関数
+// ========================================
+
 function initializeBootstrapCollapse() {
-  
-  
   // Bootstrap が読み込まれているか確認
   if (typeof window.bootstrap === 'undefined') {
     return;
@@ -53,8 +54,180 @@ function initializeBootstrapCollapse() {
   });
 }
 
-// ページ読み込み時に初期化
-document.addEventListener("turbo:load", initializeBootstrapCollapse);
+// ========================================
+// ページ読み込み時の初期化処理
+// ========================================
 
+document.addEventListener("turbo:load", () => {
+  // Bootstrap Collapse を初期化
+  initializeBootstrapCollapse();
+  
+  // ========================================
+  // アクションプラン用の自動箇条書き機能
+  // ========================================
+  
+  const textarea = document.querySelector('.action-plan-textarea');
+  const goalSourceAi = document.querySelector('#goal_source_ai');
+  const goalSourceManual = document.querySelector('input[name="survey_result[goal_source]"][value="1"]');
+
+  // ★★★ 以下の3つを追加・修正 ★★★
+  const goalTitleField = document.querySelector('input[name="survey_result[goal_title]"]');
+  const goalDescriptionField = document.querySelector('textarea[name="survey_result[goal_description]"]');
+  const actionPlanField = document.querySelector('textarea[name="survey_result[action_plan]"]'); 
+  
+  // ========================================
+  // アクションプラン用の自動箇条書き機能
+  // ========================================
+
+  if (textarea) {
+    // 初回入力時に◇を自動挿入
+    textarea.addEventListener('focus', (e) => {
+      if (textarea.value === '') {
+        textarea.value = '◇ ';
+        textarea.selectionStart = textarea.selectionEnd = 2;
+      }
+    });
+
+    // Enterキーが押されたとき
+    textarea.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        
+        const cursorPos = textarea.selectionStart;
+        const textBeforeCursor = textarea.value.substring(0, cursorPos);
+        const textAfterCursor = textarea.value.substring(cursorPos);
+        
+        textarea.value = textBeforeCursor + '\n◇ ' + textAfterCursor;
+        textarea.selectionStart = textarea.selectionEnd = cursorPos + 3;
+      }
+    });
+  }
+
+  // ========================================
+  // AI提案のラジオボタン選択時の処理
+  // ========================================
+  
+  if (goalSourceAi) {
+    goalSourceAi.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        fetchAiSuggestion();
+      }
+    });
+  }
+  
+  // ========================================
+  // 自分で設定するラジオボタン選択時の処理
+  // ========================================
+  
+  if (goalSourceManual) {
+    goalSourceManual.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        // フォームをクリア(任意)
+        // clearFormFields();
+      }
+    });
+  }
+  
+  // ========================================
+  // RailsのAPIからAI提案を取得する関数
+  // ========================================
+  
+  async function fetchAiSuggestion() {
+    try {
+      console.log('AI提案を取得中...');
+      
+      // ★★★ ローディング表示 ★★★
+      if (goalTitleField) goalTitleField.value = 'AI提案を取得中...';
+      if (goalDescriptionField) goalDescriptionField.value = '';
+      if (actionPlanField) actionPlanField.value = '';
+      
+      // ★★★ フォームで選択した値を取得 ★★★
+      const formData = {
+        streaming_platform_id: document.querySelector('select[name="survey_profile[streaming_platform_id]"]')?.value,
+        streaming_category_id: document.querySelector('select[name="survey_profile[streaming_category_id]"]')?.value,
+        streaming_experience_id: document.querySelector('select[name="survey_profile[streaming_experience_id]"]')?.value,
+        weekly_frequency: document.querySelector('input[name="survey_profile[weekly_frequency]"]')?.value,
+        average_listeners: document.querySelector('input[name="survey_profile[average_listeners]"]')?.value,
+        total_listeners: document.querySelector('input[name="survey_profile[total_listeners]"]')?.value,
+        listener_dropout_rate: document.querySelector('input[name="survey_profile[listener_dropout_rate]"]')?.value,
+        motivation_level: document.querySelector('input[name="survey_profile[motivation_level]"]')?.value,
+        happy_moment: document.querySelector('textarea[name="survey_profile[happy_moment]"]')?.value,
+        sad_moment: document.querySelector('textarea[name="survey_profile[sad_moment]"]')?.value,
+        desired_streaming_style: document.querySelector('textarea[name="survey_profile[desired_streaming_style]"]')?.value,
+        desired_listener: document.querySelector('textarea[name="survey_profile[desired_listener]"]')?.value,
+        desired_monthly_income: document.querySelector('input[name="survey_profile[desired_monthly_income]"]')?.value,
+        streaming_reasons: Array.from(document.querySelectorAll('input[name="survey_profile[streaming_reasons][]"]:checked')).map(cb => cb.value),
+        streaming_reasons_other: document.querySelector('input[name="survey_profile[streaming_reasons_other]"]')?.value
+      };
+      
+      console.log('送信するデータ:', formData);
+      
+      // ★★★ バックエンドに POST リクエストを送信 ★★★
+      const response = await fetch('/survey_profiles/fetch_ai_suggestion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      if (!response.ok) {
+        throw new Error('AI提案の取得に失敗しました');
+      }
+      
+      const data = await response.json();
+      
+      console.log('受信したデータ:', data);
+      
+      // ★★★ フォームに挿入 ★★★
+      if (goalTitleField) {
+        goalTitleField.value = data.goal_title || '';
+      }
+      
+      if (goalDescriptionField) {
+        goalDescriptionField.value = data.goal_description || '';
+      }
+      
+      if (actionPlanField) {
+        actionPlanField.value = data.action_plan || '';
+      }
+      
+      console.log('AI提案のデータを挿入しました!');
+      
+    } catch (error) {
+      console.error('AI提案の取得に失敗しました:', error);
+      
+      // ★★★ エラー時はフォームをクリア ★★★
+      if (goalTitleField) goalTitleField.value = '';
+      if (goalDescriptionField) goalDescriptionField.value = '';
+      if (actionPlanField) actionPlanField.value = '';
+      
+      alert('AI提案の取得に失敗しました。もう一度お試しください。');
+    }
+  }
+  
+  // ========================================
+  // フォームをクリアする関数(任意)
+  // ========================================
+  
+  function clearFormFields() {
+    if (goalTitleField) {
+      goalTitleField.value = '';
+    }
+    
+    if (goalDescriptionField) {
+      goalDescriptionField.value = '';
+    }
+    
+    if (textarea) {
+      textarea.value = '';
+    }
+  }
+});
+
+// ========================================
 // 最初のページ読み込み時にも初期化
+// ========================================
+
 document.addEventListener("DOMContentLoaded", initializeBootstrapCollapse);

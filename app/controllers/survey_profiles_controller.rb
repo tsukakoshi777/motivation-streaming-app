@@ -27,6 +27,68 @@ class SurveyProfilesController < ApplicationController
     end
   end
 
+  # AI提案を取得するアクション
+  def fetch_ai_suggestion
+    # ★★★ フロントエンドから送られてきたデータを受け取る ★★★
+    params_data = params.permit(
+      :streaming_platform_id,
+      :streaming_category_id,
+      :streaming_experience_id,
+      :weekly_frequency,
+      :average_listeners,
+      :total_listeners,
+      :listener_dropout_rate,
+      :motivation_level,
+      :happy_moment,
+      :sad_moment,
+      :desired_streaming_style,
+      :desired_listener,
+      :desired_monthly_income,
+      :streaming_reasons_other,
+      streaming_reasons: [],
+      survey_profile: {}
+    )
+
+    # ★★★ デバッグ用: 受け取ったデータをログに出力 ★★★
+    Rails.logger.info("受け取ったデータ: #{params_data.to_h}")
+
+    # ★★★ 一時的な survey_profile を作成(保存はしない) ★★★
+    survey_profile = SurveyProfile.new(
+      streaming_platform_id: params_data[:streaming_platform_id],
+      streaming_category_id: params_data[:streaming_category_id],
+      streaming_experience_id: params_data[:streaming_experience_id],
+      weekly_frequency: params_data[:weekly_frequency],
+      average_listeners: params_data[:average_listeners],
+      total_listeners: params_data[:total_listeners],
+      listener_dropout_rate: params_data[:listener_dropout_rate],
+      motivation_level: params_data[:motivation_level]
+    )
+
+    # ★★★ 一時的な survey_response を作成(保存はしない) ★★★
+    survey_response = SurveyResponse.new(
+      happy_moment: params_data[:happy_moment],
+      sad_moment: params_data[:sad_moment],
+      desired_streaming_style: params_data[:desired_streaming_style],
+      desired_listener: params_data[:desired_listener],
+      desired_monthly_income: params_data[:desired_monthly_income],
+      streaming_reasons: params_data[:streaming_reasons]&.compact_blank&.join(','),
+      streaming_reasons_other: params_data[:streaming_reasons_other]
+    )
+
+    # ★★★ GeminiServiceを呼び出してAI提案を取得 ★★★
+    gemini_service = GeminiService.new
+    suggestion = gemini_service.suggest_streamer_goal(
+      survey_profile: survey_profile,
+      survey_response: survey_response
+    )
+
+    # ★★★ JSONで返す ★★★
+    render json: suggestion
+  rescue GeminiService::ApiError => e
+    Rails.logger.error "AI提案の取得に失敗しました: #{e.message}"
+    render json: { error: 'AI提案の取得に失敗しました' }, status: :internal_server_error
+  end
+
   def update
     @goal = Goal.find(params[:goal_id])
     @survey_profile = @goal.survey_profile
