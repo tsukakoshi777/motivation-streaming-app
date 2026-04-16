@@ -58,7 +58,10 @@ function initializeBootstrapCollapse() {
 // ページ読み込み時の初期化処理
 // ========================================
 
-document.addEventListener("turbo:load", () => {
+document.addEventListener("turbo:load", initializeForm);
+document.addEventListener("turbo:render", initializeForm);
+
+function initializeForm() {
   // Bootstrap Collapse を初期化
   initializeBootstrapCollapse();
   
@@ -74,59 +77,6 @@ document.addEventListener("turbo:load", () => {
   const goalTitleField = document.querySelector('input[name="survey_result[goal_title]"]');
   const goalDescriptionField = document.querySelector('textarea[name="survey_result[goal_description]"]');
   const actionPlanField = document.querySelector('textarea[name="survey_result[action_plan]"]'); 
-  
-  // ========================================
-  // アクションプラン用の自動箇条書き機能
-  // ========================================
-
-  if (textarea) {
-    // 初回入力時に◇を自動挿入
-    textarea.addEventListener('focus', (e) => {
-      if (textarea.value === '') {
-        textarea.value = '◇ ';
-        textarea.selectionStart = textarea.selectionEnd = 2;
-      }
-    });
-
-    // Enterキーが押されたとき
-    textarea.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        
-        const cursorPos = textarea.selectionStart;
-        const textBeforeCursor = textarea.value.substring(0, cursorPos);
-        const textAfterCursor = textarea.value.substring(cursorPos);
-        
-        textarea.value = textBeforeCursor + '\n◇ ' + textAfterCursor;
-        textarea.selectionStart = textarea.selectionEnd = cursorPos + 3;
-      }
-    });
-  }
-
-  // ========================================
-  // AI提案のラジオボタン選択時の処理
-  // ========================================
-  
-  if (goalSourceAi) {
-    goalSourceAi.addEventListener('change', (e) => {
-      if (e.target.checked) {
-        fetchAiSuggestion();
-      }
-    });
-  }
-  
-  // ========================================
-  // 自分で設定するラジオボタン選択時の処理
-  // ========================================
-  
-  if (goalSourceManual) {
-    goalSourceManual.addEventListener('change', (e) => {
-      if (e.target.checked) {
-        // フォームをクリア(任意)
-        // clearFormFields();
-      }
-    });
-  }
   
   // ========================================
   // RailsのAPIからAI提案を取得する関数
@@ -206,6 +156,72 @@ document.addEventListener("turbo:load", () => {
       alert('AI提案の取得に失敗しました。もう一度お試しください。');
     }
   }
+
+
+  // ========================================
+  // アクションプラン用の自動箇条書き機能
+  // ========================================
+
+  if (textarea) {
+    // 初回入力時に◇を自動挿入
+    textarea.addEventListener('focus', (e) => {
+      if (textarea.value === '') {
+        textarea.value = '◇ ';
+        textarea.selectionStart = textarea.selectionEnd = 2;
+      }
+    });
+
+    // Enterキーが押されたとき
+    textarea.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        
+        const cursorPos = textarea.selectionStart;
+        const textBeforeCursor = textarea.value.substring(0, cursorPos);
+        const textAfterCursor = textarea.value.substring(cursorPos);
+        
+        textarea.value = textBeforeCursor + '\n◇ ' + textAfterCursor;
+        textarea.selectionStart = textarea.selectionEnd = cursorPos + 3;
+      }
+    });
+  }
+
+  // ========================================
+  // AI提案のラジオボタン選択時の処理
+  // ========================================
+  
+  if (goalSourceAi) {
+    // ★★★ 既存のイベントリスナーを削除してから新しいものを追加 ★★★
+    const newGoalSourceAi = goalSourceAi.cloneNode(true);
+    goalSourceAi.parentNode.replaceChild(newGoalSourceAi, goalSourceAi);
+    
+    // ★★★ 新しいイベントリスナーを追加 ★★★
+    newGoalSourceAi.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        fetchAiSuggestion();
+      }
+    });
+  }
+  
+  // ========================================
+  // 自分で設定するラジオボタン選択時の処理
+  // ========================================
+  
+  if (goalSourceManual) {
+    // ★★★ 既存のイベントリスナーを削除してから新しいものを追加 ★★★
+    const newGoalSourceManual = goalSourceManual.cloneNode(true);
+    goalSourceManual.parentNode.replaceChild(newGoalSourceManual, goalSourceManual);
+    
+    // ★★★ 新しいイベントリスナーを追加 ★★★
+    newGoalSourceManual.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        // フォームをクリア(任意)
+        // clearFormFields();
+      }
+    });
+  }
+  
+
   
   // ========================================
   // フォームをクリアする関数(任意)
@@ -224,7 +240,7 @@ document.addEventListener("turbo:load", () => {
       textarea.value = '';
     }
   }
-});
+}  // ← initializeForm() の終了
 
 // ========================================
 // 最初のページ読み込み時にも初期化
