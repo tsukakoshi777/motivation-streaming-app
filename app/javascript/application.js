@@ -12,43 +12,43 @@ function initializeBootstrapCollapse() {
 
   // すべての Collapse 要素を取得
   const collapseElements = document.querySelectorAll('.collapse');
-  
+
   collapseElements.forEach((element) => {
     // 既存のインスタンスを破棄
     const existingInstance = window.bootstrap.Collapse.getInstance(element);
     if (existingInstance) {
       existingInstance.dispose();
     }
-    
+
     // show クラスを削除（メニューを閉じた状態にする）
     element.classList.remove('show');
-    
+
     // 新しいインスタンスを作成
     const collapseInstance = new window.bootstrap.Collapse(element, {
       toggle: false
     });
   });
-  
+
   // トグルボタンのイベントリスナーを再設定
   const toggleButtons = document.querySelectorAll('[data-bs-toggle="collapse"]');
-  
+
   toggleButtons.forEach((button) => {
     // 既存のイベントリスナーを削除するために、クローンを作成
     const newButton = button.cloneNode(true);
     button.parentNode.replaceChild(newButton, button);
-    
+
     // 新しいイベントリスナーを追加
-    newButton.addEventListener('click', function(e) {
+    newButton.addEventListener('click', function (e) {
       e.preventDefault();
-      
+
       const targetId = this.getAttribute('data-bs-target');
       const targetElement = document.querySelector(targetId);
-      
+
       if (targetElement) {
         const collapseInstance = window.bootstrap.Collapse.getInstance(targetElement);
         if (collapseInstance) {
           collapseInstance.toggle();
-        } 
+        }
       }
     });
   });
@@ -64,34 +64,34 @@ document.addEventListener("turbo:render", initializeForm);
 function initializeForm() {
   // Bootstrap Collapse を初期化
   initializeBootstrapCollapse();
-  
+
   // ========================================
   // アクションプラン用の自動箇条書き機能
   // ========================================
-  
+
   const textarea = document.querySelector('.action-plan-textarea');
   const goalSourceAi = document.querySelector('#goal_source_ai');
   const goalSourceManual = document.querySelector('input[name="survey_result[goal_source]"][value="1"]');
 
-  // ★★★ 以下の3つを追加・修正 ★★★
+  //  以下の3つを追加・修正 
   const goalTitleField = document.querySelector('input[name="survey_result[goal_title]"]');
   const goalDescriptionField = document.querySelector('textarea[name="survey_result[goal_description]"]');
-  const actionPlanField = document.querySelector('textarea[name="survey_result[action_plan]"]'); 
-  
+  const actionPlanField = document.querySelector('textarea[name="survey_result[action_plan]"]');
+
   // ========================================
   // RailsのAPIからAI提案を取得する関数
   // ========================================
-  
+
   async function fetchAiSuggestion() {
     try {
       console.log('AI提案を取得中...');
-      
-      // ★★★ ローディング表示 ★★★
+
+      //  ローディング表示
       if (goalTitleField) goalTitleField.value = 'AI提案を取得中...';
       if (goalDescriptionField) goalDescriptionField.value = '';
       if (actionPlanField) actionPlanField.value = '';
-      
-      // ★★★ フォームで選択した値を取得 ★★★
+
+      // フォームで選択した値を取得 
       const formData = {
         streaming_platform_id: document.querySelector('select[name="survey_profile[streaming_platform_id]"]')?.value,
         streaming_category_id: document.querySelector('select[name="survey_profile[streaming_category_id]"]')?.value,
@@ -109,10 +109,10 @@ function initializeForm() {
         streaming_reasons: Array.from(document.querySelectorAll('input[name="survey_profile[streaming_reasons][]"]:checked')).map(cb => cb.value),
         streaming_reasons_other: document.querySelector('input[name="survey_profile[streaming_reasons_other]"]')?.value
       };
-      
+
       console.log('送信するデータ:', formData);
-      
-      // ★★★ バックエンドに POST リクエストを送信 ★★★
+
+      // バックエンドに POST リクエストを送信 
       const response = await fetch('/survey_profiles/fetch_ai_suggestion', {
         method: 'POST',
         headers: {
@@ -121,38 +121,58 @@ function initializeForm() {
         },
         body: JSON.stringify(formData)
       });
-      
+
       if (!response.ok) {
         throw new Error('AI提案の取得に失敗しました');
       }
-      
+
       const data = await response.json();
-      
+
       console.log('受信したデータ:', data);
-      
-      // ★★★ フォームに挿入 ★★★
+
+      // フォームに挿入
       if (goalTitleField) {
         goalTitleField.value = data.goal_title || '';
       }
-      
+
       if (goalDescriptionField) {
         goalDescriptionField.value = data.goal_description || '';
       }
-      
+
       if (actionPlanField) {
-        actionPlanField.value = data.action_plan || '';
+        // アクションプランに ◇ を挿入 
+        const actionPlan = data.action_plan || '';
+
+        // 改行で分割して、各行の先頭に ◇ を追加
+        const formattedActionPlan = actionPlan.split('\n').map(line => {
+          const trimmedLine = line.trim();
+
+          // 空行はそのまま
+          if (trimmedLine === '') return '';
+
+          // 既に ◇ が付いている場合はそのまま
+          if (trimmedLine.startsWith('◇')) return line;
+
+          // 数字で始まる場合は、数字の前に ◇ を追加
+          // 例: "1. ステップ1" → "◇ 1. ステップ1"
+          return `◇ ${trimmedLine}`;
+        }).join('\n');
+
+        actionPlanField.value = formattedActionPlan;
+
+        console.log('フォーマット後のアクションプラン:', formattedActionPlan);
       }
-      
+
       console.log('AI提案のデータを挿入しました!');
-      
+
     } catch (error) {
       console.error('AI提案の取得に失敗しました:', error);
-      
-      // ★★★ エラー時はフォームをクリア ★★★
+
+      //  エラー時はフォームをクリア 
       if (goalTitleField) goalTitleField.value = '';
       if (goalDescriptionField) goalDescriptionField.value = '';
       if (actionPlanField) actionPlanField.value = '';
-      
+
       alert('AI提案の取得に失敗しました。もう一度お試しください。');
     }
   }
@@ -175,11 +195,11 @@ function initializeForm() {
     textarea.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
-        
+
         const cursorPos = textarea.selectionStart;
         const textBeforeCursor = textarea.value.substring(0, cursorPos);
         const textAfterCursor = textarea.value.substring(cursorPos);
-        
+
         textarea.value = textBeforeCursor + '\n◇ ' + textAfterCursor;
         textarea.selectionStart = textarea.selectionEnd = cursorPos + 3;
       }
@@ -189,30 +209,30 @@ function initializeForm() {
   // ========================================
   // AI提案のラジオボタン選択時の処理
   // ========================================
-  
+
   if (goalSourceAi) {
-    // ★★★ 既存のイベントリスナーを削除してから新しいものを追加 ★★★
+    //  既存のイベントリスナーを削除してから新しいものを追加 
     const newGoalSourceAi = goalSourceAi.cloneNode(true);
     goalSourceAi.parentNode.replaceChild(newGoalSourceAi, goalSourceAi);
-    
-    // ★★★ 新しいイベントリスナーを追加 ★★★
+
+    // 新しいイベントリスナーを追加 
     newGoalSourceAi.addEventListener('change', (e) => {
       if (e.target.checked) {
         fetchAiSuggestion();
       }
     });
   }
-  
+
   // ========================================
   // 自分で設定するラジオボタン選択時の処理
   // ========================================
-  
+
   if (goalSourceManual) {
-    // ★★★ 既存のイベントリスナーを削除してから新しいものを追加 ★★★
+    // 既存のイベントリスナーを削除してから新しいものを追加 
     const newGoalSourceManual = goalSourceManual.cloneNode(true);
     goalSourceManual.parentNode.replaceChild(newGoalSourceManual, goalSourceManual);
-    
-    // ★★★ 新しいイベントリスナーを追加 ★★★
+
+    // 新しいイベントリスナーを追加 
     newGoalSourceManual.addEventListener('change', (e) => {
       if (e.target.checked) {
         // フォームをクリア(任意)
@@ -220,22 +240,22 @@ function initializeForm() {
       }
     });
   }
-  
 
-  
+
+
   // ========================================
   // フォームをクリアする関数(任意)
   // ========================================
-  
+
   function clearFormFields() {
     if (goalTitleField) {
       goalTitleField.value = '';
     }
-    
+
     if (goalDescriptionField) {
       goalDescriptionField.value = '';
     }
-    
+
     if (textarea) {
       textarea.value = '';
     }

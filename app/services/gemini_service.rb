@@ -10,7 +10,7 @@ class GeminiService
   class InvalidResponseError < StandardError; end
 
   def initialize
-    # ★【修正1】モックを使う場合はクライアントの初期化をスキップ
+    # モックを使う場合はクライアントの初期化をスキップ
     return if use_mock?
 
     @client = Gemini.new(
@@ -30,7 +30,7 @@ class GeminiService
   # survey_response: アンケート回答(嬉しかった瞬間・辛かった瞬間・配信理由等)
   # @return [Hash] { goal_title:, goal_description:, action_plan: }
   def suggest_streamer_goal(survey_profile:, survey_response:)
-    # ★【修正2】モックを使う場合はモックレスポンスを返す
+    # モックを使う場合はモックレスポンスを返す
     return mock_goal_response(survey_profile, survey_response) if use_mock?
 
     prompt = build_goal_suggestion_prompt(survey_profile, survey_response)
@@ -47,7 +47,7 @@ class GeminiService
   # survey_response: アンケート回答
   # @return [String] 改善提案のテキスト
   def suggest_improvement(survey_profile:, survey_response:)
-    # ★【修正3】モックを使う場合はモックレスポンスを返す
+    # モックを使う場合はモックレスポンスを返す
     return mock_improvement_response(survey_profile, survey_response) if use_mock?
 
     prompt = build_improvement_prompt(survey_profile, survey_response)
@@ -62,7 +62,7 @@ class GeminiService
   # sparks: 過去の記録(成長の星⭐輝き)の配列
   # @return [String] モチベーション分析結果
   def analyze_spark_progress(goal:, sparks:)
-    # ★【修正4】モックを使う場合はモックレスポンスを返す
+    # モックを使う場合はモックレスポンスを返す
     return mock_spark_analysis_response(goal, sparks) if use_mock?
 
     prompt = build_spark_analysis_prompt(goal, sparks)
@@ -74,10 +74,17 @@ class GeminiService
 
   private
 
-  # ★★★【追加1】モックを使うかどうかの判定メソッド ★★★
+  # モックを使うかどうかの判定メソッド
   # 開発環境では常にモックを使う設定
   def use_mock?
-    Rails.env.development?
+    # モックを使う場合
+    # true
+
+    # API を使う場合
+    false
+
+    # 環境に応じて自動切り替え
+    # Rails.env.development?
   end
 
   # テキスト生成の共通メソッド
@@ -121,7 +128,7 @@ class GeminiService
     end.compact.join
   end
 
-  # ★★★【追加2】モックレスポンス：目標提案用 ★★★
+  # モックレスポンス：目標提案用
   def mock_goal_response(survey_profile, _survey_response)
     # 配信経験に応じてモックを変える
     case survey_profile.streaming_experience&.name
@@ -228,7 +235,7 @@ class GeminiService
     PROMPT
   end
 
-  # ★★★【追加3】モックレスポンス：改善提案用 ★★★
+  # モックレスポンス：改善提案用
   def mock_improvement_response(survey_profile, survey_response)
     <<~TEXT
       ## 現状の課題分析
@@ -289,7 +296,7 @@ class GeminiService
     PROMPT
   end
 
-  # ★★★【追加4】モックレスポンス：成長分析用 ★★★
+  # モックレスポンス：成長分析用
   def mock_spark_analysis_response(goal, sparks)
     spark_count = sparks.count
 
