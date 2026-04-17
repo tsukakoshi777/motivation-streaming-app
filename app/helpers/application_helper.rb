@@ -30,13 +30,13 @@ module ApplicationHelper
 
   def markdown(text)
     return '' if text.blank?
-    
+
     renderer = Redcarpet::Render::HTML.new(
       filter_html: false,
       hard_wrap: true,
       link_attributes: { target: '_blank' }
     )
-    
+
     markdown = Redcarpet::Markdown.new(
       renderer,
       autolink: true,
@@ -46,12 +46,12 @@ module ApplicationHelper
       lax_spacing: true,
       space_after_headers: true
     )
-    
+
     sanitized_html = Sanitize.fragment(
       markdown.render(text),
       Sanitize::Config::RELAXED
     )
-    
+
     sanitized_html.html_safe
   end
 end

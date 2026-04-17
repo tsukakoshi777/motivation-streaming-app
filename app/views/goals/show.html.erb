@@ -1,7 +1,7 @@
 <div class="container-fluid py-4 px-3 px-md-5" style="background: linear-gradient(to bottom, #fdfdfdff, #ffffffff);">
   <div class="row justify-content-center">
     <div class="col-12 col-lg-10 col-xl-8">
-      
+
       <!-- ヘッダー部分 -->
       <div class="text-center mb-4">
         <h1 class="display-5 fw-bold mb-2" style="background: linear-gradient(to right, #fffb00ff, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
@@ -13,7 +13,7 @@
       <!-- 目標カード -->
       <div class="card shadow-lg mb-4" style="background: linear-gradient(to bottom right, #ffffffff, #ffffffff);">
         <div class="card-body p-4 p-md-5">
-          
+
           <!-- タイトル・作成日・ボタンエリア -->
           <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
             <!-- タイトルと作成日 -->
@@ -43,12 +43,18 @@
           </div>
 
           <!-- 目標の詳細 -->
-          <div class="card shadow-sm">
+          <div class="card shadow-sm mb-4">
             <div class="card-body">
               <h3 class="h5 fw-bold text-secondary mb-3">📝 目標の詳細</h3>
-              <p class="text-dark" style="white-space: pre-wrap;">
-                <%= @goal.survey_result.goal_description %>
-              </p>
+              <p class="text-dark" style="white-space: pre-wrap;"><%= @goal.survey_result.goal_description&.strip %></p>
+            </div>
+          </div>
+
+          <!-- ★★★ アクションプランを追加 ★★★ -->
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h3 class="h5 fw-bold text-secondary mb-3">📋 アクションプラン</h3>
+              <div class="text-dark" style="white-space: pre-wrap;"><%= @goal.survey_result.action_plan&.strip %></div>
             </div>
           </div>
 
@@ -91,7 +97,7 @@
 
         <!-- 投稿フォーム -->
         <div class="spark-form-wrapper mb-4" id="spark_form_wrapper">
-            <%= render 'sparks/form', goal: @goal, spark: Spark.new %>
+          <%= render 'sparks/form', goal: @goal, spark: Spark.new %>
         </div>
 
         <!-- 輝き一覧 -->
@@ -110,12 +116,11 @@
         <% end %>
       </div>
 
-
       <!-- 基本情報セクション -->
       <div class="card shadow-lg mb-4">
         <div class="card-body p-4 p-md-5">
           <h2 class="h4 fw-bold mb-4" style="color: #2563eb;">📊 基本情報</h2>
-          
+
           <div class="row g-3">
             <div class="col-12 col-md-6">
               <div class="p-3 rounded" style="background-color: #f9fafb;">
@@ -150,7 +155,7 @@
       <div class="card shadow-lg mb-4">
         <div class="card-body p-4 p-md-5">
           <h2 class="h4 fw-bold mb-4" style="color: #16a34a;">📈 現在の活動状況</h2>
-          
+
           <div class="row g-3">
             <div class="col-12 col-md-6">
               <div class="p-3 rounded" style="background-color: #f9fafb;">
@@ -195,7 +200,7 @@
       <div class="card shadow-lg mb-4">
         <div class="card-body p-4 p-md-5">
           <h2 class="h4 fw-bold mb-4" style="color: #9333ea;">💗 モチベーション（あなたの気持ち）</h2>
-          
+
           <!-- モチベーションレベル -->
           <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
             <p class="small text-muted mb-2">現在のモチベーションレベル</p>
@@ -227,7 +232,7 @@
           <!-- 配信を続ける理由 -->
           <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
             <p class="small text-muted mb-2">🔥 配信を続ける理由</p>
-            
+
             <% if @streaming_reasons.present? %>
               <div class="d-flex flex-wrap gap-2 mb-2">
                 <% @streaming_reasons.each do |reason| %>
@@ -239,7 +244,7 @@
             <% else %>
               <p class="text-muted mb-2">配信理由が登録されていません</p>
             <% end %>
-            
+
             <% if @goal.survey_profile.survey_response.streaming_reasons_other.present? %>
               <p class="text-dark mb-0 mt-2">
                 <span class="fw-semibold">その他:</span>

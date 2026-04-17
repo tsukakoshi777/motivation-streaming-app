@@ -53,3 +53,7 @@ Style/SafeNavigationChainLength:
 # アクションフィルターの警告を無効化
 Rails/LexicallyScopedActionFilter:
   Enabled: false
+
+# sanitize を使用している場合は html_safe を許可
+Rails/OutputSafety:
+  Enabled: false 
