@@ -127,6 +127,21 @@ function initializeForm() {
         body: JSON.stringify(formData)
       });
 
+      // ★★★ 利用回数制限に達した場合 ★★★
+      if (response.status === 403) {
+        const errorData = await response.json();
+
+        // フォームをクリア
+        if (goalTitleField) goalTitleField.value = '';
+        if (goalDescriptionField) goalDescriptionField.value = '';
+        if (actionPlanField) actionPlanField.value = '';
+
+        // エラーメッセージを表示
+        alert(errorData.error || 'AI提案の利用回数が上限に達しました。');
+        return; // ここで終了
+      }
+
+
       if (!response.ok) {
         throw new Error('AI提案の取得に失敗しました');
       }
