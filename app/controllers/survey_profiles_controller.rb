@@ -27,6 +27,24 @@ class SurveyProfilesController < ApplicationController
     end
   end
 
+  # ★★★ AI提案を取得するアクション（リファクタリング後）★★★
+  def fetch_ai_suggestion
+    # パラメータを取得
+    params_data = fetch_ai_suggestion_params
+
+    # 一時的なオブジェクトを作成
+    survey_profile = build_temporary_survey_profile(params_data)
+    survey_response = build_temporary_survey_response(params_data)
+
+    # AI提案を取得
+    suggestion = fetch_suggestion_from_gemini(survey_profile, survey_response)
+
+    # JSONで返す
+    render json: suggestion
+  rescue GeminiService::ApiError => e
+    handle_gemini_error(e)
+  end
+
   def update
     @goal = Goal.find(params[:goal_id])
     @survey_profile = @goal.survey_profile
@@ -127,6 +145,7 @@ class SurveyProfilesController < ApplicationController
     @survey_profile.build_survey_result(
       goal_title: params.dig(:survey_result, :goal_title),
       goal_description: params.dig(:survey_result, :goal_description),
+      action_plan: params.dig(:survey_result, :action_plan),
       goal_source: params.dig(:survey_result, :goal_source).to_i
     )
   end
@@ -220,5 +239,68 @@ class SurveyProfilesController < ApplicationController
     Rails.logger.error "AI 目標提案の生成に失敗しました: #{e.message}"
     @survey_profile.errors.add(:base, 'AI による目標提案の生成に失敗しました。もう一度お試しください。')
     raise ActiveRecord::Rollback
+  end
+
+  # fetch_ai_suggestion 用のパラメータ取得
+  def fetch_ai_suggestion_params
+    params.permit(
+      :streaming_platform_id,
+      :streaming_category_id,
+      :streaming_experience_id,
+      :weekly_frequency,
+      :average_listeners,
+      :total_listeners,
+      :listener_dropout_rate,
+      :motivation_level,
+      :happy_moment,
+      :sad_moment,
+      :desired_streaming_style,
+      :desired_listener,
+      :desired_monthly_income,
+      :streaming_reasons_other,
+      streaming_reasons: []
+    )
+  end
+
+  # 一時的な survey_profile を作成（保存しない）
+  def build_temporary_survey_profile(params_data)
+    SurveyProfile.new(
+      streaming_platform_id: params_data[:streaming_platform_id],
+      streaming_category_id: params_data[:streaming_category_id],
+      streaming_experience_id: params_data[:streaming_experience_id],
+      weekly_frequency: params_data[:weekly_frequency],
+      average_listeners: params_data[:average_listeners],
+      total_listeners: params_data[:total_listeners],
+      listener_dropout_rate: params_data[:listener_dropout_rate],
+      motivation_level: params_data[:motivation_level]
+    )
+  end
+
+  # 一時的な survey_response を作成（保存しない）
+  def build_temporary_survey_response(params_data)
+    SurveyResponse.new(
+      happy_moment: params_data[:happy_moment],
+      sad_moment: params_data[:sad_moment],
+      desired_streaming_style: params_data[:desired_streaming_style],
+      desired_listener: params_data[:desired_listener],
+      desired_monthly_income: params_data[:desired_monthly_income],
+      streaming_reasons: params_data[:streaming_reasons]&.compact_blank&.join(','),
+      streaming_reasons_other: params_data[:streaming_reasons_other]
+    )
+  end
+
+  # Gemini Service から AI提案を取得
+  def fetch_suggestion_from_gemini(survey_profile, survey_response)
+    gemini_service = GeminiService.new
+    gemini_service.suggest_streamer_goal(
+      survey_profile: survey_profile,
+      survey_response: survey_response
+    )
+  end
+
+  # Gemini API エラーのハンドリング
+  def handle_gemini_error(error)
+    Rails.logger.error "AI提案の取得に失敗しました: #{error.message}"
+    render json: { error: 'AI提案の取得に失敗しました' }, status: :internal_server_error
   end
 end

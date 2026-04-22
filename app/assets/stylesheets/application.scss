@@ -61,3 +61,60 @@
   width: 100%;
   max-width: 640px;
 }
+
+/* ========================================
+   アクションプラン用のスタイル
+======================================== */
+
+/* 入力欄のスタイル */
+.action-plan-textarea {
+  font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+  line-height: 1.8;
+}
+
+/* 表示エリアのスタイル */
+.action-plan-content {
+  white-space: pre-wrap; /* 改行を保持 */
+  line-height: 1.8;
+}
+
+/* 箇条書きのマーカーを✦に変更 */
+.action-plan-content ul {
+  list-style: none;
+  padding-left: 1.5em;
+}
+
+.action-plan-content ul li::before {
+  content: "✦ ";
+  color: #ec4899; /* ピンク色(Tailwind の pink-500) */
+  font-weight: bold;
+  margin-left: -1.5em;
+  margin-right: 0.5em;
+}
+
+/* 見出しのスタイル */
+.action-plan-content h1,
+.action-plan-content h2,
+.action-plan-content h3 {
+  font-weight: bold;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  color: #1f2937; /* グレー(Tailwind の gray-800) */
+}
+
+.action-plan-content h1 {
+  font-size: 1.5em;
+}
+
+.action-plan-content h2 {
+  font-size: 1.25em;
+}
+
+.action-plan-content h3 {
+  font-size: 1.1em;
+}
+
+/* 段落のスタイル */
+.action-plan-content p {
+  margin-bottom: 0.75em;
+}

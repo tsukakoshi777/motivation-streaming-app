@@ -76,6 +76,10 @@ gem 'kaminari', '1.2.2'
 # Gemini AI
 gem 'gemini-ai'
 
+# Gemini AI分析結果の表示用
+gem 'redcarpet'
+gem 'sanitize'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'better_errors'
@@ -95,6 +99,9 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'web-console'
 
+  # ERB ファイルの自動整形用
+  gem 'htmlbeautifier'
+
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
@@ -106,5 +113,6 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 5.0'
+  gem 'vcr'
   gem 'webmock'
 end

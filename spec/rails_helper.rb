@@ -6,6 +6,12 @@ require_relative '../config/environment'
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 
+# WebMock を読み込む
+require 'webmock/rspec'
+
+# テスト環境で環境変数を設定
+ENV['GEMINI_API_KEY'] = 'test_dummy_api_key_for_testing'
+
 Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
 
 begin
@@ -20,6 +26,10 @@ RSpec.configure do |config|
 
   # FactoryBot の設定
   config.include FactoryBot::Syntax::Methods
+
+  # WebMock の設定
+  # ローカルホストへのリクエストは許可(Capybara が使う)
+  WebMock.disable_net_connect!(allow_localhost: true)
 end
 
 Shoulda::Matchers.configure do |config|

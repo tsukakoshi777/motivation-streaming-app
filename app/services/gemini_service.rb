@@ -10,7 +10,7 @@ class GeminiService
   class InvalidResponseError < StandardError; end
 
   def initialize
-    # ★【修正1】モックを使う場合はクライアントの初期化をスキップ
+    # モックを使う場合はクライアントの初期化をスキップ
     return if use_mock?
 
     @client = Gemini.new(
@@ -30,7 +30,7 @@ class GeminiService
   # survey_response: アンケート回答(嬉しかった瞬間・辛かった瞬間・配信理由等)
   # @return [Hash] { goal_title:, goal_description:, action_plan: }
   def suggest_streamer_goal(survey_profile:, survey_response:)
-    # ★【修正2】モックを使う場合はモックレスポンスを返す
+    # モックを使う場合はモックレスポンスを返す
     return mock_goal_response(survey_profile, survey_response) if use_mock?
 
     prompt = build_goal_suggestion_prompt(survey_profile, survey_response)
@@ -47,7 +47,7 @@ class GeminiService
   # survey_response: アンケート回答
   # @return [String] 改善提案のテキスト
   def suggest_improvement(survey_profile:, survey_response:)
-    # ★【修正3】モックを使う場合はモックレスポンスを返す
+    # モックを使う場合はモックレスポンスを返す
     return mock_improvement_response(survey_profile, survey_response) if use_mock?
 
     prompt = build_improvement_prompt(survey_profile, survey_response)
@@ -62,7 +62,7 @@ class GeminiService
   # sparks: 過去の記録(成長の星⭐輝き)の配列
   # @return [String] モチベーション分析結果
   def analyze_spark_progress(goal:, sparks:)
-    # ★【修正4】モックを使う場合はモックレスポンスを返す
+    # モックを使う場合はモックレスポンスを返す
     return mock_spark_analysis_response(goal, sparks) if use_mock?
 
     prompt = build_spark_analysis_prompt(goal, sparks)
@@ -74,10 +74,19 @@ class GeminiService
 
   private
 
-  # ★★★【追加1】モックを使うかどうかの判定メソッド ★★★
-  # 開発環境では常にモックを使う設定
   def use_mock?
-    Rails.env.development?
+    # テスト環境では常にモックを使う
+    return true if Rails.env.test?
+
+    # 本番環境では常に API を使う
+    return false if Rails.env.production?
+
+    # 開発環境ではコメントアウトで切り替え
+    # モックを使う場合はこちらを有効化
+    # true
+
+    # API を使う場合はこちらを有効化(上の行をコメントアウト)
+    false
   end
 
   # テキスト生成の共通メソッド
@@ -121,34 +130,33 @@ class GeminiService
     end.compact.join
   end
 
-  # ★★★【追加2】モックレスポンス：目標提案用 ★★★
+  # モックレスポンス：目標提案用
   def mock_goal_response(survey_profile, _survey_response)
     # 配信経験に応じてモックを変える
     case survey_profile.streaming_experience&.name
-    when '1ヶ月未満', '1〜3ヶ月'
+    when '初心者(1ヶ月未満)'
       {
         goal_title: '配信を習慣化しよう！',
         goal_description: 'まずは配信を習慣化することから始めましょう。無理のないペースで続けることが大切です。あなたの配信には価値があります！',
-        action_plan: "1. 週1回の配信を目指そう\n2. 配信時間を固定してみよう\n3. 配信前の準備をルーティン化しよう\n4. 配信後に振り返りメモを書こう\n5. 小さな成功を記録していこう"
+        action_plan: "◇ 週1回の配信を目指そう\n◇ 配信時間を固定してみよう\n◇ 配信前の準備をルーティン化しよう\n◇ 配信後に振り返りメモを書こう\n◇ 小さな成功を記録していこう"
       }
-    when '3〜6ヶ月', '6ヶ月〜1年'
+    when '経験者(1ヶ月〜1年)'
       {
         goal_title: '視聴者との絆を深めよう！',
         goal_description: '配信を続けてこられたあなたは素晴らしいです！次は視聴者との絆をさらに深めていきましょう。',
-        action_plan: "1. 常連視聴者の名前を覚えよう\n2. コメントに積極的に返信しよう\n3. 視聴者参加型の企画を考えよう\n4. SNSで視聴者と交流しよう\n5. コミュニティを作ってみよう"
+        action_plan: "◇ 常連視聴者の名前を覚えよう\n◇ コメントに積極的に返信しよう\n◇ 視聴者参加型の企画を考えよう\n◇ SNSで視聴者と交流しよう\n◇ コミュニティを作ってみよう"
       }
-    when '1〜3年', '上級者(3年以上)' # ← ここを追加
+    when '中級者(1年以上)', '上級者(3年以上)', 'ベテラン(5年以上)'
       {
         goal_title: '配信の質を高めよう！',
         goal_description: '経験を積んできたあなたなら、次のステップに進めます。配信の質を高めることに挑戦しましょう！',
-        action_plan: "1. 配信テーマを事前に決めよう\n2. サムネイルを工夫しよう\n3. 配信の振り返りを定期的にしよう\n4. 新しい企画に挑戦しよう\n5. 他の配信者とコラボしてみよう"
+        action_plan: "◇ 配信テーマを事前に決めよう\n◇ サムネイルを工夫しよう\n◇ 配信の振り返りを定期的にしよう\n◇ 新しい企画に挑戦しよう\n◇ 他の配信者とコラボしてみよう"
       }
     else
-      # デフォルトのレスポンス
       {
         goal_title: '配信を楽しもう！',
         goal_description: 'まずは配信を楽しむことから始めましょう。',
-        action_plan: "1. 配信を続けること\n2. 視聴者とのコミュニケーションを大切にすること\n3. 自分らしい配信スタイルを見つけること"
+        action_plan: "◇ 配信を続けること\n◇ 視聴者とのコミュニケーションを大切にすること\n◇ 自分らしい配信スタイルを見つけること"
       }
     end
   end
@@ -229,7 +237,7 @@ class GeminiService
     PROMPT
   end
 
-  # ★★★【追加3】モックレスポンス：改善提案用 ★★★
+  # モックレスポンス：改善提案用
   def mock_improvement_response(survey_profile, survey_response)
     <<~TEXT
       ## 現状の課題分析
@@ -290,7 +298,7 @@ class GeminiService
     PROMPT
   end
 
-  # ★★★【追加4】モックレスポンス：成長分析用 ★★★
+  # モックレスポンス：成長分析用
   def mock_spark_analysis_response(goal, sparks)
     spark_count = sparks.count
 

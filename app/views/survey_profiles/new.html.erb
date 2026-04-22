@@ -11,7 +11,7 @@
     ======================================== -->
     <div class="bg-white shadow-lg rounded-lg p-3 pb-1 mb-4">
       <h2 class="text-2xl font-bold mb-4 text-blue-600">📊 基本情報</h2>
-      
+
       <!-- 配信プラットフォーム -->
       <div class="mb-4">
         <%= f.label :streaming_platform_id, '配信プラットフォーム', class: 'block mb-2 font-bold text-gray-700' %>
@@ -242,8 +242,9 @@
             <%= radio_button_tag 'survey_result[goal_source]', 
                                  0, 
                                  selected_goal_source == 0, 
-                                 class: 'mr-2' %>
-            AI提案から選択する(今後実装予定)
+                                 class: 'mr-2',
+                                 id: 'goal_source_ai' %>
+            AI提案から選択する
           </label>
           <label class="flex items-center">
             <%= radio_button_tag 'survey_result[goal_source]', 
@@ -253,7 +254,8 @@
             自分で設定する
           </label>
         </div>
-        <p class="text-sm text-gray-500 mt-1"></p>あなたのもやもやから、自分だけの成長の星を作りましょう! ✨
+        <p class="text-sm text-gray-500 mt-1"></p>
+        あなたのもやもやから、自分だけの成長の星を作りましょう! ✨
       </div>
 
       <!-- 目標のタイトル -->
@@ -263,7 +265,8 @@
                    @survey_profile.survey_result&.goal_title,
                    class: 'border border-gray-300 rounded px-3 py-2',
                    style: 'width: 100%; max-width: 450px;',
-                   placeholder: '例: 3ヶ月で平均視聴者数20人を目指す!' %>
+                   placeholder: '例: 3ヶ月で平均視聴者数20人を目指す!',
+                   id: 'survey_result_goal_title' %>
         <p class="text-sm text-gray-500 mt-1">自分で設定する場合は入力してください</p>
       </div>
 
@@ -274,14 +277,39 @@
                           @survey_profile.survey_result&.goal_description,
                           class: 'w-full border border-gray-300 rounded px-3 py-2',
                           rows: 5,
-                          placeholder: '例: 毎日配信を続けて、リスナーとのコミュニケーションを大切にする。視聴者参加型の企画を月1回実施する。' %>
+                          placeholder: '例: 毎日配信を続けて、リスナーとのコミュニケーションを大切にする。視聴者参加型の企画を月1回実施する。', 
+                          id: 'survey_result_goal_description' %>
         <p class="text-sm text-gray-500 mt-1">自分で設定する場合は入力してください</p>
       </div>
-    </div>
 
+      <!-- 🆕 具体的なアクションプラン -->
+      <div class="mb-4 form-field">
+        <%= label_tag 'survey_result[action_plan]', '🚀 具体的なアクションプラン', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= text_area_tag 'survey_result[action_plan]',
+                          params.dig(:survey_result, :action_plan) || @survey_profile.survey_result&.action_plan,
+                          class: 'w-full border border-gray-300 rounded px-3 py-2 action-plan-textarea',
+                          rows: 10,
+                          placeholder: '例:
+        # 具体的なアクションプラン
+
+        ## 短期目標(1ヶ月)  
+        ◇ 毎日配信を続ける
+        ◇ リスナーとのコミュニケーションを大切にする
+
+        ## 中期目標(3ヶ月)
+        ◇ 視聴者参加型の企画を月1回実施する
+        ◇ SNSでの告知を強化する
+
+        ## 長期目標(6ヶ月)
+        ◇ 平均視聴者数20人を達成する
+        ◇ コラボ配信を実施する',
+                            id: 'survey_result_action_plan' %>
+        <p class="text-sm text-gray-500 mt-1">改行すると自動的に◇が挿入されます(変更も可能)</p>
+      </div>
+    </div>
     <!-- 送信ボタン -->
     <div class="text-center">
-       <%= f.submit t('.submit_button'),
+      <%= f.submit t('.submit_button'),
                class: 'text-white font-bold py-3 px-8 transition duration-300 text-lg cursor-pointer',
                style: 'background: linear-gradient(to right, #d9ec48, #5590f7); border-radius: 0.5rem; border: none;' %>
     </div>

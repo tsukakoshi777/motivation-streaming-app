@@ -21,7 +21,11 @@ Rails.application.routes.draw do
   resource :profile, only: [:show, :edit, :update]
 
   # もやもや結晶シート（入力・保存のみ）
-  resources :survey_profiles, only: %i[new create]
+  resources :survey_profiles, only: %i[new create] do
+    collection do
+      post :fetch_ai_suggestion 
+    end
+  end
 
   # 成長の星
   resources :goals, only: %i[index show edit update destroy] do

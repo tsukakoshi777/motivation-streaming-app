@@ -231,6 +231,7 @@ GEM
     hashdiff (1.2.1)
     hashie (5.1.0)
       logger
+    htmlbeautifier (1.4.3)
     i18n (1.14.8)
       concurrent-ruby (~> 1.0)
     image_processing (1.14.0)
@@ -378,6 +379,7 @@ GEM
       erb
       psych (>= 4.0.0)
       tsort
+    redcarpet (3.6.1)
     regexp_parser (2.11.3)
     reline (0.6.3)
       io-console (~> 0.5)
@@ -432,6 +434,9 @@ GEM
       logger
     ruby2_keywords (0.0.5)
     rubyzip (3.2.2)
+    sanitize (7.0.0)
+      crass (~> 1.0.2)
+      nokogiri (>= 1.16.8)
     securerandom (0.4.1)
     selenium-webdriver (4.40.0)
       base64 (~> 0.2)
@@ -478,6 +483,7 @@ GEM
       unicode-emoji (~> 4.1)
     unicode-emoji (4.2.0)
     uri (1.1.1)
+    vcr (6.4.0)
     version_gem (1.1.9)
     web-console (4.2.1)
       actionview (>= 6.0.0)
@@ -517,6 +523,7 @@ DEPENDENCIES
   faker
   fog-aws
   gemini-ai
+  htmlbeautifier
   jbuilder
   jsbundling-rails
   kaminari (= 1.2.2)
@@ -527,17 +534,20 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 7.0.3, >= 7.0.3.1)
   rails-i18n (~> 7.0.0)
+  redcarpet
   rspec-rails
   rspec_junit_formatter
   rubocop
   rubocop-checkstyle_formatter
   rubocop-rails
+  sanitize
   selenium-webdriver
   shoulda-matchers (~> 5.0)
   sorcery (= 0.16.3)
   sprockets-rails
   turbo-rails (= 1.1.1)
   tzinfo-data
+  vcr
   web-console
   webmock
 
