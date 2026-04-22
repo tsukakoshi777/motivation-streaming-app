@@ -74,17 +74,19 @@ class GeminiService
 
   private
 
-  # モックを使うかどうかの判定メソッド
-  # 開発環境では常にモックを使う設定
   def use_mock?
-    # モックを使う場合
+    # テスト環境では常にモックを使う
+    return true if Rails.env.test?
+
+    # 本番環境では常に API を使う
+    return false if Rails.env.production?
+
+    # 開発環境ではコメントアウトで切り替え
+    # モックを使う場合はこちらを有効化
     # true
 
-    # API を使う場合
+    # API を使う場合はこちらを有効化(上の行をコメントアウト)
     false
-
-    # 環境に応じて自動切り替え
-    # Rails.env.development?
   end
 
   # テキスト生成の共通メソッド

@@ -483,6 +483,7 @@ GEM
       unicode-emoji (~> 4.1)
     unicode-emoji (4.2.0)
     uri (1.1.1)
+    vcr (6.4.0)
     version_gem (1.1.9)
     web-console (4.2.1)
       actionview (>= 6.0.0)
@@ -546,6 +547,7 @@ DEPENDENCIES
   sprockets-rails
   turbo-rails (= 1.1.1)
   tzinfo-data
+  vcr
   web-console
   webmock
 

@@ -112,12 +112,17 @@ function initializeForm() {
 
       console.log('送信するデータ:', formData);
 
+      // ★★★ CSRF tokenを安全に取得 ★★★
+      const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || '';
+
+      console.log('CSRF Token:', csrfToken ? '取得成功' : '取得失敗(空文字列を使用)');
+
       // バックエンドに POST リクエストを送信 
       const response = await fetch('/survey_profiles/fetch_ai_suggestion', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+          'X-CSRF-Token': csrfToken  // ← 安全に取得したCSRF tokenを使用
         },
         body: JSON.stringify(formData)
       });
