@@ -2,6 +2,7 @@
 
 class SurveyProfilesController < ApplicationController
   before_action :require_login
+  before_action :check_ai_suggestion_limit, only: [:fetch_ai_suggestion]
 
   def new
     @survey_profile = SurveyProfile.new
@@ -38,6 +39,9 @@ class SurveyProfilesController < ApplicationController
 
     # AI提案を取得
     suggestion = fetch_suggestion_from_gemini(survey_profile, survey_response)
+
+    # カウントを増やす
+    current_user.update!(ai_suggestion_count: current_user.ai_suggestion_count + 1)
 
     # JSONで返す
     render json: suggestion
@@ -302,5 +306,30 @@ class SurveyProfilesController < ApplicationController
   def handle_gemini_error(error)
     Rails.logger.error "AI提案の取得に失敗しました: #{error.message}"
     render json: { error: 'AI提案の取得に失敗しました' }, status: :internal_server_error
+  end
+
+  # AI提案の利用回数制限をチェック
+  def check_ai_suggestion_limit
+    # 日付が変わっていたらカウントをリセット
+    reset_ai_suggestion_count_if_needed
+
+    return unless current_user.ai_suggestion_count >= 3
+
+    render json: {
+      error: 'AI提案の利用回数が上限（3回）に達しました。自分で設定する方法で目標を作成してください。'
+    }, status: :forbidden
+  end
+
+  #  カウントをリセット
+  def reset_ai_suggestion_count_if_needed
+    today = Date.current
+
+    # 最後にリセットした日付が今日でない場合、リセット
+    return unless current_user.ai_suggestion_reset_date != today
+
+    current_user.update!(
+      ai_suggestion_count: 0,
+      ai_suggestion_reset_date: today
+    )
   end
 end
