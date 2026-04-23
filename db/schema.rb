@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_04_22_013115) do
+ActiveRecord::Schema[7.0].define(version: 2026_04_22_051352) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -108,6 +108,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_04_22_013115) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "ai_suggestion_count", default: 0, null: false
+    t.date "ai_suggestion_reset_date"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

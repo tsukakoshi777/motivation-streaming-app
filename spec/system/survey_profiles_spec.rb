@@ -351,6 +351,61 @@ RSpec.describe 'SurveyProfiles', type: :system do
           expect(page).to have_content('週あたりの配信回数を入力してください'), 'バリデーションエラーが表示されません'
         end
       end
+
+      context '3回制限に達した場合' do
+        before do
+          # ユーザーのカウントを3に設定
+          user.update!(ai_suggestion_count: 3, ai_suggestion_reset_date: Date.current)
+
+          # どのインスタンスに対してもスタブが効くようにする
+          allow_any_instance_of(GeminiService).to receive(:suggest_streamer_goal).and_return(
+            {
+              goal_title: 'テスト目標',
+              goal_description: 'テスト説明',
+              action_plan: 'テスト計画'
+            }
+          )
+        end
+
+        it '3回制限に達した後、エラーメッセージが表示されること', js: true do
+          # アンケートページに遷移
+          visit new_survey_profile_path
+
+          # ページが表示されるまで待機
+          expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+
+          # フォーム入力
+          select 'YouTube', from: '配信プラットフォーム'
+          select 'ゲーム実況', from: '配信ジャンル'
+          select '初心者(1ヶ月未満)', from: '配信経験'
+          fill_in 'survey_profile_weekly_frequency', with: 3
+          fill_in 'survey_profile_average_listeners', with: 10
+          fill_in 'survey_profile_total_listeners', with: 100
+          select '1〜2人', from: '最近のリスナーの離脱人数'
+          choose 'survey_profile_motivation_level_3'
+          fill_in 'survey_profile_happy_moment', with: 'リスナーさんからコメントをもらえたとき'
+          fill_in 'survey_profile_sad_moment', with: 'リスナーが全然増えない'
+          check '稼ぎたい'
+          check '有名になりたい'
+          check '友達を作りたい'
+          fill_in 'survey_profile_streaming_reasons_other', with: '特になし'
+          fill_in 'survey_profile_desired_streaming_style', with: 'みんなでワイワイ楽しめる配信'
+          fill_in 'survey_profile_desired_listener', with: '優しくて楽しい人'
+          fill_in 'survey_profile_desired_monthly_income', with: 50_000
+
+          # alert() が表示されることを確認
+          alert_message = accept_alert do
+            # AI提案から選択するラジオボタンを選択
+            choose 'goal_source_ai'
+
+            # アラートが表示されるまで待機
+            sleep 3
+          end
+
+          # アラートのメッセージを検証
+          expect(alert_message).to eq('AI提案の利用回数が上限（3回）に達しました。自分で設定する方法で目標を作成してください。'), 'エラーメッセージが表示されません'
+        end
+      end
     end
   end
 end

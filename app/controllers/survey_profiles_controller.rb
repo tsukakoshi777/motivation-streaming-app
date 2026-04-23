@@ -41,7 +41,7 @@ class SurveyProfilesController < ApplicationController
     suggestion = fetch_suggestion_from_gemini(survey_profile, survey_response)
 
     # カウントを増やす
-    current_user.increment!(:ai_suggestion_count)
+    current_user.update!(ai_suggestion_count: current_user.ai_suggestion_count + 1)
 
     # JSONで返す
     render json: suggestion
@@ -310,10 +310,26 @@ class SurveyProfilesController < ApplicationController
 
   # AI提案の利用回数制限をチェック
   def check_ai_suggestion_limit
-    if current_user.ai_suggestion_count >= 3
-      render json: {
-        error: 'AI提案の利用回数が上限（3回）に達しました。自分で設定する方法で目標を作成してください。'
-      }, status: :forbidden
-    end
+    # 日付が変わっていたらカウントをリセット
+    reset_ai_suggestion_count_if_needed
+
+    return unless current_user.ai_suggestion_count >= 3
+
+    render json: {
+      error: 'AI提案の利用回数が上限（3回）に達しました。自分で設定する方法で目標を作成してください。'
+    }, status: :forbidden
+  end
+
+  #  カウントをリセット
+  def reset_ai_suggestion_count_if_needed
+    today = Date.current
+
+    # 最後にリセットした日付が今日でない場合、リセット
+    return unless current_user.ai_suggestion_reset_date != today
+
+    current_user.update!(
+      ai_suggestion_count: 0,
+      ai_suggestion_reset_date: today
+    )
   end
 end
