@@ -11,6 +11,7 @@ AllCops:
     - 'vendor/**/*'
     - 'tmp/**/*'
     - 'log/**/*'
+    - 'lib/tasks/**/*.rake' 
 
 # 日本語コメントを許可
 Style/AsciiComments:
@@ -29,6 +30,7 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
     - 'config/environments/*'
+    - 'lib/tasks/**/*.rake' 
 
 # 日本語メッセージを許可
 Rails/I18nLocaleTexts:
