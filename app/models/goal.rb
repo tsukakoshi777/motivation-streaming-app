@@ -3,7 +3,7 @@
 class Goal < ApplicationRecord
   # アソシエーション
   belongs_to :user
-  belongs_to :survey_profile
+  belongs_to :survey_profile, dependent: :destroy
 
   # SurveyProfile を経由して関連データにアクセス
   has_one :survey_result, through: :survey_profile
