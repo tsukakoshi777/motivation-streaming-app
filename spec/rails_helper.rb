@@ -30,6 +30,22 @@ RSpec.configure do |config|
   # WebMock の設定
   # ローカルホストへのリクエストは許可(Capybara が使う)
   WebMock.disable_net_connect!(allow_localhost: true)
+
+  # Sorcery のテストヘルパーを読み込む
+  config.include Sorcery::TestHelpers::Rails::Controller, type: :controller
+  config.include Sorcery::TestHelpers::Rails::Integration, type: :request
+
+  # OmniAuth のテストモードを有効化
+  config.before(:each, type: :request) do
+    OmniAuth.config.test_mode = true
+  end
+
+  # テスト後にモックをクリア
+  config.after(:each, type: :request) do
+    OmniAuth.config.test_mode = false
+    OmniAuth.config.mock_auth[:google] = nil
+    Rails.application.env_config['omniauth.auth'] = nil
+  end
 end
 
 Shoulda::Matchers.configure do |config|

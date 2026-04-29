@@ -3,6 +3,10 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
 
+  # 外部認証の関連付けを追加
+  has_many :authentications, dependent: :destroy
+  accepts_nested_attributes_for :authentications
+
   has_many :survey_profiles, dependent: :destroy
   has_many :goals, dependent: :destroy
   has_many :sparks, dependent: :destroy

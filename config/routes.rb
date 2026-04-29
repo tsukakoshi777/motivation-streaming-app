@@ -17,6 +17,12 @@ Rails.application.routes.draw do
   post 'login', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
 
+  # OmniAuthコールバック(Sorcery用)
+  post 'oauth/callback', to: 'oauths#callback'
+  get 'oauth/callback', to: 'oauths#callback'
+  get 'oauth/:provider', to: 'oauths#oauth', as: :auth_at_provider
+  post 'oauth/:provider', to: 'oauths#oauth'
+  
   # プロフィール
   resource :profile, only: [:show, :edit, :update]
 
