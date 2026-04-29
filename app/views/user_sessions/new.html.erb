@@ -13,6 +13,17 @@
         </div>
         <%= f.submit t('.login'), class: "btn btn-primary" %>
       <% end %>
+
+      <!-- Googleログインボタンを追加 -->
+      <div class="text-center mt-4">
+        <p class="mb-3">または</p>
+        <%= button_to "Googleでログイン", 
+            auth_at_provider_path(provider: :google), 
+            method: :post, 
+            data: { turbo: false }, 
+            class: "btn btn-outline-danger w-100" %>
+      </div>
+
       <div class='text-center mt-5'>
         <%= link_to t('.to_register_page'), new_user_path %>
         <%= link_to t('.password_forget'), '#' %>

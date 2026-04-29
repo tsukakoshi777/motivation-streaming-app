@@ -51,5 +51,9 @@ module App
 
     # 翻訳ファイルのパスを追加
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.yml')]
+
+    # 外部リダイレクトのチェックを無効化
+    config.action_controller.raise_on_open_redirects = false
   end
 end
+
