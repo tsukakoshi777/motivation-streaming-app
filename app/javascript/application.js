@@ -83,11 +83,17 @@ function initializeForm() {
   // ========================================
 
   async function fetchAiSuggestion() {
+    //  data-* 属性から翻訳済みメッセージを取得 
+    const messages = document.querySelector('#ai-messages');
+    const loadingMessage = messages?.dataset.loading || 'AI提案を取得中...';
+    const limitReachedMessage = messages?.dataset.limitReached || 'AI提案の利用回数が上限に達しました。';
+    const fetchFailedMessage = messages?.dataset.fetchFailed || 'AI提案の取得に失敗しました。もう一度お試しください。';
+
     try {
       console.log('AI提案を取得中...');
 
       //  ローディング表示
-      if (goalTitleField) goalTitleField.value = 'AI提案を取得中...';
+      if (goalTitleField) goalTitleField.value = loadingMessage;
       if (goalDescriptionField) goalDescriptionField.value = '';
       if (actionPlanField) actionPlanField.value = '';
 
@@ -112,7 +118,7 @@ function initializeForm() {
 
       console.log('送信するデータ:', formData);
 
-      // ★★★ CSRF tokenを安全に取得 ★★★
+      //  CSRF tokenを安全に取得 
       const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || '';
 
       console.log('CSRF Token:', csrfToken ? '取得成功' : '取得失敗(空文字列を使用)');
@@ -127,7 +133,7 @@ function initializeForm() {
         body: JSON.stringify(formData)
       });
 
-      // ★★★ 利用回数制限に達した場合 ★★★
+      // 利用回数制限に達した場合 
       if (response.status === 403) {
         const errorData = await response.json();
 
@@ -137,7 +143,7 @@ function initializeForm() {
         if (actionPlanField) actionPlanField.value = '';
 
         // エラーメッセージを表示
-        alert(errorData.error || 'AI提案の利用回数が上限に達しました。');
+        alert(limitReachedMessage);
         return; // ここで終了
       }
 
@@ -193,7 +199,7 @@ function initializeForm() {
       if (goalDescriptionField) goalDescriptionField.value = '';
       if (actionPlanField) actionPlanField.value = '';
 
-      alert('AI提案の取得に失敗しました。もう一度お試しください。');
+      alert(fetchFailedMessage); 
     }
   }
 

@@ -28,7 +28,7 @@ class SurveyProfilesController < ApplicationController
     end
   end
 
-  # ★★★ AI提案を取得するアクション（リファクタリング後）★★★
+  # AI提案を取得するアクション（リファクタリング後）
   def fetch_ai_suggestion
     # パラメータを取得
     params_data = fetch_ai_suggestion_params
@@ -240,8 +240,8 @@ class SurveyProfilesController < ApplicationController
       action_plan: result[:action_plan]
     )
   rescue GeminiService::ApiError => e
-    Rails.logger.error "AI 目標提案の生成に失敗しました: #{e.message}"
-    @survey_profile.errors.add(:base, 'AI による目標提案の生成に失敗しました。もう一度お試しください。')
+    Rails.logger.error "AI goal suggestion generation failed: #{e.message}"
+    @survey_profile.errors.add(:base, t('survey_profiles.create.ai_generation_failed'))
     raise ActiveRecord::Rollback
   end
 
@@ -304,8 +304,8 @@ class SurveyProfilesController < ApplicationController
 
   # Gemini API エラーのハンドリング
   def handle_gemini_error(error)
-    Rails.logger.error "AI提案の取得に失敗しました: #{error.message}"
-    render json: { error: 'AI提案の取得に失敗しました' }, status: :internal_server_error
+    Rails.logger.error "AI suggestion fetch failed: #{error.message}"
+    render json: { error: t('survey_profiles.errors.ai_suggestion_fetch_failed') }, status: :internal_server_error
   end
 
   # AI提案の利用回数制限をチェック
@@ -316,7 +316,7 @@ class SurveyProfilesController < ApplicationController
     return unless current_user.ai_suggestion_count >= 3
 
     render json: {
-      error: 'AI提案の利用回数が上限（3回）に達しました。自分で設定する方法で目標を作成してください。'
+      error: t('survey_profiles.errors.ai_suggestion_limit_reached')
     }, status: :forbidden
   end
 

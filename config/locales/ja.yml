@@ -43,6 +43,11 @@ ja:
     create:
       success: 'ユーザー登録が完了しました'
       failure: 'ユーザー登録に失敗しました'
+  
+  ai:
+      loading: 'AI提案を取得中...'
+      limit_reached: 'AI提案の利用回数が上限に達しました。'
+      fetch_failed: 'AI提案の取得に失敗しました。もう一度お試しください。'
 
   goals:
     index:
@@ -97,11 +102,18 @@ ja:
     create:
       success: '成長の星が誕生しました! ✨🌟'
       failure: '成長の星の作成に失敗しました。もう一度お試しください。'
+      ai_generation_failed: 'AI による目標提案の生成に失敗しました。もう一度お試しください。'
     edit:
       submit_button: '成長の星を更新する ✨'
       title: '✨ 成長の星を編集 ✨'
       description: '君のもやもや結晶を見直してみよう。今以上に輝く星になれるよ🌟'
+    
+    # AI機能の翻訳を追加 
+    errors:
+      ai_suggestion_fetch_failed: 'AI提案の取得に失敗しました'
+      ai_suggestion_limit_reached: 'AI提案の利用回数が上限（3回）に達しました。自分で設定する方法で目標を作成してください。'
 
+    
   sparks:
     form:
       submit_button: '✨ 輝きを記録'
