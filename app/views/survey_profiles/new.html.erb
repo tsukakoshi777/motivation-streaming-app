@@ -3,6 +3,14 @@
   <p class="text-center text-gray-600 mb-5"><%= t('.description') %></p>
 
   <%= form_with model: @survey_profile, url: survey_profiles_path, local: true do |f| %>
+    <!-- data属性を追加（ユーザーには見えない） -->
+    <div id="ai-messages"
+        data-loading="<%= t('ai.loading') %>"
+        data-limit-reached="<%= t('survey_profiles.errors.ai_suggestion_limit_reached') %>"
+        data-fetch-failed="<%= t('ai.fetch_failed') %>"
+        style="display: none;">
+    </div>
+
     <!-- エラーメッセージ表示 -->
     <%= render 'shared/error_messages', object: f.object %>
 

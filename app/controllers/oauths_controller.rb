@@ -9,7 +9,7 @@ class OauthsController < ApplicationController
 
     # Google 以外は拒否
     unless provider == 'google'
-      redirect_to login_path, danger: '不正なプロバイダーです'
+      redirect_to login_path, danger: t('oauths.invalid_provider')
       return
     end
 
@@ -24,7 +24,7 @@ class OauthsController < ApplicationController
 
     # 既存のユーザーでログイン
     if (@user = login_from(provider))
-      redirect_to root_path, success: "#{provider_name}アカウントでログインしました"
+      redirect_to root_path, success: t('oauths.login_success', provider: provider_name)
     else
       # OAuth 情報を取得（@user_hash を使用）
       user_info = @user_hash
@@ -40,17 +40,17 @@ class OauthsController < ApplicationController
           uid: user_info[:uid]
         )
         auto_login(@user)
-        redirect_to root_path, success: "#{provider_name}アカウントを連携しました"
+        redirect_to root_path, success: t('oauths.link_success', provider: provider_name)
       else
         # 新規ユーザーを作成してログイン
         begin
           @user = create_from(provider)
           reset_session
           auto_login(@user)
-          redirect_to root_path, success: "#{provider_name}アカウントでログインしました"
+          redirect_to root_path, success: t('oauths.login_success', provider: provider_name)
         rescue StandardError => e
           Rails.logger.error "OAuth認証エラー: #{e.message}"
-          redirect_to login_path, danger: "#{provider_name}アカウントでのログインに失敗しました"
+          redirect_to login_path, danger: t('oauths.login_failed', provider: provider_name)
         end
       end
     end
