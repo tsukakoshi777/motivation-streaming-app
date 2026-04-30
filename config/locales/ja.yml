@@ -30,6 +30,8 @@ ja:
       login: 'ログイン'
       to_register_page: '登録ページへ'
       password_forget: 'パスワードをお忘れの方はこちら'
+      or: 'または' 
+      google_login: 'Googleでログイン' 
     create:
       success: 'ログインしました'
       failure: 'メールアドレスまたはパスワードが正しくありません'
@@ -43,6 +45,12 @@ ja:
     create:
       success: 'ユーザー登録が完了しました'
       failure: 'ユーザー登録に失敗しました'
+
+  oauths:
+    invalid_provider: '不正なプロバイダーです'
+    login_success: '%{provider}アカウントでログインしました'
+    link_success: '%{provider}アカウントを連携しました'
+    login_failed: '%{provider}アカウントでのログインに失敗しました'
   
   ai:
       loading: 'AI提案を取得中...'

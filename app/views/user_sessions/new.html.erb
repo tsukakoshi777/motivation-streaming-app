@@ -16,8 +16,8 @@
 
       <!-- Googleログインボタンを追加 -->
       <div class="text-center mt-4">
-        <p class="mb-3">または</p>
-        <%= button_to "Googleでログイン", 
+        <p class="mb-3"><%= t('.or') %></p>
+        <%= button_to t('.google_login'), 
             auth_at_provider_path(provider: :google), 
             method: :post, 
             data: { turbo: false }, 
