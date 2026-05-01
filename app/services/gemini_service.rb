@@ -18,7 +18,16 @@ class GeminiService
         service: 'generative-language-api',
         api_key: ENV.fetch('GEMINI_API_KEY')
       },
-      options: { model: 'gemini-2.5-flash', server_sent_events: true }
+      options: {
+        model: 'gemini-2.5-flash',
+        server_sent_events: true,
+        connection: {
+          request: {
+            timeout: 30,        # 読み込みタイムアウト（30秒）
+            open_timeout: 10    # 接続タイムアウト（10秒）
+          }
+        }
+      }
     )
   rescue KeyError => e
     Rails.logger.error "Gemini API key not found: #{e.message}"
