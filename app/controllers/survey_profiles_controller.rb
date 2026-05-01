@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SurveyProfilesController < ApplicationController
+  include AiErrorHandler
+
   before_action :require_login
   before_action :check_ai_suggestion_limit, only: [:fetch_ai_suggestion]
 
@@ -45,6 +47,10 @@ class SurveyProfilesController < ApplicationController
 
     # JSONで返す
     render json: suggestion
+  rescue GeminiService::RateLimitError => e
+    handle_rate_limit_error(e)
+  rescue GeminiService::InvalidResponseError => e
+    handle_invalid_response_error(e)
   rescue GeminiService::ApiError => e
     handle_gemini_error(e)
   end
@@ -300,12 +306,6 @@ class SurveyProfilesController < ApplicationController
       survey_profile: survey_profile,
       survey_response: survey_response
     )
-  end
-
-  # Gemini API エラーのハンドリング
-  def handle_gemini_error(error)
-    Rails.logger.error "AI suggestion fetch failed: #{error.message}"
-    render json: { error: t('survey_profiles.errors.ai_suggestion_fetch_failed') }, status: :internal_server_error
   end
 
   # AI提案の利用回数制限をチェック

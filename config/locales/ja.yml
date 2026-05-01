@@ -119,6 +119,8 @@ ja:
     # AI機能の翻訳を追加 
     errors:
       ai_suggestion_fetch_failed: 'AI提案の取得に失敗しました'
+      rate_limit_exceeded: "APIの利用制限に達しました。しばらくしてから再度お試しください。"
+      invalid_response: "AIからの応答が不正です。しばらくしてから再度お試しください。"
       ai_suggestion_limit_reached: 'AI提案の利用回数が上限（3回）に達しました。自分で設定する方法で目標を作成してください。'
 
     
