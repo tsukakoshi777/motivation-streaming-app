@@ -83,7 +83,12 @@ Rails.application.config.sorcery.configure do |config|
 
   config.google.key = ENV['GOOGLE_CLIENT_ID']
   config.google.secret = ENV['GOOGLE_CLIENT_SECRET']
-  config.google.callback_url = "http://localhost:3000/oauth/callback?provider=google"
+  # コールバック URL を環境に応じて設定
+  config.google.callback_url = if Rails.env.production?
+                                  "https://#{ENV['PRODUCTION_HOST']}/oauth/callback?provider=google"
+                                else
+                                  "http://0.0.0.0:3000/oauth/callback?provider=google"
+                                end
   config.google.user_info_mapping = {
     email: 'email',
     nickname: 'name' 
