@@ -1,0 +1,38 @@
+<!-- app/views/survey_profiles/_loading.html.erb -->
+<div id="loading-overlay" 
+     class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 hidden" 
+     role="dialog" 
+     aria-modal="true" 
+     aria-labelledby="loading-title"
+     data-controller="loading">
+  <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4 shadow-xl">
+    <!-- ドットアニメーション -->
+    <div class="flex justify-center mb-6">
+      <div class="dots-spinner">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <!-- メッセージ -->
+    <div class="text-center">
+      <h3 id="loading-title" class="text-lg font-semibold text-gray-900 mb-2">
+        <%= t('survey_profiles.loading.title') %>
+      </h3>
+      <p class="text-gray-600 mb-4">
+        <%= t('survey_profiles.loading.message') %>
+      </p>
+      <p class="text-sm text-gray-500">
+        <%= t('survey_profiles.loading.estimated_time') %>
+      </p>
+    </div>
+
+    <!-- キャンセルボタン（オプション） -->
+    <div class="mt-6 text-center">
+      <button type="button" class="btn btn-outline btn-sm" id="cancel-ai-request" data-action="click->loading#cancel">
+        <%= t('survey_profiles.loading.cancel') %>
+      </button>
+    </div>
+  </div>
+</div>

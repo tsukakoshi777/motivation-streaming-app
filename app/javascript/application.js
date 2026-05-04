@@ -1,4 +1,6 @@
 import "@hotwired/turbo-rails"
+import "./controllers"
+window.abortController = null;
 
 // ========================================
 // Bootstrap の Collapse を初期化する関数
@@ -89,8 +91,16 @@ function initializeForm() {
     const limitReachedMessage = messages?.dataset.limitReached || 'AI提案の利用回数が上限に達しました。';
     const fetchFailedMessage = messages?.dataset.fetchFailed || 'AI提案の取得に失敗しました。もう一度お試しください。';
 
+    // ✅ AI提案を取得する前の内容を保存
+    const previousTitle = goalTitleField?.value || '';
+    const previousDescription = goalDescriptionField?.value || '';
+    const previousActionPlan = actionPlanField?.value || '';
+
     try {
       console.log('AI提案を取得中...');
+
+      // ✅ AbortController を作成
+      window.abortController = new AbortController();
 
       //  ローディング表示
       if (goalTitleField) goalTitleField.value = loadingMessage;
@@ -106,7 +116,7 @@ function initializeForm() {
         average_listeners: document.querySelector('input[name="survey_profile[average_listeners]"]')?.value,
         total_listeners: document.querySelector('input[name="survey_profile[total_listeners]"]')?.value,
         listener_dropout_rate: document.querySelector('input[name="survey_profile[listener_dropout_rate]"]')?.value,
-        motivation_level: document.querySelector('input[name="survey_profile[motivation_level]"]')?.value,
+        motivation_level: document.querySelector('input[name="survey_profile[motivation_level]"]:checked')?.value,
         happy_moment: document.querySelector('textarea[name="survey_profile[happy_moment]"]')?.value,
         sad_moment: document.querySelector('textarea[name="survey_profile[sad_moment]"]')?.value,
         desired_streaming_style: document.querySelector('textarea[name="survey_profile[desired_streaming_style]"]')?.value,
@@ -130,17 +140,19 @@ function initializeForm() {
           'Content-Type': 'application/json',
           'X-CSRF-Token': csrfToken  // ← 安全に取得したCSRF tokenを使用
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
+        signal: window.abortController.signal
       });
 
       // 利用回数制限に達した場合 
       if (response.status === 403) {
         const errorData = await response.json();
 
-        // フォームをクリア
-        if (goalTitleField) goalTitleField.value = '';
-        if (goalDescriptionField) goalDescriptionField.value = '';
-        if (actionPlanField) actionPlanField.value = '';
+        // フォームを保持
+        if (goalTitleField) goalTitleField.value = previousTitle;
+        if (goalDescriptionField) goalDescriptionField.value = previousDescription;
+        if (actionPlanField) actionPlanField.value = previousActionPlan;
+
 
         // エラーメッセージを表示
         alert(limitReachedMessage);
@@ -194,12 +206,30 @@ function initializeForm() {
     } catch (error) {
       console.error('AI提案の取得に失敗しました:', error);
 
-      //  エラー時はフォームをクリア 
-      if (goalTitleField) goalTitleField.value = '';
-      if (goalDescriptionField) goalDescriptionField.value = '';
-      if (actionPlanField) actionPlanField.value = '';
+      // ✅ キャンセルされた場合は元の内容に戻す
+      if (error.name === 'AbortError') {
+        console.log('リクエストがキャンセルされました');
 
-      alert(fetchFailedMessage); 
+        // 元の内容に戻す
+        if (goalTitleField) goalTitleField.value = previousTitle;
+        if (goalDescriptionField) goalDescriptionField.value = previousDescription;
+        if (actionPlanField) actionPlanField.value = previousActionPlan;
+
+        return;
+      }
+
+      // ✅ その他のエラーの場合も元の内容に戻す
+      if (goalTitleField) goalTitleField.value = previousTitle;
+      if (goalDescriptionField) goalDescriptionField.value = previousDescription;
+      if (actionPlanField) actionPlanField.value = previousActionPlan;
+
+      alert(fetchFailedMessage);
+    } finally {
+      // ローディングを非表示（成功時・エラー時・キャンセル時すべてで実行）
+      const overlay = document.getElementById('loading-overlay');
+      if (overlay) {
+        overlay.classList.add('hidden');
+      }
     }
   }
 
@@ -233,19 +263,29 @@ function initializeForm() {
   }
 
   // ========================================
-  // AI提案のラジオボタン選択時の処理
+  // 「AI提案を取得」ボタンのイベントリスナー
   // ========================================
 
-  if (goalSourceAi) {
-    //  既存のイベントリスナーを削除してから新しいものを追加 
-    const newGoalSourceAi = goalSourceAi.cloneNode(true);
-    goalSourceAi.parentNode.replaceChild(newGoalSourceAi, goalSourceAi);
+  const fetchAiButton = document.querySelector('#fetch-ai-button');
 
-    // 新しいイベントリスナーを追加 
-    newGoalSourceAi.addEventListener('change', (e) => {
-      if (e.target.checked) {
-        fetchAiSuggestion();
+  if (fetchAiButton) {
+    // 🆕 既存のイベントリスナーを削除してから新しいものを追加
+    const newFetchAiButton = fetchAiButton.cloneNode(true);
+    fetchAiButton.parentNode.replaceChild(newFetchAiButton, fetchAiButton);
+
+    // 🆕 新しいイベントリスナーを追加
+    newFetchAiButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation(); // 🆕 イベントの伝播を停止
+
+      // ローディング表示
+      const overlay = document.getElementById('loading-overlay');
+      if (overlay) {
+        overlay.classList.remove('hidden');
       }
+
+      // AI提案を取得（finally で自動的にローディング非表示）
+      fetchAiSuggestion();
     });
   }
 

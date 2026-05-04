@@ -1,4 +1,7 @@
 <div class="container mx-auto px-4 py-8">
+  <!-- ローディングオーバーレイを追加 -->
+  <%= render 'shared/loading' %>
+
   <h1 class="text-3xl font-bold mt-5 mb-6 text-center"><%= t('.title') %></h1>
   <p class="text-center text-gray-600 mb-5"><%= t('.description') %></p>
 
@@ -263,6 +266,19 @@
           </label>
         </div>
         <p class="text-sm text-gray-500 mt-1">あなたのもやもやから、自分だけの成長の星を作りましょう! ✨</p>
+
+        <!-- 🆕 AI提案取得ボタン（常に表示） -->
+        <div class="mt-4">
+          <button type="button" 
+                  class="btn btn-primary" 
+                  id="fetch-ai-button">
+            ✨ AI提案を取得
+          </button>
+          <p class="text-sm text-gray-500 mt-2">
+            ※ AI提案は最大3回まで取得できます<br>
+            ※ AI提案を参考にして、自由に編集できます
+          </p>
+        </div>
       </div>
 
       <!-- 目標のタイトル -->
