@@ -87,6 +87,9 @@ RSpec.describe 'SurveyProfiles', type: :system do
         # AI提案から選択するラジオボタンを選択
         choose 'goal_source_ai'
 
+        # ✨ AI提案を取得ボタンをクリック
+        click_button 'fetch-ai-button'
+
         # JavaScript が実行されるまで待機
         sleep 3
 
@@ -165,6 +168,9 @@ RSpec.describe 'SurveyProfiles', type: :system do
         # AI提案から選択するラジオボタンを選択
         choose 'goal_source_ai'
 
+        # ✨ AI提案を取得ボタンをクリック
+        click_button 'fetch-ai-button'
+
         # JavaScript が実行されるまで待機
         sleep 3
 
@@ -222,6 +228,9 @@ RSpec.describe 'SurveyProfiles', type: :system do
           alert_message = accept_alert do
             # AI提案から選択するラジオボタンを選択
             choose 'goal_source_ai'
+
+            # ✨ AI提案を取得ボタンをクリック
+            click_button 'fetch-ai-button'
 
             # アラートが表示されるまで待機
             sleep 3
@@ -286,6 +295,9 @@ RSpec.describe 'SurveyProfiles', type: :system do
           # AI提案から選択するラジオボタンを選択
           choose 'goal_source_ai'
 
+          # ✨ AI提案を取得ボタンをクリック
+          click_button 'fetch-ai-button'
+
           # JavaScript が実行されるまで待機
           sleep 3
 
@@ -335,6 +347,9 @@ RSpec.describe 'SurveyProfiles', type: :system do
 
           # AI提案から選択するラジオボタンを選択
           choose 'goal_source_ai'
+
+          # ✨ AI提案を取得ボタンをクリック
+          click_button 'fetch-ai-button'
 
           # JavaScript が実行されるまで待機
           sleep 3
@@ -397,6 +412,9 @@ RSpec.describe 'SurveyProfiles', type: :system do
           alert_message = accept_alert do
             # AI提案から選択するラジオボタンを選択
             choose 'goal_source_ai'
+
+            # ✨ AI提案を取得ボタンをクリック
+            click_button 'fetch-ai-button'
 
             # アラートが表示されるまで待機
             sleep 3
