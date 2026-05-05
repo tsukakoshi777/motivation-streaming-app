@@ -426,4 +426,213 @@ RSpec.describe 'SurveyProfiles', type: :system do
       end
     end
   end
+
+  describe 'エッジケーステスト' do
+    context '空の入力テスト' do
+      it '必須項目を空で送信した場合、エラーメッセージが表示されること', js: true do
+        # アンケートページに遷移
+        visit new_survey_profile_path
+
+        # ページが表示されるまで待機
+        expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+
+        # 自分で設定するラジオボタンを選択
+        choose 'survey_result_goal_source_1'
+
+        # 必須項目を入力せずに成長の星を誕生させるボタンをクリック
+        click_button '成長の星を誕生させる'
+
+        # バリデーションエラーメッセージが表示されることを確認
+        expect(page).to have_content('配信プラットフォームを入力してください'), 'エラーメッセージが表示されません'
+        expect(page).to have_content('配信カテゴリーを入力してください'), 'エラーメッセージが表示されません'
+        expect(page).to have_content('配信経験を入力してください'), 'エラーメッセージが表示されません'
+        expect(page).to have_content('週あたりの配信回数を入力してください'), 'エラーメッセージが表示されません'
+        expect(page).to have_content('平均視聴者数を入力してください'), 'エラーメッセージが表示されません'
+      end
+    end
+
+    context '長文入力テスト' do
+      it '自由記述欄に長文を入力した場合、正常に保存されること', js: true do
+        # アンケートページに遷移
+        visit new_survey_profile_path
+
+        # ページが表示されるまで待機
+        expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+
+        # フォーム入力（長文テスト）
+        long_text = 'あ' * 1000 # 1000文字の長文
+
+        select 'YouTube', from: '配信プラットフォーム'
+        select 'ゲーム実況', from: '配信ジャンル'
+        select '初心者(1ヶ月未満)', from: '配信経験'
+        fill_in 'survey_profile_weekly_frequency', with: 3
+        fill_in 'survey_profile_average_listeners', with: 10
+        fill_in 'survey_profile_total_listeners', with: 100
+        select '1〜2人', from: '最近のリスナーの離脱人数'
+        choose 'survey_profile_motivation_level_3'
+
+        # 長文を入力
+        fill_in 'survey_profile_happy_moment', with: long_text
+        fill_in 'survey_profile_sad_moment', with: long_text
+        fill_in 'survey_profile_streaming_reasons_other', with: long_text
+        fill_in 'survey_profile_desired_streaming_style', with: long_text
+        fill_in 'survey_profile_desired_listener', with: long_text
+
+        check '稼ぎたい'
+        fill_in 'survey_profile_desired_monthly_income', with: 50_000
+
+        # 自分で設定するラジオボタンを選択
+        choose 'survey_result_goal_source_1'
+
+        # 目標タイトルと説明を入力
+        fill_in 'survey_result_goal_title', with: 'テスト目標'
+        fill_in 'survey_result_goal_description', with: 'テスト説明'
+
+        # 成長の星を誕生させるボタンをクリック
+        click_button '成長の星を誕生させる'
+
+        # 目標作成ページに遷移することを確認
+        expect(page).to have_current_path(%r{/goals/\d+}), '目標詳細ページに遷移しません'
+        expect(page).to have_content('テスト目標'), '目標タイトルが表示されません'
+      end
+    end
+
+    context '特殊文字入力テスト' do
+      it '特殊文字を入力した場合、正常に保存されること', js: true do
+        # アンケートページに遷移
+        visit new_survey_profile_path
+
+        # ページが表示されるまで待機
+        expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+
+        # フォーム入力（特殊文字テスト）
+        special_chars = '!@#$%^&*()_+-=[]{}|;:\'",.<>?/~`'
+
+        select 'YouTube', from: '配信プラットフォーム'
+        select 'ゲーム実況', from: '配信ジャンル'
+        select '初心者(1ヶ月未満)', from: '配信経験'
+        fill_in 'survey_profile_weekly_frequency', with: 3
+        fill_in 'survey_profile_average_listeners', with: 10
+        fill_in 'survey_profile_total_listeners', with: 100
+        select '1〜2人', from: '最近のリスナーの離脱人数'
+        choose 'survey_profile_motivation_level_3'
+
+        # 特殊文字を入力
+        fill_in 'survey_profile_happy_moment', with: special_chars
+        fill_in 'survey_profile_sad_moment', with: special_chars
+        fill_in 'survey_profile_streaming_reasons_other', with: special_chars
+        fill_in 'survey_profile_desired_streaming_style', with: special_chars
+        fill_in 'survey_profile_desired_listener', with: special_chars
+
+        check '稼ぎたい'
+        fill_in 'survey_profile_desired_monthly_income', with: 50_000
+
+        # 自分で設定するラジオボタンを選択
+        choose 'survey_result_goal_source_1'
+
+        # 目標タイトルと説明を入力
+        fill_in 'survey_result_goal_title', with: 'テスト目標'
+        fill_in 'survey_result_goal_description', with: 'テスト説明'
+
+        # 成長の星を誕生させるボタンをクリック
+        click_button '成長の星を誕生させる'
+
+        # 目標作成ページに遷移することを確認
+        expect(page).to have_current_path(%r{/goals/\d+}), '目標詳細ページに遷移しません'
+        expect(page).to have_content('テスト目標'), '目標タイトルが表示されません'
+      end
+    end
+
+    context '絵文字入力テスト' do
+      it '絵文字を入力した場合、正常に保存されること', js: true do
+        # アンケートページに遷移
+        visit new_survey_profile_path
+
+        # ページが表示されるまで待機
+        expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+
+        # フォーム入力（絵文字テスト）
+        emoji_text = '😀😃😄😁😆😅😂🤣😊😇'
+
+        select 'YouTube', from: '配信プラットフォーム'
+        select 'ゲーム実況', from: '配信ジャンル'
+        select '初心者(1ヶ月未満)', from: '配信経験'
+        fill_in 'survey_profile_weekly_frequency', with: 3
+        fill_in 'survey_profile_average_listeners', with: 10
+        fill_in 'survey_profile_total_listeners', with: 100
+        select '1〜2人', from: '最近のリスナーの離脱人数'
+        choose 'survey_profile_motivation_level_3'
+
+        # 絵文字を入力
+        page.execute_script("document.getElementById('survey_profile_happy_moment').value = '#{emoji_text}'")
+        page.execute_script("document.getElementById('survey_profile_sad_moment').value = '#{emoji_text}'")
+        page.execute_script("document.getElementById('survey_profile_streaming_reasons_other').value = '#{emoji_text}'")
+        page.execute_script("document.getElementById('survey_profile_desired_streaming_style').value = '#{emoji_text}'")
+        page.execute_script("document.getElementById('survey_profile_desired_listener').value = '#{emoji_text}'")
+
+        check '稼ぎたい'
+        fill_in 'survey_profile_desired_monthly_income', with: 50_000
+
+        # 自分で設定するラジオボタンを選択
+        choose 'survey_result_goal_source_1'
+
+        # 目標タイトルと説明を入力
+        fill_in 'survey_result_goal_title', with: 'テスト目標'
+        fill_in 'survey_result_goal_description', with: 'テスト説明'
+
+        # 成長の星を誕生させるボタンをクリック
+        click_button '成長の星を誕生させる'
+
+        # 目標作成ページに遷移することを確認
+        expect(page).to have_current_path(%r{/goals/\d+}), '目標詳細ページに遷移しません'
+        expect(page).to have_content('テスト目標'), '目標タイトルが表示されません'
+      end
+    end
+
+    context 'HTMLタグ入力テスト' do
+      it 'HTMLタグを入力した場合、エスケープされて保存されること', js: true do
+        # アンケートページに遷移
+        visit new_survey_profile_path
+
+        # ページが表示されるまで待機
+        expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+
+        # フォーム入力（HTMLタグテスト）
+        html_tags = '<script>alert("XSS")</script><h1>見出し</h1><p>段落</p>'
+
+        select 'YouTube', from: '配信プラットフォーム'
+        select 'ゲーム実況', from: '配信ジャンル'
+        select '初心者(1ヶ月未満)', from: '配信経験'
+        fill_in 'survey_profile_weekly_frequency', with: 3
+        fill_in 'survey_profile_average_listeners', with: 10
+        fill_in 'survey_profile_total_listeners', with: 100
+        select '1〜2人', from: '最近のリスナーの離脱人数'
+        choose 'survey_profile_motivation_level_3'
+
+        # HTMLタグを入力
+        fill_in 'survey_profile_happy_moment', with: html_tags
+        fill_in 'survey_profile_sad_moment', with: html_tags
+        fill_in 'survey_profile_streaming_reasons_other', with: html_tags
+        fill_in 'survey_profile_desired_streaming_style', with: html_tags
+        fill_in 'survey_profile_desired_listener', with: html_tags
+
+        check '稼ぎたい'
+        fill_in 'survey_profile_desired_monthly_income', with: 50_000
+
+        # 自分で設定するラジオボタンを選択
+        choose 'survey_result_goal_source_1'
+
+        # 目標タイトルと説明を入力
+        fill_in 'survey_result_goal_title', with: 'テスト目標'
+        fill_in 'survey_result_goal_description', with: 'テスト説明'
+
+        # 成長の星を誕生させるボタンをクリック
+        click_button '成長の星を誕生させる'
+
+        # 目標作成ページに遷移することを確認
+        expect(page).to have_current_path(%r{/goals/\d+}), '目標詳細ページに遷移しません'
+        expect(page).to have_content('テスト目標'), '目標タイトルが表示されません'
+      end
+    end
+  end
 end
