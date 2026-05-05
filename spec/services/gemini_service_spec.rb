@@ -103,6 +103,66 @@ RSpec.describe GeminiService, type: :service do
           end.to raise_error(GeminiService::ApiError)
         end
       end
+
+      context 'ネットワークエラーが発生した場合' do
+        let(:service) { described_class.new }
+
+        before do
+          # モックを無効化
+          allow(service).to receive(:use_mock?).and_return(false)
+          # ネットワークエラーを発生させる
+          allow(service).to receive(:generate_text).and_raise(SocketError.new('Network Error'))
+        end
+
+        it 'ApiError を raise すること' do
+          expect do
+            service.suggest_streamer_goal(
+              survey_profile: survey_profile,
+              survey_response: survey_response
+            )
+          end.to raise_error(GeminiService::ApiError, /Network Error/)
+        end
+      end
+
+      context '不正なAPIレスポンスが返された場合' do
+        let(:service) { described_class.new }
+
+        before do
+          # モックを無効化
+          allow(service).to receive(:use_mock?).and_return(false)
+          # 不正なレスポンスを返す
+          allow(service).to receive(:generate_text).and_return(nil)
+        end
+
+        it 'ApiError を raise すること' do
+          expect do
+            service.suggest_streamer_goal(
+              survey_profile: survey_profile,
+              survey_response: survey_response
+            )
+          end.to raise_error(GeminiService::ApiError, /目標提案の生成に失敗しました/)
+        end
+      end
+
+      context 'タイムアウトが発生した場合' do
+        let(:service) { described_class.new }
+
+        before do
+          # モックを無効化
+          allow(service).to receive(:use_mock?).and_return(false)
+          # タイムアウトエラーを発生させる
+          allow(service).to receive(:generate_text).and_raise(Timeout::Error.new('Request Timeout'))
+        end
+
+        it 'ApiError を raise すること' do
+          expect do
+            service.suggest_streamer_goal(
+              survey_profile: survey_profile,
+              survey_response: survey_response
+            )
+          end.to raise_error(GeminiService::ApiError, /Request Timeout/)
+        end
+      end
     end
   end
 end
