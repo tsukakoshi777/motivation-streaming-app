@@ -1,10 +1,512 @@
-<div class='container'>
-  <div class='row'>
-    <div class='col-12 text-center my-5'>
-      <h1 class='display-4 fw-bold'>TOP</h1>
-      <p class='lead mt-4'>
-        <%= t('.description_html') %>
-      </p>
+<!-- ========================================
+     ヒーローセクション(背景画像付き)
+     テンプレート: TEMPLATE PARTY風
+     ======================================== -->
+<div class="hero-section position-relative">
+  <!-- 背景画像(レスポンシブ対応) -->
+  <picture>
+    <!-- スマホ用(768px以下) -->
+    <source 
+      media="(max-width: 768px)" 
+      srcset="<%= asset_path('oshista-hero-bg-mobile.png') %>"
+    >
+    <!-- PC用(769px以上) -->
+    <img 
+      src="<%= asset_path('oshista-hero-bg.png') %>" 
+      alt="Oshista Hero Background"
+      class="hero-bg-img"
+    >
+  </picture>
+
+  <!-- オーバーレイ(背景を少し暗くして文字を読みやすくする) -->
+  <div class="hero-overlay"></div>
+
+  <!-- コンテンツ -->
+  <div class="hero-content position-relative">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <!-- ロゴ(オプション) -->
+
+          <!-- メインキャッチコピー -->
+          <h1 class="hero-title display-3 fw-bold text-white mb-4">
+            配信を続けたい！<br class="d-md-none">
+            でも自分には難しい？
+          </h1>
+
+          <!-- サブキャッチコピー -->
+          <p class="hero-subtitle lead text-white mb-5">
+            <%= t('.description_html') %>
+          </p>
+
+          <!-- CTAボタン -->
+          <div class="hero-cta">
+            <%= link_to new_survey_profile_path, 
+                class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg' do %>
+              <i class="fa-solid fa-rocket me-2"></i>+もやもや結晶を調査🔍
+            <% end %>
+          </div>
+
+          <!-- 補足テキスト(オプション) -->
+          <p class="hero-note text-white mt-3 small">
+            ※googleログインですぐに利用可能
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- ========================================
+     新規追加: グラデーション見出しセクション
+     テンプレート: title12
+     ======================================== -->
+<!-- 悩みセクション -->
+<section class="problems-section py-5">
+  <div class="container">
+    <h2 class="title12-parts text-center mt-2 mb-4">
+      配信の悩みはきらめく星へ
+      <span class="small-parts d-block mt-2">Star Streaming Support</span>
+    </h2>
+
+    <p class="text-center lead pt-1 mb-5">
+      何を相談すればいいかわからない配信者のための分析ツール。<br>
+      あなたの配信の「もやもや」を具体的な成長目標に変換します。
+    </p>
+
+    <!-- 悩み3つ(PC: 横並び / スマホ: 縦並び) -->
+    <div class="row problems-stars-container">
+      <!-- 1つ目: 視聴者が増えない -->
+      <div class="col-12 col-md-4 mb-4 problem-star-pair">
+        <div class="problem-item text-center">
+          <i class="fa-solid fa-chart-line fa-3x text-primary mb-3"></i>
+          <h3>視聴者が増えない☁</h3>
+          <p class="text-muted">どうすれば視聴者を増やせるのか具体的なアドバイスが欲しい</p>
+        </div>
+
+        <!-- 下向き矢印 -->
+        <div class="arrow-down text-center mt-3">
+          <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
+        </div>
+
+        <!-- 星(スマホのみ表示) -->
+        <div class="star-item text-center mt-3 d-md-none">
+          <%= image_tag 'oshista-example-star1.png', alt: '星1', class: 'star-image' %>
+        </div>
+      </div>
+
+      <!-- 2つ目: ファンが少ない -->
+      <div class="col-12 col-md-4 mb-4 problem-star-pair">
+        <div class="problem-item text-center">
+          <i class="fa-solid fa-comments fa-3x text-primary mb-3"></i>
+          <h3>応援してくれるファンが少ない☁</h3>
+          <p class="text-muted">どうやってファン化を促すのか知りたい</p>
+        </div>
+
+        <!-- 下向き矢印 -->
+        <div class="arrow-down text-center mt-3">
+          <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
+        </div>
+
+        <!-- 星(スマホのみ表示) -->
+        <div class="star-item text-center mt-3 d-md-none">
+          <%= image_tag 'oshista-example-star2.png', alt: '星2', class: 'star-image' %>
+        </div>
+      </div>
+
+      <!-- 3つ目: 何を改善すべきか -->
+      <div class="col-12 col-md-4 mb-4 problem-star-pair">
+        <div class="problem-item text-center">
+          <i class="fa-solid fa-lightbulb fa-3x text-primary mb-3"></i>
+          <h3>何を改善すべきか分からない☁</h3>
+          <p class="text-muted">自身が目指す配信への不足している点を具体的に把握したい</p>
+        </div>
+
+        <!-- 下向き矢印 -->
+        <div class="arrow-down text-center mt-3">
+          <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
+        </div>
+
+        <!-- 星(スマホのみ表示) -->
+        <div class="star-item text-center mt-3 d-md-none">
+          <%= image_tag 'oshista-example-star3.png', alt: '星3', class: 'star-image' %>
+        </div>
+      </div>
+    </div>
+
+    <!-- 星の画像(PCのみ表示) -->
+    <div class="row mt-4 d-none d-md-flex">
+      <div class="col-md-4 mb-4">
+        <div class="star-item text-center">
+          <%= image_tag 'oshista-example-star1.png', alt: '星1', class: 'star-image' %>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="star-item text-center">
+          <%= image_tag 'oshista-example-star2.png', alt: '星2', class: 'star-image' %>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="star-item text-center">
+          <%= image_tag 'oshista-example-star3.png', alt: '星3', class: 'star-image' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     新規追加: CTAセクション
+     テンプレート: ui-tools-cta1
+     ======================================== -->
+<section class="bg-gradient py-3" style="background: #f8f9fa">
+  <div class="container text-center py-5">
+    <h3 class="h2 fw-bold mb-4">まずは気軽にもやもやした気持ちを解消しませんか?</h3>
+    <p class="lead mb-4">
+      AIがあなたの配信状況や気持ちに寄り添い、具体的な改善提案をお届けします。
+    </p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <%= link_to new_survey_profile_path, 
+          class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow' do %>
+        <i class="fa-solid fa-rocket me-2"></i>+もやもや結晶を調査🔍
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     新規追加: ビフォーアフターセクション
+     テンプレート: list-before-after1
+     ======================================== -->
+<section class="container my-5 py-5">
+  <h2 class="text-center mb-5 h1 fw-bold">配信者の「続けたい」を支える3つの理由</h2>
+
+  <div class="row g-4 mb-5">
+    <!-- 理由1: 分析シートで悩みを言語化 -->
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <i class="fa-solid fa-clipboard-list fa-4x text-primary"></i>
+          </div>
+          <h4 class="card-title h5 mb-3">
+            <span class="text-primary fw-bold">「何を相談すればいいか」</span><br>
+            がわかる
+          </h4>
+          <p class="card-text text-muted">
+            <strong>一般的なAIは自由度が高い反面、</strong><br>
+            「どう質問すればいいかわからない」という壁があります。<br>
+            <br>
+            <strong class="text-primary">推しスタの分析シートなら、</strong><br>
+            質問を構造化し、悩みを言語化しやすくします。<br>
+            <strong>「何を相談すればいいかわからない」層にも届きます。</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 理由2: 配信者特化のAI分析 -->
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <i class="fa-solid fa-robot fa-4x text-primary"></i>
+          </div>
+          <h4 class="card-title h5 mb-3">
+            <span class="text-primary fw-bold">配信者特化のAI分析</span><br>
+            で具体的な目標を提案
+          </h4>
+          <p class="card-text text-muted">
+            <strong>一般的なAIは汎用的なアドバイスになりがち。</strong><br>
+            <br>
+            <strong class="text-primary">推しスタなら、</strong><br>
+            配信者特有の悩み(視聴者数、収益化、モチベーション維持など)に特化した分析基準を持ちます。<br>
+            <strong>「どこを」「どう」改善すればいいのか具体的に提案します。</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 理由3: 過去の記録を活用した継続サポート -->
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <i class="fa-solid fa-chart-line fa-4x text-primary"></i>
+          </div>
+          <h4 class="card-title h5 mb-3">
+            <span class="text-primary fw-bold">過去の記録を活用</span><br>
+            して成長を実感
+          </h4>
+          <p class="card-text text-muted">
+            <strong>一般的な習慣化アプリは記録・可視化が中心。</strong><br>
+            <br>
+            <strong class="text-primary">推しスタなら、</strong><br>
+            過去の分析シートを保存し、モチベーションが下がったときに見返せます。<br>
+            <strong>「なぜモチベーションが低下したのか」を分析し、同じ失敗を繰り返さないようサポートします。</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 矢印(下向き) -->
+  <div class="text-center my-5">
+    <i class="fa-solid fa-arrow-down fa-3x text-primary"></i>
+  </div>
+
+  <!-- 解決後のイメージ -->
+  <div class="text-center mb-5">
+    <h3 class="h2 fw-bold mb-4">
+      <span class="text-primary">推しスタ</span> は「その場限りの相談相手」ではなく<br>
+      <span class="text-primary title12-parts">「継続的な成長パートナー」</span>です
+    </h3>
+  </div>
+
+  <div class="row g-4">
+    <!-- 解決策1: 悩みの可視化と解決手順の提示 -->
+    <div class="col-md-4">
+      <div class="card h-100 border-primary border-2 shadow">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <i class="fa-solid fa-lightbulb fa-4x text-primary"></i>
+          </div>
+          <h4 class="card-title h5 mb-3 text-primary fw-bold">
+            悩みの可視化と<br>
+            解決手順の提示
+          </h4>
+          <p class="card-text">
+            漠然とした悩みを具体的な課題として認識でき、その課題を解決するための手順・ツール・情報を自分で調べなくても得られます。<br>
+            <strong>調べるのが苦手な人でも、適切な情報に迷わずたどり着けます。</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 解決策2: 過去との比較による成長の実感 -->
+    <div class="col-md-4">
+      <div class="card h-100 border-primary border-2 shadow">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <i class="fa-solid fa-chart-simple fa-4x text-primary"></i>
+          </div>
+          <h4 class="card-title h5 mb-3 text-primary fw-bold">
+            過去との比較で<br>
+            成長を実感
+          </h4>
+          <p class="card-text">
+            過去の分析シートを見返すことで、自分がどれだけ成長したかを実感できます。<br>
+            <strong>モチベーションが下がったときに、過去にどんな壁にぶつかり、どう乗り越えたのかを思い出せます。</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 解決策3: 変化する目標に合わせた柔軟なサポート -->
+    <div class="col-md-4">
+      <div class="card h-100 border-primary border-2 shadow">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <i class="fa-solid fa-bullseye fa-4x text-primary"></i>
+          </div>
+          <h4 class="card-title h5 mb-3 text-primary fw-bold">
+            変化する目標に<br>
+            柔軟に対応
+          </h4>
+          <p class="card-text">
+            配信者の目標は変化し続けます。<br>
+            「雑談配信で楽しみたい」→「収益化を目指したい」→「特定のゲームで有名になりたい」<br>
+            <strong>その時々の目標に合わせた情報・ツール・人脈を提供し続けます。</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     新規追加: 使い方セクション
+     テンプレート: ui-tools-steps1
+     ======================================== -->
+<section class="bg-light py-4">
+  <div class="container py-5">
+    <h2 class="text-center mb-5 h1 fw-bold">たった3ステップでも心のもやもや☁を次の目標へ⭐</h2>
+
+    <div class="row g-5">
+      <!-- ステップ1 -->
+      <div class="col-md-4">
+        <div class="text-center">
+          <div class="mb-4">
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" 
+                 style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
+              1
+            </div>
+          </div>
+          <h3 class="h4 mb-3 fw-bold">簡単な質問に答える</h3>
+          <p class="text-muted mb-4">
+            配信の状況や目標について、いくつかの質問に答えるだけ。所要時間は約3分です。
+          </p>
+          
+          <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
+          <div class="demo-image-wrapper">
+            <%= image_tag 'oshista-step1-pc.png', alt: 'ステップ1: 簡単な質問に答える', class: 'img-fluid rounded shadow d-none d-md-block' %>
+            <%= image_tag 'oshista-step1-mb.png', alt: 'ステップ1: 簡単な質問に答える', class: 'img-fluid rounded shadow d-md-none' %>
+          </div>
+        </div>
+      </div>
+
+      <!-- ステップ2 -->
+      <div class="col-md-4">
+        <div class="text-center">
+          <div class="mb-4">
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" 
+                 style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
+              2
+            </div>
+          </div>
+          <h3 class="h4 mb-3 fw-bold">AIが分析</h3>
+          <p class="text-muted mb-4">
+            あなたの回答をAIが分析し、配信の課題や改善点を見つけ出します。
+          </p>
+          
+          <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
+          <div class="demo-image-wrapper">
+            <%= image_tag 'oshista-step2-pc.png', alt: 'ステップ2: AIが分析', class: 'img-fluid rounded shadow d-none d-md-block' %>
+            <%= image_tag 'oshista-step2-mb.png', alt: 'ステップ2: AIが分析', class: 'img-fluid rounded shadow d-md-none' %>
+          </div>
+        </div>
+      </div>
+
+      <!-- ステップ3 -->
+      <div class="col-md-4">
+        <div class="text-center">
+          <div class="mb-4">
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" 
+                 style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
+              3
+            </div>
+          </div>
+          <h3 class="h4 mb-3 fw-bold">具体的な提案を受け取る</h3>
+          <p class="text-muted mb-4">
+            あなたに合った具体的な改善策と、実現可能な目標を提案します。
+          </p>
+          
+          <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
+          <div class="demo-image-wrapper">
+            <%= image_tag 'oshista-step3-pc.png', alt: 'ステップ3: 具体的な提案を受け取る', class: 'img-fluid rounded shadow d-none d-md-block' %>
+            <%= image_tag 'oshista-step3-mb.png', alt: 'ステップ3: 具体的な提案を受け取る', class: 'img-fluid rounded shadow d-md-none' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 輝き機能セクション -->
+<section class="sparkle-feature-section py-5">
+  <div class="container">
+    <!-- セクションタイトル -->
+    <h2 class="title12-parts">✨ 輝き機能</h2>
+    
+    <!-- 機能説明とデモ動画 -->
+    <div class="feature-content">
+      <!-- テキスト文 -->
+      <div class="feature-text">
+        <p>
+          もやもや結晶の調査で成長の星を作成できたら、、、<br>
+          <br>
+          星の輝きを加えていきましょう<br>
+          <br>
+          成長の星(目標)に対する行った努力を記録したり、<br>
+          SNSに投稿するとリスナーに不快感を与えてしまうような<br>
+          ネガティブな気持ちを吐き出すことができます。
+        </p>
+      </div>
+      
+      <!-- デモ動画 -->
+      <div class="feature-demo">
+        <div class="demo-video-item">
+          <p class="demo-label">PC版</p>
+          <%= image_tag 'sparkle-demo-pc.gif', alt: '輝き機能のデモ動画(PC版)', class: 'demo-gif' %>
+        </div>
+      </div>
+    </div>
+    
+    <!-- モバイル版デモ動画 (モバイルのみ表示) -->
+    <div class="feature-demo-mobile">
+      <div class="demo-video-item">
+        <p class="demo-label">モバイル版</p>
+        <%= image_tag 'sparkle-demo-mb.gif', alt: '輝き機能のデモ動画(モバイル版)', class: 'demo-gif' %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     開発者の想いセクション
+     ======================================== -->
+<section class="bg3-parts text-white">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="text-center mb-5">
+          <h2 class="h1 fw-bold mb-4 mt-1 text-white">
+            <i class="fa-solid fa-heart me-2"></i>開発者の想い
+          </h2>
+        </div>
+        
+        <div class="developer-message">
+          <p class="lead mb-4 text-white">
+            配信活動を続ける中で、 「何だか配信やる気がでない、、、」といったもやもや☁した言語化できない想いを抱えていませんか?
+          </p>
+          
+          <p class="lead mb-4 text-white">
+            または、具体的に「リスナーが増えない」「ファンがいなくなってしまう」<br>
+            「配信活動を続けていていいと思える投げ銭の額の届いていない」など各々、活動を続ける限り様々な悩みがあると思います。
+          </p>
+          
+          <p class="lead mb-4 text-white">
+            ✦推しスタ✦ は、そんな配信者の皆さんが 「もやもやした気持ち」を「明確な目標⭐」に変え 、継続的に成長を実感できるように作りました。<br>
+            悩んでしまうのは、あなたの心が成長したい！配信を続けたい！と言っているからです。<br>
+            悩んだままなんとなく嫌になって、配信をやめてしまう方を減らしたいと思ってこの推しスタ⭐を運営しています。<br>
+          </p>
+          
+          <p class="lead mb-4 text-white">
+            あなたの配信活動が、もっと楽しく、もっと輝けるように。<br>
+            推しスタが、あなたが 「なりたい推し⭐」 への道のりをサポートします。
+          </p>
+          
+          <div class="text-end mt-5">
+            <p class="h4 fw-bold mb-2">推しスタ開発者🌕</p>
+            <p class="text-white">あなたが苦悩した先に手に入れた輝きは誰かの心を照らす光になる</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     最終CTAセクション
+     ======================================== -->
+<section class="container my-5 py-5">
+  <div class="text-center">
+    <h2 class="h1 fw-bold mb-4 title12-parts">さあ、あなたがなりたい推し⭐になろう</h2>
+    <p class="lead mb-5">
+      もやもやした気持ちはあなたをもっと輝かせる目標⭐になる<br>
+      推しスタがあなたの配信の可能性を引き出します。
+    </p>
+    <%= link_to new_survey_profile_path, 
+        class: 'btn btn-primary btn-lg px-5 py-4 rounded-pill shadow-lg' do %>
+      <i class="fa-solid fa-rocket me-2"></i>+もやもや結晶を調査🔍
+    <% end %>
+    <p class="text-muted mt-3 small">
+      ※ googleログインですぐに利用可能
+    </p>
+  </div>
+</section>
+
+<!-- ========================================
+     フッター前の余白
+     ======================================== -->
+<div class="mb-5"></div>
