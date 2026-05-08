@@ -87,7 +87,7 @@ Rails.application.config.sorcery.configure do |config|
   config.google.callback_url = if Rails.env.production?
                                   "https://#{ENV['PRODUCTION_HOST']}/oauth/callback?provider=google"
                                 else
-                                  "http://0.0.0.0:3000/oauth/callback?provider=google"
+                                  "http://localhost:3000/oauth/callback?provider=google"
                                 end
   config.google.user_info_mapping = {
     email: 'email',
