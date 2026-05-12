@@ -171,3 +171,34 @@
 #loading-overlay.hidden {
   display: none;
 }
+
+// 検索候補のスタイル
+.suggestion-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.15s ease;
+
+  &:hover,
+  &.selected {
+    background-color: #f3f4f6;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.suggestion-title {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.suggestion-description {
+  font-size: 0.875rem;
+  color: #6b7280;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

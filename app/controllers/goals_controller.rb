@@ -8,8 +8,28 @@ class GoalsController < ApplicationController
     @goals = current_user.goals
                          .includes(goal_associations)
                          .order(created_at: :desc)
-                         .page(params[:page])
-                         .per(4)
+
+    # 検索キーワードがある場合は検索を実行
+    @goals = @goals.search_by_keyword(params[:q]) if params[:q].present?
+
+    # ページネーション
+    @goals = @goals.page(params[:page]).per(4)
+  end
+
+  # オートコンプリート用API
+  def autocomplete
+    query = sanitize_query(params[:q])
+
+    # クエリが無効な場合は空の配列を返す
+    if invalid_query?(query)
+      render json: []
+      return
+    end
+
+    # サニタイズされたクエリで検索
+    suggestions = search_goals(query)
+
+    render json: format_suggestions(suggestions)
   end
 
   def show
@@ -92,5 +112,31 @@ class GoalsController < ApplicationController
       :goal_title,
       :goal_description
     )
+  end
+
+  def sanitize_query(query)
+    # HTML タグやスクリプトを削除
+    ActionController::Base.helpers.sanitize(query, tags: [], attributes: [])
+  end
+
+  def invalid_query?(query)
+    query.blank? || query.length > 100
+  end
+
+  def search_goals(query)
+    current_user.goals
+                .includes(survey_profile: :survey_result)
+                .search_by_keyword(query)
+                .limit(5)
+  end
+
+  def format_suggestions(suggestions)
+    suggestions.map do |goal|
+      {
+        id: goal.id,
+        title: goal.survey_result&.goal_title || '目標なし',
+        description: goal.survey_result&.goal_description&.truncate(50) || ''
+      }
+    end
   end
 end

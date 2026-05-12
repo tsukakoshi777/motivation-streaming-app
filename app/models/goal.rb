@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Goal < ApplicationRecord
+  include SearchableGoal
+
   # アソシエーション
   belongs_to :user
   belongs_to :survey_profile, dependent: :destroy

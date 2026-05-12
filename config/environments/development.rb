@@ -23,14 +23,23 @@ Rails.application.configure do
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
-    config.cache_store = :memory_store
+    # Redis をキャッシュストアとして使用 🆕 変更
+    config.cache_store = :redis_cache_store, {
+      url: ENV.fetch('REDIS_URL', 'redis://redis:6379/1'),
+      reconnect_attempts: 1
+    }
+
     config.public_file_server.headers = {
       "Cache-Control" => "public, max-age=#{2.days.to_i}"
     }
   else
     config.action_controller.perform_caching = false
 
-    config.cache_store = :null_store
+    # Redis をキャッシュストアとして使用 🆕 変更
+    config.cache_store = :redis_cache_store, {
+      url: ENV.fetch('REDIS_URL', 'redis://redis:6379/1'),
+      reconnect_attempts: 1
+    }  
   end
 
   # Store uploaded files on the local file system (see config/storage.yml for options).

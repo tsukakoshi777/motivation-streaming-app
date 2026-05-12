@@ -10,6 +10,13 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+  
+  redis:  
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
 
   web:
     build: .
@@ -22,12 +29,13 @@ services:
       - "3000:3000"
     depends_on:
       - db
-      - chrome  # Chrome コンテナへの依存を追加
+      - chrome 
+      - redis 
     environment:
       DATABASE_HOST: db
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: password
-      SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub  # Chrome コンテナの URL を追加
+      SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub  
     stdin_open: true
     tty: true
 
@@ -41,3 +49,4 @@ volumes:
   postgres_data:
   bundle_data:
   node_modules:
+  redis_data:

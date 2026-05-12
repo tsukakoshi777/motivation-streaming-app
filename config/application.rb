@@ -54,6 +54,9 @@ module App
 
     # 外部リダイレクトのチェックを無効化
     config.action_controller.raise_on_open_redirects = false
+
+    # rack-attack を有効化
+    config.middleware.use Rack::Attack
   end
 end
 

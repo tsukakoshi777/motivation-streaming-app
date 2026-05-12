@@ -35,6 +35,12 @@ Rails.application.routes.draw do
 
   # 成長の星
   resources :goals, only: %i[index show edit update destroy] do
+
+    # collection ルーティング（検索機能）
+    collection do
+      get :autocomplete  # オートコンプリート用API
+    end
+
     # survey_profile の編集・更新をネストする
     resource :survey_profile, only: %i[edit update]
 
