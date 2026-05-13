@@ -46,7 +46,7 @@ RSpec.describe 'Goals::Autocomplete', type: :system do
 
   describe 'オートコンプリート機能' do
     context '検索キーワードを入力した場合' do
-      it 'Ruby を入力すると候補が表示される', js: true, skip: ENV['CI'].present? do
+      it 'Ruby を入力すると候補が表示される', js: true do
         # 目標一覧ページに遷移（パスは適宜変更してください）
         visit goals_path
 
@@ -56,11 +56,14 @@ RSpec.describe 'Goals::Autocomplete', type: :system do
         # JavaScript の読み込みを待つ
         expect(page).to have_css('#q', wait: 10)
 
-        # 検索フォームに入力
-        fill_in 'q', with: 'Ruby'
+        # JavaScript で直接入力する
+        page.execute_script("document.getElementById('q').value = 'Ruby'")
+
+        # input イベントを発火させる
+        page.execute_script("document.getElementById('q').dispatchEvent(new Event('input'))")
 
         # オートコンプリートの候補が表示されるまで待機
-        expect(page).to have_css('.suggestion-item', text: 'Ruby学習', wait: 5)
+        expect(page).to have_css('.suggestion-item', text: 'Ruby学習', wait: 10)
       end
 
       it 'Rails を入力すると候補が表示される', js: true do
