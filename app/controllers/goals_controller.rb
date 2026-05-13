@@ -10,7 +10,11 @@ class GoalsController < ApplicationController
                          .order(created_at: :desc)
 
     # 検索キーワードがある場合は検索を実行
-    @goals = @goals.search_by_keyword(params[:q]) if params[:q].present?
+    if params[:q].present?
+      # sanitize_query メソッドで全角スペースを半角スペースに変換
+      sanitized_query = sanitize_query(params[:q])
+      @goals = @goals.search_by_keyword(sanitized_query)
+    end
 
     # ページネーション
     @goals = @goals.page(params[:page]).per(4)
@@ -116,7 +120,10 @@ class GoalsController < ApplicationController
 
   def sanitize_query(query)
     # HTML タグやスクリプトを削除
-    ActionController::Base.helpers.sanitize(query, tags: [], attributes: [])
+    sanitized = ActionController::Base.helpers.sanitize(query, tags: [], attributes: [])
+
+    # 全角スペースを半角スペースに統一
+    sanitized.tr('　', ' ')
   end
 
   def invalid_query?(query)
