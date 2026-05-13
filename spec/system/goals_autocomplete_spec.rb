@@ -53,6 +53,9 @@ RSpec.describe 'Goals::Autocomplete', type: :system do
         # ページが表示されるまで待機
         expect(page).to have_content('成長の星 一覧'), '成長の星 一覧ページが表示されません'
 
+        # JavaScript の読み込みを待つ
+        expect(page).to have_css('#q', wait: 10)
+
         # 検索フォームに入力
         fill_in 'q', with: 'Ruby'
 

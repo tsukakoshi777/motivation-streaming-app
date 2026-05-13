@@ -79,3 +79,10 @@ jobs:
           DATABASE_PASSWORD: password
           SELENIUM_REMOTE_URL: http://localhost:4444
         run: bundle exec rspec
+
+      - name: Upload screenshots
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: capybara-screenshots
+          path: tmp/capybara/
