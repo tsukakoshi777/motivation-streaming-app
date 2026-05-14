@@ -1,0 +1,30 @@
+# frozen_string_literal: true
+
+module GoalsHelper
+  # 星の絵文字を返すメソッド
+  def star_emoji(goal)
+    spark_count = goal.sparks.count # ← sparks.count に変更
+
+    case spark_count
+    when 0..3
+      '✦☆☆☆☆'
+    when 4..7
+      '✦✦☆☆☆'
+    when 8..11
+      '✦✦✦☆☆'
+    when 12..15
+      '✦✦✦✦☆'
+    else # 16件以上
+      '✦✦✦✦✦'
+    end
+  end
+
+  # 達成率を返すメソッド
+  def achievement_rate(goal)
+    spark_count = goal.sparks.count # ← sparks.count に変更
+    total_required = 20 # 完成に必要な件数
+
+    rate = (spark_count.to_f / total_required * 100).round
+    [rate, 100].min # 100%を超えないようにする
+  end
+end

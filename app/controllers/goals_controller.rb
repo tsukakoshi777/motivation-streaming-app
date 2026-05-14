@@ -75,7 +75,8 @@ class GoalsController < ApplicationController
         streaming_experience
         survey_response
         survey_result
-      ]
+      ],
+      sparks: []
     }
   end
 
