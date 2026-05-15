@@ -73,9 +73,100 @@
           <h3 class="h4 fw-bold text-white mb-3">
             🌟 次のステップへ進もう! 🌟
           </h3>
-          <p class="text-white mb-0">
+          <p class="text-white mb-4">
             成長の星を育てるために、日々の輝き（メモ）を記録していきましょう!
           </p>
+
+          <!-- ★★★ ここから成長の星セクション ★★★ -->
+          <!-- PC画面用のレイアウト（横並び） -->
+          <div class="d-none d-md-block">
+            <div class="row g-4">
+              <!-- 左側：GIFアニメーション -->
+              <div class="col-md-6">
+                <div class="text-center">
+                  <%= image_tag star_gif(@goal), alt: "成長の星", class: "img-fluid", style: "max-width: 300px;" %>
+                </div>
+              </div>
+
+              <!-- 右側：統計情報 + 星の輝きメーター -->
+              <div class="col-md-6">
+                <!-- 統計情報 -->
+                <div class="mb-4">
+                  <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
+                    <p class="mb-1 text-white small">輝きメモ</p>
+                    <p class="h4 fw-bold text-white mb-0"><%= @goal.sparks.count %>件</p>
+                  </div>
+
+                  <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
+                    <p class="mb-1 text-white small">開始日</p>
+                    <p class="h5 fw-bold text-white mb-0"><%= @goal.created_at.strftime('%Y/%m/%d') %></p>
+                  </div>
+
+                  <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
+                    <p class="mb-1 text-white small">最新記録</p>
+                    <p class="h5 fw-bold text-white mb-0">
+                      <%= @goal.sparks.any? ? @goal.sparks.order(created_at: :desc).first.created_at.strftime('%Y/%m/%d') : "-" %>
+                    </p>
+                  </div>
+                </div>
+
+                <!-- 星の輝きメーター -->
+                <div>
+                  <p class="mb-2 fw-bold text-white">星の輝きメーター: <%= achievement_rate(@goal) %>%</p>
+                  <div class="text-center mb-3" style="font-size: 3rem; color: #fbbf24;">
+                    <%= star_emoji(@goal) %>
+                  </div>
+                  <div class="progress" style="height: 30px;">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: <%= achievement_rate(@goal) %>%;" aria-valuenow="<%= achievement_rate(@goal) %>" aria-valuemin="0" aria-valuemax="100">
+                      <%= achievement_rate(@goal) %>%
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- スマホ画面用のレイアウト（縦並び） -->
+          <div class="d-md-none">
+            <!-- GIFアニメーション -->
+            <div class="text-center mb-4">
+              <%= image_tag star_gif(@goal), alt: "成長の星", class: "img-fluid", style: "max-width: 300px;" %>
+            </div>
+
+            <!-- 統計情報 -->
+            <div class="mb-4">
+              <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
+                <p class="mb-1 text-white small">輝きメモ</p>
+                <p class="h4 fw-bold text-white mb-0"><%= @goal.sparks.count %>件</p>
+              </div>
+
+              <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
+                <p class="mb-1 text-white small">開始日</p>
+                <p class="h5 fw-bold text-white mb-0"><%= @goal.created_at.strftime('%Y/%m/%d') %></p>
+              </div>
+
+              <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
+                <p class="mb-1 text-white small">最新記録</p>
+                <p class="h5 fw-bold text-white mb-0">
+                  <%= @goal.sparks.any? ? @goal.sparks.order(created_at: :desc).first.created_at.strftime('%Y/%m/%d') : "-" %>
+                </p>
+              </div>
+            </div>
+
+            <!-- 星の輝きメーター -->
+            <div>
+              <p class="mb-2 fw-bold text-white">星の輝きメーター: <%= achievement_rate(@goal) %>%</p>
+              <div class="text-center mb-3" style="font-size: 3rem; color: #fbbf24;">
+                <%= star_emoji(@goal) %>
+              </div>
+              <div class="progress" style="height: 30px;">
+                <div class="progress-bar bg-warning" role="progressbar" style="width: <%= achievement_rate(@goal) %>%;" aria-valuenow="<%= achievement_rate(@goal) %>" aria-valuemin="0" aria-valuemax="100">
+                  <%= achievement_rate(@goal) %>%
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ★★★ 成長の星セクション終了 ★★★ -->
         </div>
       </div>
 
