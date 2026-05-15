@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   # プロフィール
   resource :profile, only: [:show, :edit, :update]
 
+  # ダッシュボード 
+  get 'dashboard', to: 'dashboard#index'
+
   # もやもや結晶シート（入力・保存のみ）
   resources :survey_profiles, only: %i[new create] do
     collection do

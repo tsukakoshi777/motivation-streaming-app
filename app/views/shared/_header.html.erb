@@ -13,6 +13,9 @@
         <li class='nav-item me-lg-3'>
           <%= link_to t('header.goals_index'), goals_path, class: 'nav-link' %>
         </li>
+        <li class="nav-item">
+          <%= link_to '✦成長の銀河系✦', dashboard_path, class: 'nav-link' %>
+        </li
         <li class='nav-item me-lg-3'>
           <%= link_to t('header.profile'), profile_path, class: 'nav-link' %>
         </li>
@@ -21,10 +24,10 @@
                        method: :delete,
                        data: { turbo_confirm: 'ログアウトしますか?' },
                        class: 'btn btn-outline-danger' do %>
-            <%= t('defaults.logout') %>
-          <% end %>
+          <%= t('defaults.logout') %>
+        <% end %>
         </li>
-      </ul>
-    </div>
-  </nav>
+    </ul>
+  </div>
+</nav>
 </header>
