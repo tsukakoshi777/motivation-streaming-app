@@ -1,5 +1,10 @@
 import "@hotwired/turbo-rails"
 import "./controllers"
+
+// Chart.js をインポート 
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
+
 window.abortController = null;
 
 // ========================================

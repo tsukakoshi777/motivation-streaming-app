@@ -5,7 +5,7 @@
       <!-- ヘッダー部分 -->
       <div class="text-center mb-4">
         <h1 class="display-5 fw-bold mb-2" style="background: linear-gradient(to right, #0019cf, #e6ff9e); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-          ✦成長の銀河系✦
+          銀河系REPORT
         </h1>
         <p class="text-muted">あなたの成長の軌跡を振り返りましょう ✨</p>
       </div>
@@ -14,7 +14,7 @@
       <div class="card shadow-lg mb-4" style="background: linear-gradient(to right, #0019cf, #e6ff9e);">
         <div class="card-body p-4 p-md-5">
           <h3 class="h4 fw-bold text-white mb-4 text-center">
-            📊 全体統計
+            ✦あなたの配信銀河系✦
           </h3>
 
           <!-- 統計情報 -->
@@ -40,7 +40,7 @@
               </div>
             </div>
           </div>
-          
+
           <!-- きらめきバッジ -->
           <div class="mb-3">
             <h4 class="fw-bold text-white mb-3 text-center">【きらめきバッジ】</h4>
@@ -59,6 +59,55 @@
           </div>
 
           <p class="text-white mb-0 text-center">あなたの銀河系は輝きに満ちています ✨</p>
+        </div>
+      </div>
+
+      <!-- グラフセクション -->
+      <div class="row g-4 mb-4">
+        <!-- 円グラフ: 目標別の輝きメモ割合 -->
+        <div class="col-md-6">
+          <div class="card shadow-lg" style="background: linear-gradient(to right, #928b97, #6ba3e9);">
+            <div class="card-body p-4">
+              <h3 class="h5 fw-bold mb-4 text-white text-center">
+                各成長の星の輝き割合
+              </h3>
+              <% if @goal_sparks_data.present? %>
+                <div class="p-3 rounded" style="background-color: rgba(255, 255, 255, 0.9);">
+                  <canvas 
+              data-controller="chart"
+              data-chart-type-value="pie"
+              data-chart-data-value='<%= raw goal_sparks_chart_data(@goal_sparks_data) %>'
+              data-chart-options-value='<%= raw goal_sparks_chart_options %>'
+            ></canvas>
+                </div>
+              <% else %>
+                <p class="text-white text-center">データがありません</p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <!-- 棒グラフ: 月別の輝きメモ件数 -->
+        <div class="col-md-6">
+          <div class="card shadow-lg" style="background: linear-gradient(to right, #928b97, #6ba3e9);">
+            <div class="card-body p-4">
+              <h3 class="h5 fw-bold mb-4 text-white text-center">
+                月別の宿した輝き数
+              </h3>
+              <% if @monthly_sparks_data.present? %>
+                <div class="p-3 rounded" style="background-color: rgba(255, 255, 255, 0.9);">
+                  <canvas 
+              data-controller="chart"
+              data-chart-type-value="bar"
+              data-chart-data-value='<%= raw monthly_sparks_chart_data(@monthly_sparks_data) %>'
+              data-chart-options-value='<%= raw monthly_sparks_chart_options %>'
+            ></canvas>
+                </div>
+              <% else %>
+                <p class="text-white text-center">データがありません</p>
+              <% end %>
+            </div>
+          </div>
         </div>
       </div>
 
