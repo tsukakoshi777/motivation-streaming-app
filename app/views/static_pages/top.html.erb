@@ -30,8 +30,7 @@
 
           <!-- メインキャッチコピー -->
           <h1 class="hero-title display-3 fw-bold text-white mb-4">
-            配信を続けたい！<br class="d-md-none">
-            でも自分には難しい？
+            <%= t('.hero.title_html') %>
           </h1>
 
           <!-- サブキャッチコピー -->
@@ -43,13 +42,13 @@
           <div class="hero-cta">
             <%= link_to new_survey_profile_path, 
                 class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg' do %>
-              <i class="fa-solid fa-rocket me-2"></i>+もやもや結晶を調査🔍
+              <i class="fa-solid fa-rocket me-2"></i><%= t('.hero.cta_button') %>
             <% end %>
           </div>
 
           <!-- 補足テキスト(オプション) -->
           <p class="hero-note text-white mt-3 small">
-            ※googleログインですぐに利用可能
+            <%= t('.hero.note') %>
           </p>
         </div>
       </div>
@@ -65,13 +64,12 @@
 <section class="problems-section py-5">
   <div class="container">
     <h2 class="title12-parts text-center mt-2 mb-4">
-      配信の悩みはきらめく星へ
-      <span class="small-parts d-block mt-2">Star Streaming Support</span>
+      <%= t('.problems.title') %>
+      <span class="small-parts d-block mt-2"><%= t('.problems.subtitle') %></span>
     </h2>
 
     <p class="text-center lead pt-1 mb-5">
-      何を相談すればいいかわからない配信者のための分析ツール。<br>
-      あなたの配信の「もやもや」を具体的な成長目標に変換します。
+      <%= t('.problems.description_html') %>
     </p>
 
     <!-- 悩み3つ(PC: 横並び / スマホ: 縦並び) -->
@@ -80,8 +78,8 @@
       <div class="col-12 col-md-4 mb-4 problem-star-pair">
         <div class="problem-item text-center">
           <i class="fa-solid fa-chart-line fa-3x text-primary mb-3"></i>
-          <h3>視聴者が増えない☁</h3>
-          <p class="text-muted">どうすれば視聴者を増やせるのか具体的なアドバイスが欲しい</p>
+          <h3><%= t('.problems.problem1.title') %></h3>
+          <p class="text-muted"><%= t('.problems.problem1.description') %></p>
         </div>
 
         <!-- 下向き矢印 -->
@@ -99,8 +97,8 @@
       <div class="col-12 col-md-4 mb-4 problem-star-pair">
         <div class="problem-item text-center">
           <i class="fa-solid fa-comments fa-3x text-primary mb-3"></i>
-          <h3>応援してくれるファンが少ない☁</h3>
-          <p class="text-muted">どうやってファン化を促すのか知りたい</p>
+          <h3><%= t('.problems.problem2.title') %></h3>
+          <p class="text-muted"><%= t('.problems.problem2.description') %></p>
         </div>
 
         <!-- 下向き矢印 -->
@@ -118,8 +116,8 @@
       <div class="col-12 col-md-4 mb-4 problem-star-pair">
         <div class="problem-item text-center">
           <i class="fa-solid fa-lightbulb fa-3x text-primary mb-3"></i>
-          <h3>何を改善すべきか分からない☁</h3>
-          <p class="text-muted">自身が目指す配信への不足している点を具体的に把握したい</p>
+          <h3><%= t('.problems.problem3.title') %></h3>
+          <p class="text-muted"><%= t('.problems.problem3.description') %></p>
         </div>
 
         <!-- 下向き矢印 -->
@@ -161,14 +159,14 @@
      ======================================== -->
 <section class="bg-gradient py-3" style="background: #f8f9fa">
   <div class="container text-center py-5">
-    <h3 class="h2 fw-bold mb-4">まずは気軽にもやもやした気持ちを解消しませんか?</h3>
+    <h3 class="h2 fw-bold mb-4"><%= t('.cta1.title') %></h3>
     <p class="lead mb-4">
-      AIがあなたの配信状況や気持ちに寄り添い、具体的な改善提案をお届けします。
+       <%= t('.cta1.description') %>
     </p>
     <div class="d-flex justify-content-center gap-3 flex-wrap">
       <%= link_to new_survey_profile_path, 
           class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow' do %>
-        <i class="fa-solid fa-rocket me-2"></i>+もやもや結晶を調査🔍
+        <i class="fa-solid fa-rocket me-2"></i><%= t('.cta1.button') %>
       <% end %>
     </div>
   </div>
@@ -190,8 +188,7 @@
             <i class="fa-solid fa-clipboard-list fa-4x text-primary"></i>
           </div>
           <h4 class="card-title h5 mb-3">
-            <span class="text-primary fw-bold">「何を相談すればいいか」</span><br>
-            がわかる
+            <%= raw t('.reasons.reason1.title_html') %>
           </h4>
           <p class="card-text text-muted">
             <strong>一般的なAIは自由度が高い反面、</strong><br>
@@ -213,8 +210,7 @@
             <i class="fa-solid fa-robot fa-4x text-primary"></i>
           </div>
           <h4 class="card-title h5 mb-3">
-            <span class="text-primary fw-bold">配信者特化のAI分析</span><br>
-            で具体的な目標を提案
+            <%= raw t('.reasons.reason2.title_html') %>
           </h4>
           <p class="card-text text-muted">
             <strong>一般的なAIは汎用的なアドバイスになりがち。</strong><br>
@@ -235,8 +231,7 @@
             <i class="fa-solid fa-chart-line fa-4x text-primary"></i>
           </div>
           <h4 class="card-title h5 mb-3">
-            <span class="text-primary fw-bold">過去の記録を活用</span><br>
-            して成長を実感
+            <%= raw t('.reasons.reason3.title_html') %>
           </h4>
           <p class="card-text text-muted">
             <strong>一般的な習慣化アプリは記録・可視化が中心。</strong><br>
@@ -272,8 +267,7 @@
             <i class="fa-solid fa-lightbulb fa-4x text-primary"></i>
           </div>
           <h4 class="card-title h5 mb-3 text-primary fw-bold">
-            悩みの可視化と<br>
-            解決手順の提示
+            <%= raw t('.reasons.solution1.title_html') %>
           </h4>
           <p class="card-text">
             漠然とした悩みを具体的な課題として認識でき、その課題を解決するための手順・ツール・情報を自分で調べなくても得られます。<br>
@@ -291,8 +285,7 @@
             <i class="fa-solid fa-chart-simple fa-4x text-primary"></i>
           </div>
           <h4 class="card-title h5 mb-3 text-primary fw-bold">
-            過去との比較で<br>
-            成長を実感
+            <%= raw t('.reasons.solution2.title_html') %>
           </h4>
           <p class="card-text">
             過去の分析シートを見返すことで、自分がどれだけ成長したかを実感できます。<br>
@@ -310,8 +303,7 @@
             <i class="fa-solid fa-bullseye fa-4x text-primary"></i>
           </div>
           <h4 class="card-title h5 mb-3 text-primary fw-bold">
-            変化する目標に<br>
-            柔軟に対応
+            <%= raw t('.reasons.solution3.title_html') %>
           </h4>
           <p class="card-text">
             配信者の目標は変化し続けます。<br>
@@ -330,7 +322,7 @@
      ======================================== -->
 <section class="bg-light py-4">
   <div class="container py-5">
-    <h2 class="text-center mb-5 h1 fw-bold">たった3ステップでも心のもやもや☁を次の目標へ⭐</h2>
+    <h2 class="text-center mb-5 h1 fw-bold"><%= t('.steps.title') %></h2>
 
     <div class="row g-5">
       <!-- ステップ1 -->
@@ -342,9 +334,9 @@
               1
             </div>
           </div>
-          <h3 class="h4 mb-3 fw-bold">簡単な質問に答える</h3>
+          <h3 class="h4 mb-3 fw-bold"><%= t('.steps.step1.title') %></h3>
           <p class="text-muted mb-4">
-            配信の状況や目標について、いくつかの質問に答えるだけ。所要時間は約3分です。
+            <%= t('.steps.step1.description') %>
           </p>
           
           <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
@@ -364,9 +356,9 @@
               2
             </div>
           </div>
-          <h3 class="h4 mb-3 fw-bold">AIが分析</h3>
+          <h3 class="h4 mb-3 fw-bold"><%= t('.steps.step2.title') %></h3>
           <p class="text-muted mb-4">
-            あなたの回答をAIが分析し、配信の課題や改善点を見つけ出します。
+            <%= t('.steps.step2.description') %>
           </p>
           
           <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
@@ -386,9 +378,9 @@
               3
             </div>
           </div>
-          <h3 class="h4 mb-3 fw-bold">具体的な提案を受け取る</h3>
+          <h3 class="h4 mb-3 fw-bold"><%= t('.steps.step3.title') %></h3>
           <p class="text-muted mb-4">
-            あなたに合った具体的な改善策と、実現可能な目標を提案します。
+            <%= t('.steps.step3.description') %>
           </p>
           
           <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
@@ -406,7 +398,7 @@
 <section class="sparkle-feature-section py-5">
   <div class="container">
     <!-- セクションタイトル -->
-    <h2 class="title12-parts">✨ 輝き機能</h2>
+    <h2 class="title12-parts"> <%= t('.sparkle.title') %></h2>
     
     <!-- 機能説明とデモ動画 -->
     <div class="feature-content">
@@ -426,7 +418,7 @@
       <!-- デモ動画 -->
       <div class="feature-demo">
         <div class="demo-video-item">
-          <p class="demo-label">PC版</p>
+          <p class="demo-label"><%= t('.sparkle.demo_label_pc') %></p>
           <%= image_tag 'sparkle-demo-pc.gif', alt: '輝き機能のデモ動画(PC版)', class: 'demo-gif' %>
         </div>
       </div>
@@ -435,7 +427,7 @@
     <!-- モバイル版デモ動画 (モバイルのみ表示) -->
     <div class="feature-demo-mobile">
       <div class="demo-video-item">
-        <p class="demo-label">モバイル版</p>
+        <p class="demo-label"><%= t('.sparkle.demo_label_mobile') %></p>
         <%= image_tag 'sparkle-demo-mb.gif', alt: '輝き機能のデモ動画(モバイル版)', class: 'demo-gif' %>
       </div>
     </div>
@@ -451,7 +443,7 @@
       <div class="col-lg-10">
         <div class="text-center mb-5">
           <h2 class="h1 fw-bold mb-4 mt-1 text-white">
-            <i class="fa-solid fa-heart me-2"></i>開発者の想い
+            <i class="fa-solid fa-heart me-2"></i><%= t('.developer.title') %>
           </h2>
         </div>
         
@@ -477,8 +469,8 @@
           </p>
           
           <div class="text-end mt-5">
-            <p class="h4 fw-bold mb-2">推しスタ開発者🌕</p>
-            <p class="text-white">あなたが苦悩した先に手に入れた輝きは誰かの心を照らす光になる</p>
+            <p class="h4 fw-bold mb-2"><%= t('.developer.signature') %></p>
+            <p class="text-white"><%= t('.developer.motto') %></p>
           </div>
         </div>
       </div>
@@ -491,17 +483,16 @@
      ======================================== -->
 <section class="container my-5 py-5">
   <div class="text-center">
-    <h2 class="h1 fw-bold mb-4 title12-parts">さあ、あなたがなりたい推し⭐になろう</h2>
+    <h2 class="h1 fw-bold mb-4 title12-parts"><%= t('.final_cta.title') %></h2>
     <p class="lead mb-5">
-      もやもやした気持ちはあなたをもっと輝かせる目標⭐になる<br>
-      推しスタがあなたの配信の可能性を引き出します。
+      <%= t('.final_cta.description_html') %>
     </p>
     <%= link_to new_survey_profile_path, 
         class: 'btn btn-primary btn-lg px-5 py-4 rounded-pill shadow-lg' do %>
-      <i class="fa-solid fa-rocket me-2"></i>+もやもや結晶を調査🔍
+      <i class="fa-solid fa-rocket me-2"></i><%= t('.final_cta.button') %>
     <% end %>
     <p class="text-muted mt-3 small">
-      ※ googleログインですぐに利用可能
+      <%= t('.final_cta.note') %>
     </p>
   </div>
 </section>

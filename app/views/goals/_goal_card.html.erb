@@ -2,14 +2,55 @@
   <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1 h-100 d-flex flex-column">
     <!-- ヘッダー部分（グラデーション） -->
     <div class="p-4" style="background: linear-gradient(to right, #f472b6, #c084fc, #ec4899);">
-      <div class="d-flex justify-content-between align-items-center">
+      <!-- PC画面用のレイアウト（横並び） -->
+      <div class="d-none d-md-flex justify-content-between align-items-center">
+        <!-- 左側：成長の星 + 絵文字 -->
         <div class="d-flex align-items-center">
-          <span style="font-size: 1.5rem; margin-right: 0.5rem;">⭐</span>
-          <span style="color: white; font-weight: bold; font-size: 0.875rem;">成長の星</span>
+          <!-- 成長の星 -->
+          <span style="color: white; font-weight: bold; font-size: 1.5rem; margin-right: 1.5rem;"><%= t('.header.title') %></span>
+
+          <!-- 星の絵文字 -->
+          <span style="font-size: 2.5rem;">
+            <%= star_emoji(goal) %>
+          </span>
         </div>
-        <span style="font-size: 0.75rem; color: white; background-color: rgba(255, 255, 255, 0.3); padding: 0.25rem 0.5rem; border-radius: 50px;">
-          作成:<%= l(goal.created_at, format: :short) %>
-        </span>
+
+        <!-- 右側：作成日時 + 達成率（縦並び） -->
+        <div class="d-flex flex-column align-items-end">
+          <!-- 作成日時 -->
+          <span style="font-size: 0.75rem; color: white; background-color: rgba(255, 255, 255, 0.3); padding: 0.25rem 0.5rem; border-radius: 50px; margin-bottom: 0.5rem;">
+            <%= t('.header.created_at') %><%= l(goal.created_at, format: :short) %>
+          </span>
+
+          <!-- 達成率を表示 -->
+          <span style="color: white; font-size: 1rem; opacity: 0.9;">
+            <%= t('.header.achievement', rate: achievement_rate(goal)) %>
+          </span>
+        </div>
+      </div>
+
+      <!-- スマホ画面用のレイアウト（縦並び） -->
+      <div class="d-flex d-md-none flex-column">
+        <!-- 上部：成長の星 + 作成日時 -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <span style="color: white; font-weight: bold; font-size: 1.25rem;"><%= t('.header.title') %></span>
+          <span style="font-size: 0.75rem; color: white; background-color: rgba(255, 255, 255, 0.3); padding: 0.25rem 0.5rem; border-radius: 50px;">
+            <%= t('.header.created_at') %><%= l(goal.created_at, format: :short) %>
+          </span>
+        </div>
+
+        <!-- 中央：絵文字 + 達成率 -->
+        <div class="d-flex flex-column">
+          <!-- 星の絵文字 -->
+          <span style="font-size: 2.5rem;">
+            <%= star_emoji(goal) %>
+          </span>
+
+          <!-- 達成率を表示 -->
+          <span style="color: white; font-size: 1rem; opacity: 0.9; margin-top: 0.25rem;">
+            <%= t('.header.achievement', rate: achievement_rate(goal)) %>
+          </span>
+        </div>
       </div>
     </div>
 
@@ -28,21 +69,21 @@
       <!-- 配信情報（コンパクト表示） -->
       <div class="mb-4">
         <div class="d-flex align-items-center text-xs text-gray-600 mb-2">
-          <span class="me-2" style="min-width: 80px;">📺 配信先:</span>
+          <span class="me-2" style="min-width: 80px;"><%= t('.streaming_info.platform') %></span>
           <span class="badge bg-primary text-xs">
             <%= goal.survey_profile.streaming_platform.name %>
           </span>
         </div>
-        
+
         <div class="d-flex align-items-center text-xs text-gray-600 mb-2">
-          <span class="me-2" style="min-width: 80px;">🎯 ジャンル:</span>
+          <span class="me-2" style="min-width: 80px;"><%= t('.streaming_info.category') %></span>
           <span class="badge bg-purple text-xs" style="background-color: #9333ea;">
             <%= goal.survey_profile.streaming_category.name %>
           </span>
         </div>
 
         <div class="d-flex align-items-center text-xs text-gray-600">
-          <span class="me-2" style="min-width: 80px;">💡 経験:</span>
+          <span class="me-2" style="min-width: 80px;"><%= t('.streaming_info.experience') %></span>
           <span class="badge bg-success text-xs">
             <%= goal.survey_profile.streaming_experience.name %>
           </span>
@@ -53,13 +94,13 @@
       <div class="bg-light rounded p-3 mb-4">
         <div class="row text-center text-xs">
           <div class="col-6">
-            <p class="text-muted mb-1">週の配信</p>
+            <p class="text-muted mb-1"><%= t('.activity.weekly_frequency') %></p>
             <p class="h5 font-bold text-gray-800">
               <%= goal.survey_profile.weekly_frequency %> <span class="text-xs">回</span>
             </p>
           </div>
           <div class="col-6">
-            <p class="text-muted mb-1">平均視聴者</p>
+            <p class="text-muted mb-1"><%= t('.activity.average_listeners') %></p>
             <p class="h5 font-bold text-gray-800">
               <%= goal.survey_profile.average_listeners %> <span class="text-xs">人</span>
             </p>
@@ -69,7 +110,7 @@
 
       <!-- モチベーションレベル -->
       <div class="bg-light rounded p-3 mb-4" style="background-color: #fce7f3;">
-        <p class="text-xs text-gray-600 mb-1 text-center">現在のモチベーション</p>
+        <p class="text-xs text-gray-600 mb-1 text-center"><%= t('.motivation.title') %></p>
         <div class="text-center" style="font-size: 1.25rem;">
           <%= '💗' * goal.survey_profile.motivation_level %>
           <%= '🖤' * (5 - goal.survey_profile.motivation_level) %>
@@ -82,7 +123,7 @@
             class: "flex-fill btn btn-primary btn-sm d-flex align-items-center justify-content-center" do %>
           <span class="me-1">✨</span> <%= t('.actions.detail') %>
         <% end %>
-        
+
         <%= link_to edit_goal_path(goal), 
             class: "flex-fill btn btn-secondary btn-sm d-flex align-items-center justify-content-center" do %>
           <span class="me-1">✏️</span> <%= t('.actions.edit') %>
@@ -94,7 +135,7 @@
     <div class="bg-light px-4 py-3 border-top mt-auto">
       <div class="d-flex justify-content-between align-items-center">
         <span class="text-xs text-muted">
-          更新: <%= l(goal.updated_at, format: :short) %>
+          <%= t('.footer.updated_at') %>  <%= l(goal.updated_at, format: :short) %>
         </span>
         <%= button_to goal_path(goal), 
             method: :delete,
@@ -103,7 +144,7 @@
               onsubmit: "return confirm('#{t('.actions.delete_confirm')}');"
             },
             class: "btn text-xs text-danger fw-bold text-decoration-none border-0 bg-transparent p-0" do %>
-           <span class="me-1">🗑️</span> <%= t('.actions.delete') %>
+          <span class="me-1">🗑️</span> <%= t('.actions.delete') %>
         <% end %>
       </div>
     </div>
