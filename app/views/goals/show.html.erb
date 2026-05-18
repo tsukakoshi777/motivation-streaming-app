@@ -71,10 +71,10 @@
       <div class="card shadow-lg text-center mb-4" style="background: linear-gradient(to right, #ec4899, #a855f7);">
         <div class="card-body p-4 p-md-5">
           <h3 class="h4 fw-bold text-white mb-3">
-            🌟 次のステップへ進もう! 🌟
+            <%= t('.next_step.title') %>
           </h3>
           <p class="text-white mb-4">
-            成長の星を育てるために、日々の輝き（メモ）を記録していきましょう!
+            <%= t('.next_step.description') %>
           </p>
 
           <!-- ★★★ ここから成長の星セクション ★★★ -->
@@ -93,17 +93,17 @@
                 <!-- 統計情報 -->
                 <div class="mb-4">
                   <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
-                    <p class="mb-1 text-white small">輝きメモ</p>
+                    <p class="mb-1 text-white small"><%= t('.statistics.sparks_count') %></p>
                     <p class="h4 fw-bold text-white mb-0"><%= @goal.sparks.count %>件</p>
                   </div>
 
                   <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
-                    <p class="mb-1 text-white small">開始日</p>
+                    <p class="mb-1 text-white small"><%= t('.statistics.start_date') %></p>
                     <p class="h5 fw-bold text-white mb-0"><%= @goal.created_at.strftime('%Y/%m/%d') %></p>
                   </div>
 
                   <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
-                    <p class="mb-1 text-white small">最新記録</p>
+                    <p class="mb-1 text-white small"><%= t('.statistics.latest_record') %></p>
                     <p class="h5 fw-bold text-white mb-0">
                       <%= @goal.sparks.any? ? @goal.sparks.order(created_at: :desc).first.created_at.strftime('%Y/%m/%d') : "-" %>
                     </p>
@@ -112,7 +112,7 @@
 
                 <!-- 星の輝きメーター -->
                 <div>
-                  <p class="mb-2 fw-bold text-white">星の輝きメーター: <%= achievement_rate(@goal) %>%</p>
+                  <p class="mb-2 fw-bold text-white"><%= t('.achievement_meter.title', rate: achievement_rate(@goal)) %></p>
                   <div class="text-center mb-3" style="font-size: 3rem; color: #fbbf24;">
                     <%= star_emoji(@goal) %>
                   </div>
@@ -136,17 +136,17 @@
             <!-- 統計情報 -->
             <div class="mb-4">
               <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
-                <p class="mb-1 text-white small">輝きメモ</p>
+                <p class="mb-1 text-white small"><%= t('.statistics.sparks_count') %></p>
                 <p class="h4 fw-bold text-white mb-0"><%= @goal.sparks.count %>件</p>
               </div>
 
               <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
-                <p class="mb-1 text-white small">開始日</p>
+                <p class="mb-1 text-white small"><%= t('.statistics.start_date') %></p>
                 <p class="h5 fw-bold text-white mb-0"><%= @goal.created_at.strftime('%Y/%m/%d') %></p>
               </div>
 
               <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
-                <p class="mb-1 text-white small">最新記録</p>
+                <p class="mb-1 text-white small"><%= t('.statistics.latest_record') %></p>
                 <p class="h5 fw-bold text-white mb-0">
                   <%= @goal.sparks.any? ? @goal.sparks.order(created_at: :desc).first.created_at.strftime('%Y/%m/%d') : "-" %>
                 </p>
@@ -155,7 +155,7 @@
 
             <!-- 星の輝きメーター -->
             <div>
-              <p class="mb-2 fw-bold text-white">星の輝きメーター: <%= achievement_rate(@goal) %>%</p>
+              <p class="mb-2 fw-bold text-white"><%= t('.achievement_meter.title', rate: achievement_rate(@goal)) %></p>
               <div class="text-center mb-3" style="font-size: 3rem; color: #fbbf24;">
                 <%= star_emoji(@goal) %>
               </div>

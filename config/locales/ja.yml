@@ -17,6 +17,144 @@ ja:
       description_html: |
         配信でのもやもやな結晶(想い)を調べて、<br>
         成長の星⭐(目標)に大変身 星を空に描いて、輝く大星座 君だけの銀河を創り上げよう✨
+      # ヒーローセクション
+      hero:
+        title_html: | 
+          配信を続けたい！<br class="d-md-none">
+          でも自分には難しい？
+        cta_button: "+もやもや結晶を調査🔍"
+        note: "※googleログインですぐに利用可能"
+      
+      # 悩みセクション
+      problems:
+        title: "配信の悩みはきらめく星へ"
+        subtitle: "Star Streaming Support"
+        description_html: |
+          何を相談すればいいかわからない配信者のための分析ツール。<br>
+          あなたの配信の「もやもや」を具体的な成長目標に変換します。
+        # 悩み1
+        problem1:
+          title: "視聴者が増えない☁"
+          description: "どうすれば視聴者を増やせるのか具体的なアドバイスが欲しい"
+        
+        # 悩み2
+        problem2:
+          title: "応援してくれるファンが少ない☁"
+          description: "どうやってファン化を促すのか知りたい"
+        
+        # 悩み3
+        problem3:
+          title: "何を改善すべきか分からない☁"
+          description: "自身が目指す配信への不足している点を具体的に把握したい"
+
+      # CTAセクション1
+      cta1:
+        title: "まずは気軽にもやもやした気持ちを解消しませんか?"
+        description: "AIがあなたの配信状況や気持ちに寄り添い、具体的な改善提案をお届けします。"
+        button: "+もやもや結晶を調査🔍"
+      
+      # 3つの理由セクション
+      reasons:
+        title: "配信者の「続けたい」を支える3つの理由"
+        
+        # 理由1
+        reason1:
+          title_html: '<span class="text-primary fw-bold">「何を相談すればいいか」</span><br>がわかる'
+          description_html: |
+            <strong>一般的なAIは自由度が高い反面、</strong><br>
+            「どう質問すればいいかわからない」という壁があります。<br>
+            <br>
+            <strong class="text-primary">推しスタの分析シートなら、</strong><br>
+            質問を構造化し、悩みを言語化しやすくします。<br>
+            <strong>「何を相談すればいいかわからない」層にも届きます。</strong>
+        
+        # 理由2
+        reason2:
+          title_html: '<span class="text-primary fw-bold">配信者特化のAI分析</span><br>で具体的な目標を提案'
+          description_html: |
+            <strong>一般的なAIは汎用的なアドバイスになりがち。</strong><br>
+            <br>
+            <strong class="text-primary">推しスタなら、</strong><br>
+            配信者特有の悩み(視聴者数、収益化、モチベーション維持など)に特化した分析基準を持ちます。<br>
+            <strong>「どこを」「どう」改善すればいいのか具体的に提案します。</strong>
+        
+        # 理由3
+        reason3:
+          title_html: '<span class="text-primary fw-bold">過去の記録を活用</span><br>して成長を実感'
+          description_html: |
+            <strong>一般的な習慣化アプリは記録・可視化が中心。</strong><br>
+            <br>
+            <strong class="text-primary">推しスタなら、</strong><br>
+            過去の分析シートを保存し、モチベーションが下がったときに見返せます。<br>
+            <strong>「なぜモチベーションが低下したのか」を分析し、同じ失敗を繰り返さないようサポートします。</strong>
+        
+        # 解決後のイメージ
+        solution_title_html: |
+          <span class="text-primary">推しスタ</span> は「その場限りの相談相手」ではなく<br>
+          <span class="text-primary title12-parts">「継続的な成長パートナー」</span>です
+        
+        # 解決策1
+        solution1:
+          title_html: '悩みの可視化と<br>解決手順の提示'
+          description: |
+            漠然とした悩みを具体的な課題として認識でき、その課題を解決するための手順・ツール・情報を自分で調べなくても得られます。
+            調べるのが苦手な人でも、適切な情報に迷わずたどり着けます。
+        
+        # 解決策2
+        solution2:
+          title_html: '過去との比較で<br>成長を実感'
+          description: |
+            過去の分析シートを見返すことで、自分がどれだけ成長したかを実感できます。
+            モチベーションが下がったときに、過去にどんな壁にぶつかり、どう乗り越えたのかを思い出せます。
+        
+        # 解決策3
+        solution3:
+          title_html: '変化する目標に<br>柔軟に対応'
+          description: |
+            配信者の目標は変化し続けます。
+            「雑談配信で楽しみたい」→「収益化を目指したい」→「特定のゲームで有名になりたい」
+            その時々の目標に合わせた情報・ツール・人脈を提供し続けます。
+
+      # 使い方セクション
+      steps:
+        title: "たった3ステップでも心のもやもや☁を次の目標へ⭐"
+        
+        # ステップ1
+        step1:
+          title: "簡単な質問に答える"
+          description: "配信の状況や目標について、いくつかの質問に答えるだけ。所要時間は約3分です。"
+
+        # ステップ2
+        step2:
+          title: "AIが分析"
+          description: "あなたの回答をAIが分析し、配信の課題や改善点を見つけ出します。"
+        
+        # ステップ3
+        step3:
+          title: "具体的な提案を受け取る"
+          description: "あなたに合った具体的な改善策と、実現可能な目標を提案します。"
+      
+      # 輝き機能セクション
+      sparkle:
+        title: "✨ 輝き機能"
+        demo_label_pc: "PC版"
+        demo_label_mobile: "モバイル版"
+      
+      # 開発者の想いセクション
+      developer:
+        title: "開発者の想い"
+        signature: "推しスタ開発者🌕"
+        motto: "あなたが苦悩した先に手に入れた輝きは誰かの心を照らす光になる"
+      
+      # 最終CTAセクション
+      final_cta:
+        title: "さあ、あなたがなりたい推し⭐になろう"
+        description_html: |
+          もやもやした気持ちはあなたをもっと輝かせる目標⭐になる<br>
+          推しスタがあなたの配信の可能性を引き出します。
+        button: "+もやもや結晶を調査🔍"
+        note: "※ googleログインですぐに利用可能"
+ 
     contact:
       title: 'お問い合わせ'
     privacy:
@@ -64,6 +202,13 @@ ja:
       description_html: |
         あなたのもやもやから生まれた成長の星たちです。<br class="md:hidden">
         それぞれの星を育てて、輝かせましょう!
+
+      # 検索フォーム
+      search:
+        placeholder: '目標を検索（タイトル・内容・AIの提案から検索）'
+        submit: '検索'
+        clear: 'クリア'
+
       no_goals:
         title: 'まだ成長の星⭐が見つかっていません'
         subtitle: 'もやもや結晶シートから'
@@ -72,6 +217,28 @@ ja:
     not_found: '目標が見つかりませんでした'
 
     goal_card:
+      header:
+        title: '成長の星'
+        created_at: '作成:'
+        achievement: '%{rate}% 達成'
+
+      streaming_info:
+        platform: '📺 配信先:'
+        category: '🎯 ジャンル:'
+        experience: '💡 経験:'
+      
+      activity:
+        weekly_frequency: '週の配信'
+        weekly_frequency_unit: '回'
+        average_listeners: '平均視聴者'
+        average_listeners_unit: '人'
+
+      motivation:
+        title: '現在のモチベーション'
+
+      footer:
+        updated_at: '更新:'
+
       actions:
         detail: '詳細'
         edit: '編集'
@@ -88,6 +255,23 @@ ja:
         edit: '編集'
         delete: '削除'
         delete_confirm: '本当に削除しますか?\nこの操作は取り消せません。'
+
+      # アクションボタンエリア
+      next_step:
+        title: '🌟 次のステップへ進もう! 🌟'
+        description: '成長の星を育てるために、日々の輝き（メモ）を記録していきましょう!'
+
+      # 統計情報
+      statistics:
+        sparks_count: '輝きメモ'
+        sparks_count_unit: '件'
+        start_date: '開始日'
+        latest_record: '最新記録'
+        no_record: '-'
+
+      # 星の輝きメーター
+      achievement_meter:
+        title: '星の輝きメーター: %{rate}%'
 
     edit:
       title: '成長の星を編集'
@@ -175,3 +359,36 @@ ja:
     update:
       success: 'プロフィールを更新しました'
       failure: 'プロフィールの更新に失敗しました'
+
+  dashboard:
+    index:
+      # ヘッダー
+      header:
+        title: '銀河系REPORT'
+        subtitle: 'あなたの成長の軌跡を振り返りましょう ✨'
+      
+      # 統計情報カード
+      statistics:
+        title: '✦あなたの配信銀河系✦'
+        total_goals: '見つかった成長の星'
+        total_goals_unit: '個 ⭐'
+        completed_stars: '達成した成長の星'
+        completed_stars_unit: '個 🌟'
+        total_sparks: '宿した輝きの数'
+        total_sparks_unit: '件 ✨'
+        galaxy_message: 'あなたの銀河系は輝きに満ちています ✨'
+      
+      # きらめきバッジ
+      badges:
+        title: '【きらめきバッジ】'
+        no_badges: 'まだバッジがありません。輝きメモを記録して、バッジを獲得しましょう!'
+      
+      # グラフセクション
+      charts:
+        goal_sparks_title: '各成長の星の輝き割合'
+        monthly_sparks_title: '月別の宿した輝き数'
+        no_data: 'データがありません'
+      
+      # ボタン
+      actions:
+        back_to_goals: '⭐ 成長の星 一覧に戻る'

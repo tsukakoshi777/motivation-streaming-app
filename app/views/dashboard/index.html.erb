@@ -5,7 +5,7 @@
       <!-- ヘッダー部分 -->
       <div class="text-center mb-4">
         <h1 class="display-5 fw-bold mb-2" style="background: linear-gradient(to right, #0019cf, #e6ff9e); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-          銀河系REPORT
+           <%= t('.header.title') %>
         </h1>
         <p class="text-muted">あなたの成長の軌跡を振り返りましょう ✨</p>
       </div>
@@ -14,28 +14,28 @@
       <div class="card shadow-lg mb-4" style="background: linear-gradient(to right, #0019cf, #e6ff9e);">
         <div class="card-body p-4 p-md-5">
           <h3 class="h4 fw-bold text-white mb-4 text-center">
-            ✦あなたの配信銀河系✦
+            <%= t('.statistics.title') %>
           </h3>
 
           <!-- 統計情報 -->
           <div class="row g-4 mb-4">
             <div class="col-md-4">
               <div class="p-3 rounded" style="background-color: rgba(255, 255, 255, 0.2);">
-                <p class="mb-1 text-white small">見つかった成長の星</p>
+                <p class="mb-1 text-white small"><%= t('.statistics.total_goals') %></p>
                 <p class="h3 fw-bold text-white mb-0"><%= @total_goals_count %>個 ⭐</p>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="p-3 rounded" style="background-color: rgba(255, 255, 255, 0.2);">
-                <p class="mb-1 text-white small">達成した成長の星</p>
+                <p class="mb-1 text-white small"><%= t('.statistics.completed_stars') %></p>
                 <p class="h3 fw-bold text-white mb-0"><%= @completed_stars_count %>個 🌟</p>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="p-3 rounded" style="background-color: rgba(255, 255, 255, 0.2);">
-                <p class="mb-1 text-white small">宿した輝きの数</p>
+                <p class="mb-1 text-white small"><%= t('.statistics.total_sparks') %></p>
                 <p class="h3 fw-bold text-white mb-0"><%= @total_sparks_count %>件 ✨</p>
               </div>
             </div>
@@ -43,7 +43,7 @@
 
           <!-- きらめきバッジ -->
           <div class="mb-3">
-            <h4 class="fw-bold text-white mb-3 text-center">【きらめきバッジ】</h4>
+            <h4 class="fw-bold text-white mb-3 text-center"><%= t('.badges.title') %></h4>
             <% if @badges.any? %>
               <div class="d-flex flex-wrap justify-content-center gap-3">
                 <% @badges.each do |badge| %>
@@ -54,11 +54,11 @@
                 <% end %>
               </div>
             <% else %>
-              <p class="text-white text-center mb-0">まだバッジがありません。輝きメモを記録して、バッジを獲得しましょう！</p>
+              <p class="text-white text-center mb-0"><%= t('.badges.no_badges') %></p>
             <% end %>
           </div>
 
-          <p class="text-white mb-0 text-center">あなたの銀河系は輝きに満ちています ✨</p>
+          <p class="text-white mb-0 text-center"><%= t('.statistics.galaxy_message') %></p>
         </div>
       </div>
 
@@ -69,7 +69,7 @@
           <div class="card shadow-lg" style="background: linear-gradient(to right, #928b97, #6ba3e9);">
             <div class="card-body p-4">
               <h3 class="h5 fw-bold mb-4 text-white text-center">
-                各成長の星の輝き割合
+                <%= t('.charts.goal_sparks_title') %>
               </h3>
               <% if @goal_sparks_data.present? %>
                 <div class="p-3 rounded" style="background-color: rgba(255, 255, 255, 0.9);">
@@ -81,7 +81,7 @@
             ></canvas>
                 </div>
               <% else %>
-                <p class="text-white text-center">データがありません</p>
+                <p class="text-white text-center"><%= t('.charts.no_data') %></p>
               <% end %>
             </div>
           </div>
@@ -92,7 +92,7 @@
           <div class="card shadow-lg" style="background: linear-gradient(to right, #928b97, #6ba3e9);">
             <div class="card-body p-4">
               <h3 class="h5 fw-bold mb-4 text-white text-center">
-                月別の宿した輝き数
+                <%= t('.charts.monthly_sparks_title') %>
               </h3>
               <% if @monthly_sparks_data.present? %>
                 <div class="p-3 rounded" style="background-color: rgba(255, 255, 255, 0.9);">
@@ -104,7 +104,7 @@
             ></canvas>
                 </div>
               <% else %>
-                <p class="text-white text-center">データがありません</p>
+                <p class="text-white text-center"><%= t('.charts.no_data') %></p>
               <% end %>
             </div>
           </div>
@@ -114,7 +114,7 @@
       <!-- ⭐ 成長の星 一覧へ戻るボタン -->
       <div class="text-center mb-4">
         <%= link_to goals_path, class: "btn btn-lg btn-outline-secondary shadow fw-bold" do %>
-          <i class="bi bi-arrow-left"></i> ⭐ 成長の星 一覧に戻る
+          <i class="bi bi-arrow-left"></i> <%= t('.actions.back_to_goals') %>
         <% end %>
       </div>
 
