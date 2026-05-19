@@ -80,15 +80,15 @@
           <!-- ★★★ ここから成長の星セクション ★★★ -->
           <!-- PC画面用のレイアウト（横並び） -->
           <div class="d-none d-md-block">
-            <div class="row g-4">
-              <!-- 左側：GIFアニメーション -->
+            <div class="row g-4 align-items-center">
+              <!-- 左側:GIFアニメーション -->
               <div class="col-md-6">
-                <div class="text-center">
+                <div class="d-flex justify-content-center align-items-center h-100">
                   <%= image_tag star_gif(@goal), alt: "成長の星", class: "img-fluid", style: "max-width: 300px;" %>
                 </div>
               </div>
 
-              <!-- 右側：統計情報 + 星の輝きメーター -->
+              <!-- 右側:統計情報 + 星の輝きメーター -->
               <div class="col-md-6">
                 <!-- 統計情報 -->
                 <div class="mb-4">
@@ -130,7 +130,7 @@
           <div class="d-md-none">
             <!-- GIFアニメーション -->
             <div class="text-center mb-4">
-              <%= image_tag star_gif(@goal), alt: "成長の星", class: "img-fluid", style: "max-width: 300px;" %>
+              <%= image_tag star_gif(@goal), alt: "成長の星", class: "img-fluid" %>
             </div>
 
             <!-- 統計情報 -->
