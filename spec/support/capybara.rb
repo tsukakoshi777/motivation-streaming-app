@@ -55,4 +55,25 @@ RSpec.configure do |config|
 
     Capybara.ignore_hidden_elements = false
   end
+
+  # JavaScript を使うテスト (js: true) の設定
+  config.before(:each, type: :system, js: true) do
+    if ENV['SELENIUM_REMOTE_URL']
+      # CI環境の設定
+      driven_by :selenium_remote_chrome
+
+      Capybara.server_host = '0.0.0.0'
+      Capybara.server_port = 3001
+      Capybara.app_host = "http://#{`hostname -i`.strip}:#{Capybara.server_port}"
+    else
+      # ローカル環境の設定
+      driven_by :remote_chrome
+
+      Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
+      Capybara.server_port = 3002
+      Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
+    end
+
+    Capybara.ignore_hidden_elements = false
+  end
 end

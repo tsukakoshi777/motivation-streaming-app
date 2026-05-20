@@ -80,6 +80,9 @@ gem 'gemini-ai'
 gem 'redcarpet'
 gem 'sanitize'
 
+# グラフ用のデータ集計
+gem 'groupdate'
+
 # SNSログイン（Google）
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
