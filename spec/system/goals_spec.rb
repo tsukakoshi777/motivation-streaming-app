@@ -163,4 +163,155 @@ RSpec.describe 'Goals', type: :system do
       expect(page).not_to have_content('目標1')
     end
   end
+
+  # ========================================
+  # 【追加】 星の成長表現のテスト
+  # ========================================
+
+  describe '一覧ページの星の成長度表示（絵文字）' do
+    let!(:survey_profile) { create(:survey_profile, user: user) }
+    let!(:goal) { create(:goal, user: user, survey_profile: survey_profile) }
+
+    before do
+      survey_profile.survey_result.update!(goal_title: 'テスト目標', goal_description: 'テスト説明')
+    end
+
+    context '輝きメモが0〜3件の場合' do
+      it '星1段階目（✦☆☆☆☆）が表示される' do
+        # 輝きメモを0件作成（何もしない）
+        visit goals_path
+
+        # 星1段階目の絵文字が表示されることを確認
+        expect(page).to have_content('✦☆☆☆☆')
+      end
+    end
+
+    context '輝きメモが4〜7件の場合' do
+      before do
+        create_list(:spark, 5, goal: goal, user: user)
+      end
+
+      it '星2段階目（✦✦☆☆☆）が表示される' do
+        visit goals_path
+
+        # 星2段階目の絵文字が表示されることを確認
+        expect(page).to have_content('✦✦☆☆☆')
+      end
+    end
+
+    context '輝きメモが8〜11件の場合' do
+      before do
+        create_list(:spark, 10, goal: goal, user: user)
+      end
+
+      it '星3段階目（✦✦✦☆☆）が表示される' do
+        visit goals_path
+
+        # 星3段階目の絵文字が表示されることを確認
+        expect(page).to have_content('✦✦✦☆☆')
+      end
+    end
+
+    context '輝きメモが12〜15件の場合' do
+      before do
+        create_list(:spark, 13, goal: goal, user: user)
+      end
+
+      it '星4段階目（✦✦✦✦☆）が表示される' do
+        visit goals_path
+
+        # 星4段階目の絵文字が表示されることを確認
+        expect(page).to have_content('✦✦✦✦☆')
+      end
+    end
+
+    context '輝きメモが16件以上の場合' do
+      before do
+        create_list(:spark, 20, goal: goal, user: user)
+      end
+
+      it '星5段階目（✦✦✦✦✦）が表示される' do
+        visit goals_path
+
+        # 星5段階目の絵文字が表示されることを確認
+        expect(page).to have_content('✦✦✦✦✦')
+      end
+    end
+  end
+
+  describe '詳細ページのGIFアニメーション表示' do
+    let!(:survey_profile) { create(:survey_profile, user: user) }
+    let!(:goal) { create(:goal, user: user, survey_profile: survey_profile) }
+
+    before do
+      survey_profile.survey_result.update!(goal_title: 'テスト目標', goal_description: 'テスト説明')
+    end
+
+    context '輝きメモが0〜3件の場合' do
+      it 'GIF1段階目（star_stage_1.gif）が表示される' do
+        # 輝きメモを0件作成（何もしない）
+        visit goal_path(goal)
+
+        # asset_path を使ってフィンガープリント付きのパスを取得
+        expected_src = ActionController::Base.helpers.asset_path('star_stage_1.gif')
+        expect(page).to have_css("img[src='#{expected_src}']")
+      end
+    end
+
+    context '輝きメモが4〜7件の場合' do
+      before do
+        create_list(:spark, 5, goal: goal, user: user)
+      end
+
+      it 'GIF2段階目（star_stage_2.gif）が表示される' do
+        visit goal_path(goal)
+
+        # asset_path を使ってフィンガープリント付きのパスを取得
+        expected_src = ActionController::Base.helpers.asset_path('star_stage_2.gif')
+        expect(page).to have_css("img[src='#{expected_src}']")
+      end
+    end
+
+    context '輝きメモが8〜11件の場合' do
+      before do
+        create_list(:spark, 10, goal: goal, user: user)
+      end
+
+      it 'GIF3段階目（star_stage_3.gif）が表示される' do
+        visit goal_path(goal)
+
+        # asset_path を使ってフィンガープリント付きのパスを取得
+        expected_src = ActionController::Base.helpers.asset_path('star_stage_3.gif')
+        expect(page).to have_css("img[src='#{expected_src}']")
+      end
+    end
+
+    context '輝きメモが12〜15件の場合' do
+      before do
+        create_list(:spark, 13, goal: goal, user: user)
+      end
+
+      it 'GIF4段階目（star_stage_4.gif）が表示される' do
+        visit goal_path(goal)
+
+        # asset_path を使ってフィンガープリント付きのパスを取得
+        expected_src = ActionController::Base.helpers.asset_path('star_stage_4.gif')
+        expect(page).to have_css("img[src='#{expected_src}']")
+      end
+    end
+
+    context '輝きメモが16件以上の場合' do
+      before do
+        create_list(:spark, 20, goal: goal, user: user)
+      end
+
+      it 'GIF5段階目（star_stage_5.gif）が表示される' do
+        visit goal_path(goal)
+
+        # asset_path を使ってフィンガープリント付きのパスを取得
+        expected_src = ActionController::Base.helpers.asset_path('star_stage_5.gif')
+        expect(page).to have_css("img[src='#{expected_src}']")
+      end
+    end
+  end
 end

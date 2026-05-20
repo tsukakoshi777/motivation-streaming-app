@@ -49,4 +49,42 @@ RSpec.describe Spark, type: :model do
       expect(goal.sparks.order(created_at: :desc)).to eq [spark3, spark1, spark2]
     end
   end
+
+  # グラフ用データの取得テスト
+  describe 'グラフ用データの取得' do
+    let(:user) { create(:user) }
+    let!(:survey_profile) { create(:survey_profile, user: user) }
+    let!(:goal) { create(:goal, user: user, survey_profile: survey_profile) }
+
+    before do
+      survey_profile.survey_result.update!(goal_title: 'テスト目標', goal_description: 'テスト説明')
+
+      # 1月に3件作成
+      create_list(:spark, 3, goal: goal, user: user, created_at: Time.zone.local(2025, 1, 15))
+
+      # 2月に5件作成
+      create_list(:spark, 5, goal: goal, user: user, created_at: Time.zone.local(2025, 2, 15))
+
+      # 3月に2件作成
+      create_list(:spark, 2, goal: goal, user: user, created_at: Time.zone.local(2025, 3, 15))
+    end
+
+    it '月別の輝きメモ件数が正しく取得できる' do
+      # 月別の輝きメモ件数を集計（PostgreSQL対応版）
+      monthly_data = user.sparks
+                         .unscoped # ← default_scopeを無効化
+                         .group(Arel.sql("TO_CHAR(created_at AT TIME ZONE 'Asia/Tokyo', 'YYYY年MM月')"))
+                         .count
+                         .sort # Ruby側でソート
+
+      # 期待される結果
+      expected_data = {
+        '2025年01月' => 3,
+        '2025年02月' => 5,
+        '2025年03月' => 2
+      }
+
+      expect(monthly_data.to_h).to eq(expected_data)
+    end
+  end
 end
