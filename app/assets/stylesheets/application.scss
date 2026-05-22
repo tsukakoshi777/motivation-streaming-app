@@ -202,3 +202,14 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* ========================================
+   必須項目用のスタイル
+======================================== */
+
+/* 必須マークのスタイル */
+.text-danger {
+  color: #dc3545;
+  font-weight: bold;
+  font-size: 1.3rem;
+}

@@ -277,7 +277,9 @@ ja:
       title: '成長の星を編集'
       submit_button: '成長の星を更新する ✨'
       title: '✨ 成長の星を編集 ✨'
-      description: '君のもやもや結晶を見直してみよう。今以上に輝く星になれるよ🌟'
+      description_html: |
+        君のもやもや結晶を見直してみよう。今以上に輝く星になれるよ🌟<br>
+        <span class="text-danger">*</span> マークがついている項目は重要な項目なので必ず入力してね！
 
     update:
       success: '成長の星を更新しました'
@@ -289,7 +291,9 @@ ja:
   survey_profiles:
     new:
       title: 'もやもや結晶シート ✨'
-      description: '君のもやもやを教えてね。きっと素敵な星が生まれるよ! 🌟'
+      description_html: |
+        君のもやもやを教えてね。きっと素敵な星が生まれるよ! 🌟<br>
+        <span class="text-danger">*</span> マークがついている項目は重要な項目なので必ず入力してね！
       submit_button: '成長の星を誕生させる ✨'
     create:
       success: '成長の星が誕生しました! ✨🌟'
@@ -298,7 +302,9 @@ ja:
     edit:
       submit_button: '成長の星を更新する ✨'
       title: '✨ 成長の星を編集 ✨'
-      description: '君のもやもや結晶を見直してみよう。今以上に輝く星になれるよ🌟'
+      description_html: |
+        君のもやもや結晶を見直してみよう。今以上に輝く星になれるよ🌟<br>
+        <span class="text-danger">*</span> マークがついている項目は重要な項目なので必ず入力してね！
     
     # AI機能の翻訳を追加 
     errors:

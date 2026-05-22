@@ -3,7 +3,7 @@
   <%= render 'shared/loading' %>
 
   <h1 class="text-3xl font-bold mb-6 mt-5 text-center"><%= t('.title') %></h1>
-  <p class="text-center text-gray-600 mb-5"><%= t('.description') %></p>
+  <p class="text-center text-gray-600 mb-5"><%= t('.description_html').html_safe %></p>
 
   <%= form_with model: @survey_profile, url: survey_profiles_path, local: true do |f| %>
     <!-- data属性を追加（ユーザーには見えない） -->
@@ -25,7 +25,9 @@
 
       <!-- 配信プラットフォーム -->
       <div class="mb-4">
-        <%= f.label :streaming_platform_id, '配信プラットフォーム', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.label :streaming_platform_id, class: 'block mb-2 font-bold text-gray-700' do %>
+          配信プラットフォーム<span class="text-danger"> *</span>
+        <% end %>
         <%= f.collection_select :streaming_platform_id, 
                                 @streaming_platforms, 
                                 :id, 
@@ -36,7 +38,9 @@
 
       <!-- 配信カテゴリ -->
       <div class="mb-4">
-        <%= f.label :streaming_category_id, '配信ジャンル', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.label :streaming_category_id, class: 'block mb-2 font-bold text-gray-700' do %>
+          配信ジャンル<span class="text-danger"> *</span>
+        <% end %>
         <%= f.collection_select :streaming_category_id, 
                                 @streaming_categories, 
                                 :id, 
@@ -47,7 +51,9 @@
 
       <!-- 配信経験 -->
       <div class="mb-4">
-        <%= f.label :streaming_experience_id, '配信経験', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.label :streaming_experience_id, class: 'block mb-2 font-bold text-gray-700' do %>
+          配信経験<span class="text-danger"> *</span>
+        <% end %>
         <%= f.collection_select :streaming_experience_id, 
                                 @streaming_experiences, 
                                 :id, 
@@ -65,7 +71,9 @@
 
       <!-- 週の配信頻度 -->
       <div class="mb-4">
-        <%= f.label :weekly_frequency, '週の配信頻度（回数）', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.label :weekly_frequency, class: 'block mb-2 font-bold text-gray-700' do %>
+          週の配信頻度（回数）<span class="text-danger">*</span>
+        <% end %>
         <%= f.number_field :weekly_frequency, 
                            class: 'w-full border border-gray-300 rounded px-3 py-2', 
                            placeholder: '例: 3',
@@ -75,7 +83,9 @@
 
       <!-- 平均視聴者数 -->
       <div class="mb-4">
-        <%= f.label :average_listeners, '平均同時接続視聴者数', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.label :average_listeners, class: 'block mb-2 font-bold text-gray-700' do %>
+          平均同時接続視聴者数<span class="text-danger"> *</span>
+        <% end %>
         <%= f.number_field :average_listeners, 
                            class: 'w-full border border-gray-300 rounded px-3 py-2', 
                            placeholder: '例: 10',
@@ -85,7 +95,9 @@
 
       <!-- 累計視聴者数 -->
       <div class="mb-4">
-        <%= f.label :total_listeners, '総合視聴者数（おおよその人数）', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.label :total_listeners, class: 'block mb-2 font-bold text-gray-700' do %>
+          総合視聴者数（おおよその人数）<span class="text-danger">*</span>
+        <% end %>
         <%= f.number_field :total_listeners, 
                            class: 'w-full border border-gray-300 rounded px-3 py-2', 
                            placeholder: '例: 100',
@@ -95,7 +107,9 @@
 
       <!-- 視聴者の離脱率 -->
       <div class="mb-4">
-        <%= f.label :listener_dropout_rate, '最近のリスナーの離脱人数', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.label :listener_dropout_rate, class: 'block mb-2 font-bold text-gray-700' do %>
+          最近のリスナーの離脱人数<span class="text-danger"> *</span>
+        <% end %>
         <%= f.select :listener_dropout_rate,
                      [
                        ['0人', 0],
@@ -117,7 +131,9 @@
 
       <!-- モチベーションレベル -->
       <div class="mb-4">
-        <%= f.label :motivation_level, 'モチベーションレベル', class: 'block mb-2 font-bold text-gray-700' %>
+        <%= f.label :motivation_level, class: 'block mb-2 font-bold text-gray-700' do %>
+          モチベーションレベル<span class="text-danger"> *</span>
+        <% end %>
         <div class="flex gap-4">
           <% (1..5).each do |level| %>
             <label class="flex items-center">
