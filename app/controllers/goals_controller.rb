@@ -51,21 +51,13 @@ class GoalsController < ApplicationController
                    .per(4)
 
     # 現在のページが空で、1ページ目より後のページの場合は前のページにリダイレクト
-    if @sparks.empty? && current_page > 1
-      redirect_to goal_path(@goal, page: current_page - 1)
-      return
-    end
+    return unless @sparks.empty? && current_page > 1
 
-    respond_to do |format|
-      format.html
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.replace(
-          'sparks_content',
-          partial: 'goals/sparks_content',
-          locals: { goal: @goal, sparks: @sparks }
-        )
-      end
-    end
+    redirect_to goal_path(@goal, page: current_page - 1)
+    nil
+
+    # format.turbo_stream のブロックを削除
+    # respond_to は不要
   end
 
   def edit
