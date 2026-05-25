@@ -15,6 +15,22 @@
     <%= render partial: 'sparks/spark', locals: { spark: @spark } %>
   <% end %>
 
+  <%# 3. 5件目以降を削除（ページネーションの件数制限を守る） %>
+  <% if @sparks.size >= 4 %>
+    <% @sparks[4..-1]&.each do |old_spark| %>
+      <%= turbo_stream.remove "spark_#{old_spark.id}" %>
+    <% end %>
+  <% end %>
+
+  <%# 4. ページネーションを更新 %>
+  <%= turbo_stream.replace "sparks_pagination" do %>
+    <% if @sparks.present? %>
+      <div class="d-flex justify-content-center mt-4">
+        <%= paginate @sparks, theme: 'bootstrap-5' %>
+      </div>
+    <% end %>
+  <% end %>
+
   <%# 3. フォームをリセット %>
   <%= turbo_stream.replace "spark_form" do %>
     <%= turbo_frame_tag "spark_form" do %>

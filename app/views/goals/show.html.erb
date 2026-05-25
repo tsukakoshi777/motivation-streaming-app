@@ -178,7 +178,7 @@
             ✨ 輝きの記録
           </h2>
           <span class="badge rounded-pill px-3 py-2" 
-                style="background-color: #f3e8ff; color: #7c3aed; font-size: 1rem;">
+          style="background-color: #f3e8ff; color: #7c3aed; font-size: 1rem;">
             <%= @goal.sparks.count %>件
           </span>
         </div>
@@ -191,20 +191,32 @@
           <%= render 'sparks/form', goal: @goal, spark: Spark.new %>
         </div>
 
-        <!-- 輝き一覧 -->
-        <div id="sparks_list">
-          <%= render @sparks %>
-        </div>
-
-        <% if @goal.sparks.empty? %>
-          <div id="sparks_empty_message" class="card shadow-sm text-center py-5">
-            <div class="card-body">
-              <p class="text-muted mb-2" style="font-size: 3rem;">✨</p>
-              <p class="text-muted mb-1">まだ輝きが記録されていません</p>
-              <p class="small text-muted mb-0">最初の一歩を記録してみましょう！</p>
-            </div>
+        <!-- 🔥 Turbo Frame で一覧とページネーションを囲む -->
+        <%= turbo_frame_tag "sparks_content", data: { turbo_action: "advance" } do %>
+          <!-- 輝き一覧 -->
+          <div id="sparks_list">
+            <% if @sparks.present? %>
+              <%= render @sparks %>
+            <% else %>
+              <div id="sparks_empty_message" class="card shadow-sm text-center py-5">
+                <div class="card-body">
+                  <p class="text-muted mb-2" style="font-size: 3rem;">✨</p>
+                  <p class="text-muted mb-1">まだ輝きが記録されていません</p>
+                  <p class="small text-muted mb-0">最初の一歩を記録してみましょう!</p>
+                </div>
+              </div>
+            <% end %>
           </div>
-        <% end %>
+
+          <!-- ページネーション -->
+          <div id="sparks_pagination">
+            <% if @sparks.present? %>
+              <div class="d-flex justify-content-center mt-4">
+                <%= paginate @sparks, theme: 'bootstrap-5', params: { controller: 'goals', action: 'show', id: @goal.id } %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>  <!-- 🔥 ここで Turbo Frame を閉じる -->
       </div>
 
       <!-- 基本情報セクション -->

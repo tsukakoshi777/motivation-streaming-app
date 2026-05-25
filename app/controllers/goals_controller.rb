@@ -37,8 +37,23 @@ class GoalsController < ApplicationController
   end
 
   def show
-    @streaming_reasons = @goal.survey_profile&.survey_response&.streaming_reasons&.split(',') || []
-    @sparks = @goal.sparks.includes(:user).order(created_at: :desc) # ← 追加
+    @goal = current_user.goals.find(params[:id])
+    @sparks = @goal.sparks
+                   .includes(:user)
+                   .order(created_at: :desc)
+                   .page(params[:page])
+                   .per(4)
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          'sparks_content',
+          partial: 'goals/sparks_content',
+          locals: { goal: @goal, sparks: @sparks }
+        )
+      end
+    end
   end
 
   def edit

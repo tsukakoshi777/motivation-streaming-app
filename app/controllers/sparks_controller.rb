@@ -18,6 +18,12 @@ class SparksController < ApplicationController
 
     respond_to do |format|
       if @spark.save
+        # ページネーションを考慮して @sparks を再取得（1ページ目を表示）
+        @sparks = @goal.sparks
+                       .includes(:user)
+                       .order(created_at: :desc)
+                       .page(1)
+                       .per(5)
         # flash.now[:success] = t('sparks.create.success')
         format.turbo_stream
       else
@@ -33,6 +39,13 @@ class SparksController < ApplicationController
   def update
     @spark.update(spark_params)
 
+    # 現在のページを維持
+    @sparks = @goal.sparks
+                   .includes(:user)
+                   .order(created_at: :desc)
+                   .page(params[:page])
+                   .per(4)
+
     respond_to do |format|
       format.turbo_stream
     end
@@ -46,6 +59,14 @@ class SparksController < ApplicationController
 
   def destroy
     @spark.destroy
+
+    # 現在のページを維持
+    @sparks = @goal.sparks
+                   .includes(:user)
+                   .order(created_at: :desc)
+                   .page(params[:page])
+                   .per(4)
+
     respond_to do |format|
       flash.now[:success] = t('.success')
       format.turbo_stream

@@ -1,0 +1,25 @@
+<%= turbo_frame_tag "sparks_content", data: { turbo_action: "advance" } do %>
+  <!-- 輝き一覧 -->
+  <div id="sparks_list">
+    <% if sparks.present? %>
+      <%= render sparks %>
+    <% else %>
+      <div id="sparks_empty_message" class="card shadow-sm text-center py-5">
+        <div class="card-body">
+          <p class="text-muted mb-2" style="font-size: 3rem;">✨</p>
+          <p class="text-muted mb-1">まだ輝きが記録されていません</p>
+          <p class="small text-muted mb-0">最初の一歩を記録してみましょう!</p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- ページネーション -->
+  <div id="sparks_pagination">
+    <% if sparks.present? %>
+      <div class="d-flex justify-content-center mt-4">
+        <%= paginate sparks, theme: 'bootstrap-5', params: { controller: 'goals', action: 'show', id: sparks.first.goal_id } %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -1,12 +1,54 @@
 <!-- 削除した投稿を、フラッシュメッセージで置き換える -->
-<%= turbo_stream.replace dom_id(@spark) do %>
-  <div class="alert alert-success alert-dismissible fade show mb-3" role="alert" id="delete_flash_<%= @spark.id %>">
+<%# 1. 削除した輝きを削除 %>
+<%= turbo_stream.remove dom_id(@spark) %>
+
+<%# 2. 次のページから1件補充（もし存在すれば） %>
+<% if @sparks.size > 0 %>
+  <%# 現在のページに表示されている件数を確認 %>
+  <% current_page_sparks = @goal.sparks.includes(:user).order(created_at: :desc).page(params[:page]).per(4) %>
+  
+  <%# 4件未満の場合、次のページから1件追加 %>
+  <% if current_page_sparks.size < 4 %>
+    <% next_spark = @goal.sparks.includes(:user).order(created_at: :desc).page((params[:page] || 1).to_i + 1).per(4).first %>
+    <% if next_spark.present? %>
+      <%= turbo_stream.append "sparks_list" do %>
+        <%= render partial: 'sparks/spark', locals: { spark: next_spark } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%# 3. ページネーションを更新 %>
+<%= turbo_stream.replace "sparks_pagination" do %>
+  <% if @sparks.present? %>
+    <div class="d-flex justify-content-center mt-4">
+      <%= paginate @sparks, theme: 'bootstrap-5', params: { controller: 'goals', action: 'show', id: @goal.id } %>
+    </div>
+  <% end %>
+<% end %>
+
+<%# 4. 空メッセージを表示（すべて削除された場合） %>
+<% if @sparks.blank? %>
+  <%= turbo_stream.replace "sparks_list" do %>
+    <div id="sparks_empty_message" class="card shadow-sm text-center py-5">
+      <div class="card-body">
+        <p class="text-muted mb-2" style="font-size: 3rem;">✨</p>
+        <p class="text-muted mb-1">まだ輝きが記録されていません</p>
+        <p class="small text-muted mb-0">最初の一歩を記録してみましょう!</p>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<%# 5. 成功メッセージを表示 %>
+<%= turbo_stream.update "spark-flash-messages" do %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
     <%= flash[:success] %>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
   <script>
     (function() {
-      const alert = document.getElementById('delete_flash_<%= @spark.id %>');
+      const alert = document.querySelector('#spark-flash-messages .alert');
       if (alert) {
         setTimeout(() => {
           alert.classList.remove('show');
