@@ -18,16 +18,20 @@ class SparksController < ApplicationController
 
     respond_to do |format|
       if @spark.save
-        # ページネーションを考慮して @sparks を再取得（1ページ目を表示）
+        # 常に1ページ目のデータを取得
         @sparks = @goal.sparks
                        .includes(:user)
                        .order(created_at: :desc)
                        .page(1)
-                       .per(5)
-        # flash.now[:success] = t('sparks.create.success')
+                       .per(4)
+
+        # 1ページ目を表示するためのフラグ
+        @current_page = 1
+
+        flash.now[:success] = t('.success')
         format.turbo_stream
       else
-        # flash.now[:danger] = t('sparks.create.failure')
+        flash.now[:danger] = t('.failure')
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace('spark_form', partial: 'sparks/form',
                                                                   locals: { goal: @goal, spark: @spark })
@@ -71,33 +75,20 @@ class SparksController < ApplicationController
                    .page(current_page)
                    .per(4)
 
-    # デバッグ用
-    puts '========== デバッグ情報 =========='
-    puts "params[:page]: #{params[:page]}"
-    puts "current_page: #{current_page}"
-    puts "@sparks.size: #{@sparks.size}"
-    puts "@sparks.empty?: #{@sparks.empty?}"
-    puts "current_page > 1: #{current_page > 1}"
-    puts "条件: #{@sparks.empty? && current_page > 1}"
-
     # 削除後に現在のページが空になった場合は前のページを表示
     if @sparks.empty? && current_page > 1
-      puts '========== 前のページを取得 =========='
-      # 前のページを取得
+
       current_page -= 1
       @sparks = @goal.sparks
                      .includes(:user)
                      .order(created_at: :desc)
                      .page(current_page)
                      .per(4)
-      puts "新しい current_page: #{current_page}"
-      puts "新しい @sparks.size: #{@sparks.size}"
+
     end
 
     # ページ番号を保存
     @current_page = current_page
-    puts "@current_page: #{@current_page}"
-    puts '================================='
 
     flash.now[:success] = t('.success')
 

@@ -1,5 +1,5 @@
 <% if @spark.errors.any? %>
-  <%#  エラー時：フォームを再表示 %>
+  <%# エラー時：フォームを再表示 %>
   <%= turbo_stream.replace "spark_form" do %>
     <%= turbo_frame_tag "spark_form" do %>
       <%= render 'sparks/form', goal: @goal, spark: @spark %>
@@ -7,28 +7,28 @@
   <% end %>
 
 <% else %>
-  <%# 1. 空のメッセージを削除（存在する場合） %>
-  <%= turbo_stream.remove "sparks_empty_message" %>
-
-  <%# 2. 新しい輝きを一覧の先頭に追加 %>
-  <%= turbo_stream.prepend "sparks_list" do %>
-    <%= render partial: 'sparks/spark', locals: { spark: @spark } %>
+  <%# 成功時：1ページ目の内容を丸ごと置き換える %>
+  
+  <%# 1. 輝き一覧を丸ごと置き換え（1ページ目を表示） %>
+  <%= turbo_stream.replace "sparks_list" do %>
+    <div id="sparks_list">
+      <% if @sparks.any? %>
+        <%= render @sparks %>
+      <% else %>
+        <div id="sparks_empty_message" class="text-center text-muted py-5">
+          <%= t('sparks.index.no_sparks') %>
+        </div>
+      <% end %>
+    </div>
   <% end %>
 
-  <%# 3. 5件目以降を削除（ページネーションの件数制限を守る） %>
-  <% if @sparks.size >= 4 %>
-    <% @sparks[4..-1]&.each do |old_spark| %>
-      <%= turbo_stream.remove "spark_#{old_spark.id}" %>
-    <% end %>
-  <% end %>
-
-  <%# 4. ページネーションを更新 %>
+  <%# 2. ページネーションを更新（1ページ目を表示） %>
   <%= turbo_stream.replace "sparks_pagination" do %>
-    <% if @sparks.present? %>
-      <div class="d-flex justify-content-center mt-4">
-        <%= paginate @sparks, theme: 'bootstrap-5' %>
-      </div>
-    <% end %>
+    <div id="sparks_pagination" class="d-flex justify-content-center mt-4">
+      <% if @sparks.present? %>
+        <%= paginate @sparks, theme: 'bootstrap-5', params: { controller: 'goals', action: 'show', id: @goal.id } %>
+      <% end %>
+    </div>
   <% end %>
 
   <%# 3. フォームをリセット %>
@@ -38,11 +38,29 @@
     <% end %>
   <% end %>
 
-  <%# 4. 成功メッセージを「 輝きの記録」のタイトル下に表示 %>
+  <%# 4. 成功メッセージを表示 %>
   <%= turbo_stream.update "spark-flash-messages" do %>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
       <%= t('sparks.create.success') %>
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+    <script>
+      (function() {
+        const alert = document.querySelector('#spark-flash-messages .alert');
+        if (alert) {
+          setTimeout(() => {
+            alert.classList.remove('show');
+            setTimeout(() => alert.remove(), 150);
+          }, 3000);
+        }
+      })();
+    </script>
+  <% end %>
+
+  <%# 5. URLを1ページ目に更新 %>
+  <%= turbo_stream.append 'body' do %>
+    <script>
+      history.replaceState(null, '', '<%= goal_path(@goal, page: 1) %>');
+    </script>
   <% end %>
 <% end %>
