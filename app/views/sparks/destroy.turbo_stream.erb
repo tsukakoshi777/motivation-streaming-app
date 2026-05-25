@@ -1,46 +1,43 @@
-<!-- 削除した投稿を、フラッシュメッセージで置き換える -->
-<%# 1. 削除した輝きを削除 %>
-<%= turbo_stream.remove dom_id(@spark) %>
-
-<%# 2. 次のページから1件補充（もし存在すれば） %>
-<% if @sparks.size > 0 %>
-  <%# 現在のページに表示されている件数を確認 %>
-  <% current_page_sparks = @goal.sparks.includes(:user).order(created_at: :desc).page(params[:page]).per(4) %>
-  
-  <%# 4件未満の場合、次のページから1件追加 %>
-  <% if current_page_sparks.size < 4 %>
-    <% next_spark = @goal.sparks.includes(:user).order(created_at: :desc).page((params[:page] || 1).to_i + 1).per(4).first %>
-    <% if next_spark.present? %>
-      <%= turbo_stream.append "sparks_list" do %>
-        <%= render partial: 'sparks/spark', locals: { spark: next_spark } %>
-      <% end %>
-    <% end %>
-  <% end %>
-<% end %>
-
-<%# 3. ページネーションを更新 %>
-<%= turbo_stream.replace "sparks_pagination" do %>
+<%# 輝き一覧を丸ごと置き換え %>
+<%= turbo_stream.replace "sparks_list" do %>
   <% if @sparks.present? %>
-    <div class="d-flex justify-content-center mt-4">
-      <%= paginate @sparks, theme: 'bootstrap-5', params: { controller: 'goals', action: 'show', id: @goal.id } %>
+    <div id="sparks_list">
+      <%= render @sparks %>
     </div>
-  <% end %>
-<% end %>
-
-<%# 4. 空メッセージを表示（すべて削除された場合） %>
-<% if @sparks.blank? %>
-  <%= turbo_stream.replace "sparks_list" do %>
-    <div id="sparks_empty_message" class="card shadow-sm text-center py-5">
-      <div class="card-body">
-        <p class="text-muted mb-2" style="font-size: 3rem;">✨</p>
-        <p class="text-muted mb-1">まだ輝きが記録されていません</p>
-        <p class="small text-muted mb-0">最初の一歩を記録してみましょう!</p>
+  <% else %>
+    <div id="sparks_list">
+      <div id="sparks_empty_message" class="card shadow-sm text-center py-5">
+        <div class="card-body">
+          <p class="text-muted mb-2" style="font-size: 3rem;">✨</p>
+          <p class="text-muted mb-1">まだ輝きが記録されていません</p>
+          <p class="small text-muted mb-0">最初の一歩を記録してみましょう!</p>
+        </div>
       </div>
     </div>
   <% end %>
 <% end %>
 
-<%# 5. 成功メッセージを表示 %>
+<%# ページネーションを更新 %>
+<%= turbo_stream.replace "sparks_pagination" do %>
+  <% if @sparks.present? %>
+    <div id="sparks_pagination" class="d-flex justify-content-center mt-4">
+      <%= paginate @sparks, theme: 'bootstrap-5', params: { controller: 'goals', action: 'show', id: @goal.id, page: @current_page } %>
+    </div>
+  <% else %>
+    <div id="sparks_pagination"></div>
+  <% end %>
+<% end %>
+
+<%# URLを更新(ページ番号が変わった場合のみ) %>
+<% if @current_page != params[:page].to_i %>
+  <%= turbo_stream.append 'head' do %>
+    <script>
+      history.replaceState(null, '', '<%= goal_path(@goal, page: @current_page) %>');
+    </script>
+  <% end %>
+<% end %>
+
+<%# 成功メッセージを表示 %>
 <%= turbo_stream.update "spark-flash-messages" do %>
   <div class="alert alert-success alert-dismissible fade show" role="alert">
     <%= flash[:success] %>

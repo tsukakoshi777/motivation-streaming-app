@@ -38,11 +38,23 @@ class GoalsController < ApplicationController
 
   def show
     @goal = current_user.goals.find(params[:id])
+
+    # 現在のページ番号を取得
+    current_page = params[:page].to_i
+    current_page = 1 if current_page < 1
+
+    # 輝き一覧を取得
     @sparks = @goal.sparks
                    .includes(:user)
                    .order(created_at: :desc)
-                   .page(params[:page])
+                   .page(current_page)
                    .per(4)
+
+    # 現在のページが空で、1ページ目より後のページの場合は前のページにリダイレクト
+    if @sparks.empty? && current_page > 1
+      redirect_to goal_path(@goal, page: current_page - 1)
+      return
+    end
 
     respond_to do |format|
       format.html

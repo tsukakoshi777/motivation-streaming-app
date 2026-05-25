@@ -58,17 +58,50 @@ class SparksController < ApplicationController
   end
 
   def destroy
-    @spark.destroy
+    @spark = @goal.sparks.find(params[:id])
+    @spark.destroy!
 
-    # 現在のページを維持
+    # 削除後の輝き一覧を取得
+    current_page = params[:page].to_i
+    current_page = 1 if current_page < 1
+
     @sparks = @goal.sparks
                    .includes(:user)
                    .order(created_at: :desc)
-                   .page(params[:page])
+                   .page(current_page)
                    .per(4)
 
+    # デバッグ用
+    puts '========== デバッグ情報 =========='
+    puts "params[:page]: #{params[:page]}"
+    puts "current_page: #{current_page}"
+    puts "@sparks.size: #{@sparks.size}"
+    puts "@sparks.empty?: #{@sparks.empty?}"
+    puts "current_page > 1: #{current_page > 1}"
+    puts "条件: #{@sparks.empty? && current_page > 1}"
+
+    # 削除後に現在のページが空になった場合は前のページを表示
+    if @sparks.empty? && current_page > 1
+      puts '========== 前のページを取得 =========='
+      # 前のページを取得
+      current_page -= 1
+      @sparks = @goal.sparks
+                     .includes(:user)
+                     .order(created_at: :desc)
+                     .page(current_page)
+                     .per(4)
+      puts "新しい current_page: #{current_page}"
+      puts "新しい @sparks.size: #{@sparks.size}"
+    end
+
+    # ページ番号を保存
+    @current_page = current_page
+    puts "@current_page: #{@current_page}"
+    puts '================================='
+
+    flash.now[:success] = t('.success')
+
     respond_to do |format|
-      flash.now[:success] = t('.success')
       format.turbo_stream
     end
   end
