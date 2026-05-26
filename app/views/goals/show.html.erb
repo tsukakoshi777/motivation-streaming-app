@@ -92,299 +92,306 @@
               <div class="col-md-6">
                 <!-- 統計情報 -->
                 <div class="mb-4">
-                  <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
-                    <p class="mb-1 text-white small"><%= t('.statistics.sparks_count') %></p>
-                    <p class="h4 fw-bold text-white mb-0"><%= @goal.sparks.count %>件</p>
-                  </div>
-
-                  <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
-                    <p class="mb-1 text-white small"><%= t('.statistics.start_date') %></p>
-                    <p class="h5 fw-bold text-white mb-0"><%= @goal.created_at.strftime('%Y/%m/%d') %></p>
-                  </div>
-
-                  <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
-                    <p class="mb-1 text-white small"><%= t('.statistics.latest_record') %></p>
-                    <p class="h5 fw-bold text-white mb-0">
-                      <%= @goal.sparks.any? ? @goal.sparks.order(created_at: :desc).first.created_at.strftime('%Y/%m/%d') : "-" %>
-                    </p>
-                  </div>
+                  <%= turbo_frame_tag "spark_count_pc_#{@goal.id}" do %>
+                    <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
+                      <p class="mb-1 text-white small"><%= t('.statistics.sparks_count') %></p>
+                      <p class="h4 fw-bold text-white mb-0"><%= @goal.sparks.count %>件</p>
+                    </div>
+                  <% end %>
                 </div>
 
-                <!-- 星の輝きメーター -->
-                <div>
-                  <p class="mb-2 fw-bold text-white"><%= t('.achievement_meter.title', rate: achievement_rate(@goal)) %></p>
-                  <div class="text-center mb-3" style="font-size: 3rem; color: #fbbf24;">
-                    <%= star_emoji(@goal) %>
-                  </div>
-                  <div class="progress" style="height: 30px;">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: <%= achievement_rate(@goal) %>%;" aria-valuenow="<%= achievement_rate(@goal) %>" aria-valuemin="0" aria-valuemax="100">
-                      <%= achievement_rate(@goal) %>%
-                    </div>
+                <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
+                  <p class="mb-1 text-white small"><%= t('.statistics.start_date') %></p>
+                  <p class="h5 fw-bold text-white mb-0"><%= @goal.created_at.strftime('%Y/%m/%d') %></p>
+                </div>
+
+                <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
+                  <p class="mb-1 text-white small"><%= t('.statistics.latest_record') %></p>
+                  <p class="h5 fw-bold text-white mb-0">
+                    <%= @goal.sparks.any? ? @goal.sparks.order(created_at: :desc).first.created_at.strftime('%Y/%m/%d') : "-" %>
+                  </p>
+                </div>
+              </div>
+
+              <!-- 星の輝きメーター -->
+              <div>
+                <p class="mb-2 fw-bold text-white"><%= t('.achievement_meter.title', rate: achievement_rate(@goal)) %></p>
+                <div class="text-center mb-3" style="font-size: 3rem; color: #fbbf24;">
+                  <%= star_emoji(@goal) %>
+                </div>
+                <div class="progress" style="height: 30px;">
+                  <div class="progress-bar bg-warning" role="progressbar" style="width: <%= achievement_rate(@goal) %>%;" aria-valuenow="<%= achievement_rate(@goal) %>" aria-valuemin="0" aria-valuemax="100">
+                    <%= achievement_rate(@goal) %>%
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- スマホ画面用のレイアウト（縦並び） -->
-          <div class="d-md-none">
-            <!-- GIFアニメーション -->
-            <div class="text-center mb-4">
-              <%= image_tag star_gif(@goal), alt: "成長の星", class: "img-fluid" %>
-            </div>
+        <!-- スマホ画面用のレイアウト（縦並び） -->
+        <div class="d-md-none">
+          <!-- GIFアニメーション -->
+          <div class="text-center mb-4">
+            <%= image_tag star_gif(@goal), alt: "成長の星", class: "img-fluid" %>
+          </div>
 
-            <!-- 統計情報 -->
-            <div class="mb-4">
+          <!-- 統計情報 -->
+          <div class="mb-4">
+            <%= turbo_frame_tag "spark_count_mobile_#{@goal.id}" do %>
               <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
                 <p class="mb-1 text-white small"><%= t('.statistics.sparks_count') %></p>
                 <p class="h4 fw-bold text-white mb-0"><%= @goal.sparks.count %>件</p>
               </div>
+            <% end %>
 
-              <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
-                <p class="mb-1 text-white small"><%= t('.statistics.start_date') %></p>
-                <p class="h5 fw-bold text-white mb-0"><%= @goal.created_at.strftime('%Y/%m/%d') %></p>
-              </div>
-
-              <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
-                <p class="mb-1 text-white small"><%= t('.statistics.latest_record') %></p>
-                <p class="h5 fw-bold text-white mb-0">
-                  <%= @goal.sparks.any? ? @goal.sparks.order(created_at: :desc).first.created_at.strftime('%Y/%m/%d') : "-" %>
-                </p>
-              </div>
+            <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
+              <p class="mb-1 text-white small"><%= t('.statistics.start_date') %></p>
+              <p class="h5 fw-bold text-white mb-0"><%= @goal.created_at.strftime('%Y/%m/%d') %></p>
             </div>
 
-            <!-- 星の輝きメーター -->
-            <div>
-              <p class="mb-2 fw-bold text-white"><%= t('.achievement_meter.title', rate: achievement_rate(@goal)) %></p>
-              <div class="text-center mb-3" style="font-size: 3rem; color: #fbbf24;">
-                <%= star_emoji(@goal) %>
-              </div>
-              <div class="progress" style="height: 30px;">
-                <div class="progress-bar bg-warning" role="progressbar" style="width: <%= achievement_rate(@goal) %>%;" aria-valuenow="<%= achievement_rate(@goal) %>" aria-valuemin="0" aria-valuemax="100">
-                  <%= achievement_rate(@goal) %>%
-                </div>
+            <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
+              <p class="mb-1 text-white small"><%= t('.statistics.latest_record') %></p>
+              <p class="h5 fw-bold text-white mb-0">
+                <%= @goal.sparks.any? ? @goal.sparks.order(created_at: :desc).first.created_at.strftime('%Y/%m/%d') : "-" %>
+              </p>
+            </div>
+          </div>
+
+          <!-- 星の輝きメーター -->
+          <div>
+            <p class="mb-2 fw-bold text-white"><%= t('.achievement_meter.title', rate: achievement_rate(@goal)) %></p>
+            <div class="text-center mb-3" style="font-size: 3rem; color: #fbbf24;">
+              <%= star_emoji(@goal) %>
+            </div>
+            <div class="progress" style="height: 30px;">
+              <div class="progress-bar bg-warning" role="progressbar" style="width: <%= achievement_rate(@goal) %>%;" aria-valuenow="<%= achievement_rate(@goal) %>" aria-valuemin="0" aria-valuemax="100">
+                <%= achievement_rate(@goal) %>%
               </div>
             </div>
           </div>
-          <!-- ★★★ 成長の星セクション終了 ★★★ -->
         </div>
+        <!-- ★★★ 成長の星セクション終了 ★★★ -->
       </div>
+    
 
-      <!-- ✨ ここから輝き機能セクション ✨ -->
-      <div class="sparks-section mb-4">
-        <!-- セクションヘッダー -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2 class="h4 fw-bold mb-0" style="color: #9333ea;">
-            ✨ 輝きの記録
-          </h2>
+    <!-- ✨ ここから輝き機能セクション ✨ -->
+    <div class="sparks-section mb-4">
+      <!-- セクションヘッダー -->
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 fw-bold mb-0" style="color: #9333ea;">
+          ✨ 輝きの記録
+        </h2>
+        <%= turbo_frame_tag "spark_count_badge_#{@goal.id}" do %>
           <span class="badge rounded-pill px-3 py-2" 
-          style="background-color: #f3e8ff; color: #7c3aed; font-size: 1rem;">
+            style="background-color: #f3e8ff; color: #7c3aed; font-size: 1rem;">
             <%= @goal.sparks.count %>件
           </span>
-        </div>
-
-        <%# ⭐ 成功メッセージ表示用のコンテナ %>
-        <div id="spark-flash-messages" class="mb-3"></div>
-
-        <!-- 投稿フォーム -->
-        <div class="spark-form-wrapper mb-4" id="spark_form_wrapper">
-          <%= render 'sparks/form', goal: @goal, spark: Spark.new %>
-        </div>
-
-        <!-- 🔥 Turbo Frame で一覧とページネーションを囲む -->
-        <%= turbo_frame_tag "sparks_content" do %>
-          <!-- 輝き一覧 -->
-          <div id="sparks_list">
-            <% if @sparks.present? %>
-              <%= render @sparks %>
-            <% else %>
-              <div id="sparks_empty_message" class="card shadow-sm text-center py-5">
-                <div class="card-body">
-                  <p class="text-muted mb-2" style="font-size: 3rem;">✨</p>
-                  <p class="text-muted mb-1">まだ輝きが記録されていません</p>
-                  <p class="small text-muted mb-0">最初の一歩を記録してみましょう!</p>
-                </div>
-              </div>
-            <% end %>
-          </div>
-
-          <!-- ページネーション -->
-          <div id="sparks_pagination">
-            <% if @sparks.present? %>
-              <div class="d-flex justify-content-center mt-4">
-                <%= paginate @sparks, theme: 'bootstrap-5', params: { controller: 'goals', action: 'show', id: @goal.id } %>
-              </div>
-            <% end %>
-          </div>
-        <% end %>  <!-- 🔥 ここで Turbo Frame を閉じる -->
+        <% end %>
       </div>
 
-      <!-- 基本情報セクション -->
-      <div class="card shadow-lg mb-4">
-        <div class="card-body p-4 p-md-5">
-          <h2 class="h4 fw-bold mb-4" style="color: #2563eb;">📊 基本情報</h2>
+      <%# ⭐ 成功メッセージ表示用のコンテナ %>
+      <div id="spark-flash-messages" class="mb-3"></div>
 
-          <div class="row g-3">
-            <div class="col-12 col-md-6">
-              <div class="p-3 rounded" style="background-color: #f9fafb;">
-                <p class="small text-muted mb-1">配信プラットフォーム</p>
-                <p class="h6 fw-semibold text-dark mb-0">
-                  <%= @goal.survey_profile.streaming_platform.name %>
-                </p>
-              </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-              <div class="p-3 rounded" style="background-color: #f9fafb;">
-                <p class="small text-muted mb-1">配信ジャンル</p>
-                <p class="h6 fw-semibold text-dark mb-0">
-                  <%= @goal.survey_profile.streaming_category.name %>
-                </p>
-              </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-              <div class="p-3 rounded" style="background-color: #f9fafb;">
-                <p class="small text-muted mb-1">配信経験</p>
-                <p class="h6 fw-semibold text-dark mb-0">
-                  <%= @goal.survey_profile.streaming_experience.name %>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- 現在の活動状況セクション -->
-      <div class="card shadow-lg mb-4">
-        <div class="card-body p-4 p-md-5">
-          <h2 class="h4 fw-bold mb-4" style="color: #16a34a;">📈 現在の活動状況</h2>
-
-          <div class="row g-3">
-            <div class="col-12 col-md-6">
-              <div class="p-3 rounded" style="background-color: #f9fafb;">
-                <p class="small text-muted mb-1">週の配信頻度</p>
-                <p class="h6 fw-semibold text-dark mb-0">
-                  週 <%= @goal.survey_profile.weekly_frequency %> 回
-                </p>
-              </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-              <div class="p-3 rounded" style="background-color: #f9fafb;">
-                <p class="small text-muted mb-1">平均同時接続視聴者数</p>
-                <p class="h6 fw-semibold text-dark mb-0">
-                  <%= @goal.survey_profile.average_listeners %> 人
-                </p>
-              </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-              <div class="p-3 rounded" style="background-color: #f9fafb;">
-                <p class="small text-muted mb-1">総合視聴者数</p>
-                <p class="h6 fw-semibold text-dark mb-0">
-                  <%= @goal.survey_profile.total_listeners %> 人
-                </p>
-              </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-              <div class="p-3 rounded" style="background-color: #f9fafb;">
-                <p class="small text-muted mb-1">最近のリスナーの離脱人数</p>
-                <p class="h6 fw-semibold text-dark mb-0">
-                  <%= ['0人', '1〜2人', '3〜4人', '5人以上'][@goal.survey_profile.listener_dropout_rate] %>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- 投稿フォーム -->
+      <div class="spark-form-wrapper mb-4" id="spark_form_wrapper">
+        <%= render 'sparks/form', goal: @goal, spark: Spark.new %>
       </div>
 
-      <!-- モチベーション（あなたの気持ち）セクション -->
-      <div class="card shadow-lg mb-4">
-        <div class="card-body p-4 p-md-5">
-          <h2 class="h4 fw-bold mb-4" style="color: #9333ea;">💗 モチベーション（あなたの気持ち）</h2>
-
-          <!-- モチベーションレベル -->
-          <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
-            <p class="small text-muted mb-2">現在のモチベーションレベル</p>
-            <div style="font-size: 2rem;">
-              <%= '💗' * @goal.survey_profile.motivation_level %>
-              <%= '🖤' * (5 - @goal.survey_profile.motivation_level) %>
-            </div>
-            <p class="small text-muted mt-1">
-              <%= @goal.survey_profile.motivation_level %> / 5
-            </p>
-          </div>
-
-          <!-- 配信で嬉しかったこと -->
-          <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
-            <p class="small text-muted mb-2">😊 配信で嬉しかったこと</p>
-            <p class="text-dark mb-0" style="white-space: pre-wrap;">
-              <%= @goal.survey_profile.survey_response.happy_moment %>
-            </p>
-          </div>
-
-          <!-- 配信で辛かったこと -->
-          <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
-            <p class="small text-muted mb-2">😢 配信で辛かったこと</p>
-            <p class="text-dark mb-0" style="white-space: pre-wrap;">
-              <%= @goal.survey_profile.survey_response.sad_moment %>
-            </p>
-          </div>
-
-          <!-- 配信を続ける理由 -->
-          <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
-            <p class="small text-muted mb-2">🔥 配信を続ける理由</p>
-
-            <% if @streaming_reasons.present? %>
-              <div class="d-flex flex-wrap gap-2 mb-2">
-                <% @streaming_reasons.each do |reason| %>
-                  <span class="badge rounded-pill px-3 py-2" style="background-color: #f3e8ff; color: #7c3aed;">
-                    <%= reason %>
-                  </span>
-                <% end %>
+      <!-- 🔥 Turbo Frame で一覧とページネーションを囲む -->
+      <%= turbo_frame_tag "sparks_content" do %>
+        <!-- 輝き一覧 -->
+        <div id="sparks_list">
+          <% if @sparks.present? %>
+            <%= render @sparks %>
+          <% else %>
+            <div id="sparks_empty_message" class="card shadow-sm text-center py-5">
+              <div class="card-body">
+                <p class="text-muted mb-2" style="font-size: 3rem;">✨</p>
+                <p class="text-muted mb-1">まだ輝きが記録されていません</p>
+                <p class="small text-muted mb-0">最初の一歩を記録してみましょう!</p>
               </div>
-            <% else %>
-              <p class="text-muted mb-2">配信理由が登録されていません</p>
-            <% end %>
+            </div>
+          <% end %>
+        </div>
 
-            <% if @goal.survey_profile.survey_response.streaming_reasons_other.present? %>
-              <p class="text-dark mb-0 mt-2">
-                <span class="fw-semibold">その他:</span>
-                <%= @goal.survey_profile.survey_response.streaming_reasons_other %>
+        <!-- ページネーション -->
+        <div id="sparks_pagination">
+          <% if @sparks.present? %>
+            <div class="d-flex justify-content-center mt-4">
+              <%= paginate @sparks, theme: 'bootstrap-5', params: { controller: 'goals', action: 'show', id: @goal.id } %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>  <!-- 🔥 ここで Turbo Frame を閉じる -->
+    </div>
+
+    <!-- 基本情報セクション -->
+    <div class="card shadow-lg mb-4">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h4 fw-bold mb-4" style="color: #2563eb;">📊 基本情報</h2>
+
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <div class="p-3 rounded" style="background-color: #f9fafb;">
+              <p class="small text-muted mb-1">配信プラットフォーム</p>
+              <p class="h6 fw-semibold text-dark mb-0">
+                <%= @goal.survey_profile.streaming_platform.name %>
               </p>
-            <% end %>
+            </div>
           </div>
 
-          <!-- 理想の配信スタイル -->
-          <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
-            <p class="small text-muted mb-2">✨ 理想の配信スタイル</p>
-            <p class="text-dark mb-0" style="white-space: pre-wrap;">
-              <%= @goal.survey_profile.survey_response.desired_streaming_style %>
+          <div class="col-12 col-md-6">
+            <div class="p-3 rounded" style="background-color: #f9fafb;">
+              <p class="small text-muted mb-1">配信ジャンル</p>
+              <p class="h6 fw-semibold text-dark mb-0">
+                <%= @goal.survey_profile.streaming_category.name %>
+              </p>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="p-3 rounded" style="background-color: #f9fafb;">
+              <p class="small text-muted mb-1">配信経験</p>
+              <p class="h6 fw-semibold text-dark mb-0">
+                <%= @goal.survey_profile.streaming_experience.name %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 現在の活動状況セクション -->
+    <div class="card shadow-lg mb-4">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h4 fw-bold mb-4" style="color: #16a34a;">📈 現在の活動状況</h2>
+
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <div class="p-3 rounded" style="background-color: #f9fafb;">
+              <p class="small text-muted mb-1">週の配信頻度</p>
+              <p class="h6 fw-semibold text-dark mb-0">
+                週 <%= @goal.survey_profile.weekly_frequency %> 回
+              </p>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="p-3 rounded" style="background-color: #f9fafb;">
+              <p class="small text-muted mb-1">平均同時接続視聴者数</p>
+              <p class="h6 fw-semibold text-dark mb-0">
+                <%= @goal.survey_profile.average_listeners %> 人
+              </p>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="p-3 rounded" style="background-color: #f9fafb;">
+              <p class="small text-muted mb-1">総合視聴者数</p>
+              <p class="h6 fw-semibold text-dark mb-0">
+                <%= @goal.survey_profile.total_listeners %> 人
+              </p>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="p-3 rounded" style="background-color: #f9fafb;">
+              <p class="small text-muted mb-1">最近のリスナーの離脱人数</p>
+              <p class="h6 fw-semibold text-dark mb-0">
+                <%= ['0人', '1〜2人', '3〜4人', '5人以上'][@goal.survey_profile.listener_dropout_rate] %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- モチベーション（あなたの気持ち）セクション -->
+    <div class="card shadow-lg mb-4">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h4 fw-bold mb-4" style="color: #9333ea;">💗 モチベーション（あなたの気持ち）</h2>
+
+        <!-- モチベーションレベル -->
+        <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
+          <p class="small text-muted mb-2">現在のモチベーションレベル</p>
+          <div style="font-size: 2rem;">
+            <%= '💗' * @goal.survey_profile.motivation_level %>
+            <%= '🖤' * (5 - @goal.survey_profile.motivation_level) %>
+          </div>
+          <p class="small text-muted mt-1">
+            <%= @goal.survey_profile.motivation_level %> / 5
+          </p>
+        </div>
+
+        <!-- 配信で嬉しかったこと -->
+        <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
+          <p class="small text-muted mb-2">😊 配信で嬉しかったこと</p>
+          <p class="text-dark mb-0" style="white-space: pre-wrap;">
+            <%= @goal.survey_profile.survey_response.happy_moment %>
+          </p>
+        </div>
+
+        <!-- 配信で辛かったこと -->
+        <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
+          <p class="small text-muted mb-2">😢 配信で辛かったこと</p>
+          <p class="text-dark mb-0" style="white-space: pre-wrap;">
+            <%= @goal.survey_profile.survey_response.sad_moment %>
+          </p>
+        </div>
+
+        <!-- 配信を続ける理由 -->
+        <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
+          <p class="small text-muted mb-2">🔥 配信を続ける理由</p>
+
+          <% if @streaming_reasons.present? %>
+            <div class="d-flex flex-wrap gap-2 mb-2">
+              <% @streaming_reasons.each do |reason| %>
+                <span class="badge rounded-pill px-3 py-2" style="background-color: #f3e8ff; color: #7c3aed;">
+                  <%= reason %>
+                </span>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-muted mb-2">配信理由が登録されていません</p>
+          <% end %>
+
+          <% if @goal.survey_profile.survey_response.streaming_reasons_other.present? %>
+            <p class="text-dark mb-0 mt-2">
+              <span class="fw-semibold">その他:</span>
+              <%= @goal.survey_profile.survey_response.streaming_reasons_other %>
             </p>
-          </div>
+          <% end %>
+        </div>
 
-          <!-- 理想の視聴者層 -->
-          <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
-            <p class="small text-muted mb-2">👥 理想の視聴者層</p>
-            <p class="text-dark mb-0" style="white-space: pre-wrap;">
-              <%= @goal.survey_profile.survey_response.desired_listener %>
-            </p>
-          </div>
+        <!-- 理想の配信スタイル -->
+        <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
+          <p class="small text-muted mb-2">✨ 理想の配信スタイル</p>
+          <p class="text-dark mb-0" style="white-space: pre-wrap;">
+            <%= @goal.survey_profile.survey_response.desired_streaming_style %>
+          </p>
+        </div>
 
-          <!-- 理想の月収 -->
-          <div class="p-3 rounded" style="background-color: #f9fafb;">
-            <p class="small text-muted mb-2">💰 理想の月収</p>
-            <p class="h4 fw-bold text-dark mb-0">
-              <%= number_to_currency(@goal.survey_profile.survey_response.desired_monthly_income, 
+        <!-- 理想の視聴者層 -->
+        <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
+          <p class="small text-muted mb-2">👥 理想の視聴者層</p>
+          <p class="text-dark mb-0" style="white-space: pre-wrap;">
+            <%= @goal.survey_profile.survey_response.desired_listener %>
+          </p>
+        </div>
+
+        <!-- 理想の月収 -->
+        <div class="p-3 rounded" style="background-color: #f9fafb;">
+          <p class="small text-muted mb-2">💰 理想の月収</p>
+          <p class="h4 fw-bold text-dark mb-0">
+            <%= number_to_currency(@goal.survey_profile.survey_response.desired_monthly_income, 
                          unit: '円', 
                          format: '%n%u',
                          precision: 0) %>
-            </p>
-          </div>
+          </p>
         </div>
       </div>
-
     </div>
+
   </div>
+</div>
 </div>

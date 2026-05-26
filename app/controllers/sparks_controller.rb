@@ -25,6 +25,9 @@ class SparksController < ApplicationController
                        .page(1)
                        .per(4)
 
+        # ★★★ 輝きの件数を取得 ★★★
+        @sparks_count = @goal.sparks.count
+
         # 1ページ目を表示するためのフラグ
         @current_page = 1
 
@@ -86,6 +89,9 @@ class SparksController < ApplicationController
                      .per(4)
 
     end
+
+    # ★★★ 輝きの件数を取得 ★★★
+    @sparks_count = @goal.sparks.count
 
     # ページ番号を保存
     @current_page = current_page
