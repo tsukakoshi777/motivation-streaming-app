@@ -8,10 +8,10 @@
             <% if @user.avatar? %>
               <%= image_tag @user.avatar.url,
                   alt: t('profiles.show.avatar_alt', nickname: @user.nickname),
-                  class: "rounded-circle img-thumbnail",
+                  class: "rounded-circle profile-avatar img-thumbnail",
                   style: "width: 150px; height: 150px; object-fit: cover;" %>
             <% else %>
-              <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mx-auto" 
+              <div class="rounded-circle profile-avatar bg-secondary d-flex align-items-center justify-content-center mx-auto" 
                    style="width: 150px; height: 150px;">
                 <i class="bi bi-person-fill text-white" style="font-size: 4rem;"></i>
               </div>

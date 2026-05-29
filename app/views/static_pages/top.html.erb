@@ -1,16 +1,25 @@
 <!-- ========================================
      ヒーローセクション(背景画像付き)
      テンプレート: TEMPLATE PARTY風
+     ブレークポイントの調整:
+     - スマホ用: 849px以下 (矢印が見切れないように調整)
+     - iPad・iPad Pro用: 850px〜1200px (背景画像の端が見切れないように調整)
+     - PC用: 1201px以上
      ======================================== -->
 <div class="hero-section position-relative">
   <!-- 背景画像(レスポンシブ対応) -->
   <picture>
-    <!-- スマホ用(768px以下) -->
+    <!-- スマホ用(849px以下) -->
     <source 
-      media="(max-width: 768px)" 
+      media="(max-width: 849px)" 
       srcset="<%= asset_path('oshista-hero-bg-mobile.png') %>"
     >
-    <!-- PC用(769px以上) -->
+    <!-- iPad・iPad Pro用(850px〜1100px) -->
+    <source 
+      media="(min-width: 850px) and (max-width: 1200px)" 
+      srcset="<%= asset_path('oshista-hero-bg-tablet.png') %>"
+    >
+    <!-- PC用 -->
     <img 
       src="<%= asset_path('oshista-hero-bg.png') %>" 
       alt="Oshista Hero Background"
@@ -76,14 +85,14 @@
     <div class="row problems-stars-container">
       <!-- 1つ目: 視聴者が増えない -->
       <div class="col-12 col-md-4 mb-4 problem-star-pair">
-        <div class="problem-item text-center">
+        <div class="problem-item text-center pb-md-0">
           <i class="fa-solid fa-chart-line fa-3x text-primary mb-3"></i>
           <h3><%= t('.problems.problem1.title') %></h3>
           <p class="text-muted"><%= t('.problems.problem1.description') %></p>
         </div>
 
-        <!-- 下向き矢印 -->
-        <div class="arrow-down text-center mt-3">
+        <!-- 下向き矢印(スマホのみ表示) -->
+        <div class="arrow-down text-center mt-3 d-md-none">
           <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
         </div>
 
@@ -95,14 +104,14 @@
 
       <!-- 2つ目: ファンが少ない -->
       <div class="col-12 col-md-4 mb-4 problem-star-pair">
-        <div class="problem-item text-center">
+        <div class="problem-item text-center pb-md-0">
           <i class="fa-solid fa-comments fa-3x text-primary mb-3"></i>
           <h3><%= t('.problems.problem2.title') %></h3>
           <p class="text-muted"><%= t('.problems.problem2.description') %></p>
         </div>
 
-        <!-- 下向き矢印 -->
-        <div class="arrow-down text-center mt-3">
+        <!-- 下向き矢印(スマホのみ表示) -->
+        <div class="arrow-down text-center mt-3 d-md-none">
           <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
         </div>
 
@@ -114,14 +123,14 @@
 
       <!-- 3つ目: 何を改善すべきか -->
       <div class="col-12 col-md-4 mb-4 problem-star-pair">
-        <div class="problem-item text-center">
+        <div class="problem-item text-center pb-md-0">
           <i class="fa-solid fa-lightbulb fa-3x text-primary mb-3"></i>
           <h3><%= t('.problems.problem3.title') %></h3>
           <p class="text-muted"><%= t('.problems.problem3.description') %></p>
         </div>
 
-        <!-- 下向き矢印 -->
-        <div class="arrow-down text-center mt-3">
+        <!-- 下向き矢印(スマホのみ表示) -->
+        <div class="arrow-down text-center mt-3 d-md-none">
           <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
         </div>
 
@@ -136,16 +145,28 @@
     <div class="row mt-4 d-none d-md-flex">
       <div class="col-md-4 mb-4">
         <div class="star-item text-center">
+          <!-- 下向き矢印を星の直上に配置 -->
+          <div class="arrow-down text-center mb-5">
+            <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
+          </div>
           <%= image_tag 'oshista-example-star1.png', alt: '星1', class: 'star-image' %>
         </div>
       </div>
       <div class="col-md-4 mb-4">
         <div class="star-item text-center">
+          <!-- 下向き矢印を星の直上に配置 -->
+          <div class="arrow-down text-center mb-5">
+            <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
+          </div>
           <%= image_tag 'oshista-example-star2.png', alt: '星2', class: 'star-image' %>
         </div>
       </div>
       <div class="col-md-4 mb-4">
         <div class="star-item text-center">
+          <!-- 下向き矢印を星の直上に配置 -->
+          <div class="arrow-down text-center mb-5">
+            <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
+          </div>
           <%= image_tag 'oshista-example-star3.png', alt: '星3', class: 'star-image' %>
         </div>
       </div>

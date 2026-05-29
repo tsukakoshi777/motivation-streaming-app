@@ -213,3 +213,58 @@
   font-weight: bold;
   font-size: 1.3rem;
 }
+
+/* 詳細ページ　PC画面用のボタンサイズ (btn-lg相当) */
+.btn.btn-compact {
+  padding: .75rem 2rem;
+  font-size: 1.05rem;
+}
+
+/* 詳細ページ　iPad mini 画面用のボタンサイズ調整 */
+@media (max-width: 768px) {
+  .btn.btn-compact {
+    padding: .75rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* スマホ画面のみ */
+@media (max-width: 767px) {
+  .container-index-padding {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+}
+
+/* iPad 画面のみ */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .container-index-padding {
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+  }
+}
+
+/* PC画面: padding左右 2rem */
+@media (min-width: 1025px) {
+  .container-index-padding {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+}
+
+/* プロフィール画像のレスポンシブサイズ調整 */
+/* スマホ画面 (デフォルト): 80px */
+.profile-avatar {
+  border-radius: 50% !important;
+  width: 80px !important;
+  height: 80px !important;
+}
+
+/* iPad・PC画面 (768px以上): 150px */
+@media (min-width: 768px) {
+  .profile-avatar {
+    border-radius: 50% !important;
+    width: 150px !important;
+    height: 150px !important;
+  }
+}

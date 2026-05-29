@@ -26,9 +26,9 @@
 
             <!-- 編集・削除ボタン -->
             <div class="d-flex gap-2">
-              <%= link_to edit_goal_path(@goal), class: "btn btn-lg btn-outline-primary shadow fw-bold" do %>
+              <%= link_to edit_goal_path(@goal), class: "btn btn-outline-primary shadow fw-bold btn-compact" do %>
                 <i class="bi bi-pencil"></i> <%= t('.actions.edit') %>
-              <% end %>
+              <% end %> 
 
               <%= button_to goal_path(@goal), 
                   method: :delete,
@@ -36,7 +36,7 @@
                     style: "display: inline;",
                     onsubmit: "return confirm('#{t('.actions.delete_confirm')}');" 
                   },
-                  class: "btn btn-lg btn-outline-danger shadow fw-bold" do %>
+                  class: "btn btn-outline-danger shadow fw-bold btn-compact" do %>
                 <i class="bi bi-trash"></i> <%= t('.actions.delete') %>
               <% end %>
             </div>
@@ -127,10 +127,10 @@
               </div>
             </div>
           </div>
-        </div>
+        
 
-        <!-- スマホ画面用のレイアウト（縦並び） -->
-        <div class="d-md-none">
+          <!-- スマホ画面用のレイアウト（縦並び） -->
+          <div class="d-md-none">
           <!-- GIFアニメーション -->
           <div class="text-center mb-4">
             <%= image_tag star_gif(@goal), alt: "成長の星", class: "img-fluid" %>
@@ -169,6 +169,7 @@
                 <%= achievement_rate(@goal) %>%
               </div>
             </div>
+          </div>
           </div>
         </div>
         <!-- ★★★ 成長の星セクション終了 ★★★ -->
@@ -318,7 +319,7 @@
             <%= '💗' * @goal.survey_profile.motivation_level %>
             <%= '🖤' * (5 - @goal.survey_profile.motivation_level) %>
           </div>
-          <p class="small text-muted mt-1">
+          <p class="small text-muted mt-1 px-2">
             <%= @goal.survey_profile.motivation_level %> / 5
           </p>
         </div>
@@ -326,7 +327,7 @@
         <!-- 配信で嬉しかったこと -->
         <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
           <p class="small text-muted mb-2">😊 配信で嬉しかったこと</p>
-          <p class="text-dark mb-0" style="white-space: pre-wrap;">
+          <p class="text-dark mb-0 px-4">
             <%= @goal.survey_profile.survey_response.happy_moment %>
           </p>
         </div>
@@ -334,7 +335,7 @@
         <!-- 配信で辛かったこと -->
         <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
           <p class="small text-muted mb-2">😢 配信で辛かったこと</p>
-          <p class="text-dark mb-0" style="white-space: pre-wrap;">
+          <p class="text-dark mb-0 px-4">
             <%= @goal.survey_profile.survey_response.sad_moment %>
           </p>
         </div>
@@ -352,11 +353,11 @@
               <% end %>
             </div>
           <% else %>
-            <p class="text-muted mb-2">配信理由が登録されていません</p>
+            <p class="text-muted mb-2 px-4">配信理由が登録されていません</p>
           <% end %>
 
           <% if @goal.survey_profile.survey_response.streaming_reasons_other.present? %>
-            <p class="text-dark mb-0 mt-2">
+            <p class="text-dark mb-0 mt-2 px-4">
               <span class="fw-semibold">その他:</span>
               <%= @goal.survey_profile.survey_response.streaming_reasons_other %>
             </p>
@@ -366,7 +367,7 @@
         <!-- 理想の配信スタイル -->
         <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
           <p class="small text-muted mb-2">✨ 理想の配信スタイル</p>
-          <p class="text-dark mb-0" style="white-space: pre-wrap;">
+          <p class="text-dark mb-0 px-4">
             <%= @goal.survey_profile.survey_response.desired_streaming_style %>
           </p>
         </div>
@@ -374,7 +375,7 @@
         <!-- 理想の視聴者層 -->
         <div class="p-3 rounded mb-3" style="background-color: #f9fafb;">
           <p class="small text-muted mb-2">👥 理想の視聴者層</p>
-          <p class="text-dark mb-0" style="white-space: pre-wrap;">
+          <p class="text-dark mb-0 px-4">
             <%= @goal.survey_profile.survey_response.desired_listener %>
           </p>
         </div>
@@ -382,7 +383,7 @@
         <!-- 理想の月収 -->
         <div class="p-3 rounded" style="background-color: #f9fafb;">
           <p class="small text-muted mb-2">💰 理想の月収</p>
-          <p class="h4 fw-bold text-dark mb-0">
+          <p class="h4 fw-bold text-dark mb-0 px-4">
             <%= number_to_currency(@goal.survey_profile.survey_response.desired_monthly_income, 
                          unit: '円', 
                          format: '%n%u',
