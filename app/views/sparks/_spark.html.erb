@@ -41,11 +41,11 @@
                                 data: { turbo_stream: true },
                                 class: "btn btn-sm btn-outline-primary" %>
                   <%= button_to t('sparks.show.delete'),
-                                goal_spark_path(spark.goal, spark),
+                                goal_spark_path(spark.goal, spark, page: params[:page]),
                                 method: :delete,
                                 data: { 
                                   turbo_confirm:  t('defaults.delete_confirm'),
-                                  turbo_frame: "_top"
+                                  turbo_stream: true
                                 },
                                 class: "btn btn-sm btn-outline-danger" %>
                 </div>

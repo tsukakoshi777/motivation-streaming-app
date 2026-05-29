@@ -37,8 +37,27 @@ class GoalsController < ApplicationController
   end
 
   def show
-    @streaming_reasons = @goal.survey_profile&.survey_response&.streaming_reasons&.split(',') || []
-    @sparks = @goal.sparks.includes(:user).order(created_at: :desc) # ← 追加
+    @goal = current_user.goals.find(params[:id])
+
+    # 現在のページ番号を取得
+    current_page = params[:page].to_i
+    current_page = 1 if current_page < 1
+
+    # 輝き一覧を取得
+    @sparks = @goal.sparks
+                   .includes(:user)
+                   .order(created_at: :desc)
+                   .page(current_page)
+                   .per(4)
+
+    # 現在のページが空で、1ページ目より後のページの場合は前のページにリダイレクト
+    return unless @sparks.empty? && current_page > 1
+
+    redirect_to goal_path(@goal, page: current_page - 1)
+    nil
+
+    # format.turbo_stream のブロックを削除
+    # respond_to は不要
   end
 
   def edit

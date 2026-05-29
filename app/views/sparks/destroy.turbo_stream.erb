@@ -1,12 +1,79 @@
-<!-- 削除した投稿を、フラッシュメッセージで置き換える -->
-<%= turbo_stream.replace dom_id(@spark) do %>
-  <div class="alert alert-success alert-dismissible fade show mb-3" role="alert" id="delete_flash_<%= @spark.id %>">
+<%# 輝き一覧を丸ごと置き換え %>
+<%= turbo_stream.replace "sparks_list" do %>
+  <% if @sparks.present? %>
+    <div id="sparks_list">
+      <%= render @sparks %>
+    </div>
+  <% else %>
+    <div id="sparks_list">
+      <div id="sparks_empty_message" class="card shadow-sm text-center py-5">
+        <div class="card-body">
+          <p class="text-muted mb-2" style="font-size: 3rem;">✨</p>
+          <p class="text-muted mb-1">まだ輝きが記録されていません</p>
+          <p class="small text-muted mb-0">最初の一歩を記録してみましょう!</p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<%# ページネーションを更新 %>
+<%= turbo_stream.replace "sparks_pagination" do %>
+  <% if @sparks.present? %>
+    <div id="sparks_pagination" class="d-flex justify-content-center mt-4">
+      <%= paginate @sparks, theme: 'bootstrap-5', params: { controller: 'goals', action: 'show', id: @goal.id, page: @current_page } %>
+    </div>
+  <% else %>
+    <div id="sparks_pagination"></div>
+  <% end %>
+<% end %>
+
+<%# ★★★ ここから件数更新を追加 ★★★ %>
+
+<%# 1. セクションヘッダーのバッジを更新 %>
+<%= turbo_stream.update "spark_count_badge_#{@goal.id}" do %>
+  <span class="badge rounded-pill px-3 py-2" 
+  style="background-color: #f3e8ff; color: #7c3aed; font-size: 1rem;">
+    <%= @sparks_count %>件
+  </span>
+<% end %>
+
+<%# 2. PC画面用の統計情報を更新 %>
+<%= turbo_stream.update "spark_count_pc_#{@goal.id}" do %>
+  <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
+    <p class="mb-1 text-white small">✨ 輝きの記録</p>
+    <p class="h4 fw-bold text-white mb-0"><%= @sparks_count %>件</p>
+  </div>
+<% end %>
+
+<%# 3. スマホ画面用の統計情報を更新 %>
+<%= turbo_stream.update "spark_count_mobile_#{@goal.id}" do %>
+  <div class="p-3 rounded mb-3" style="background-color: rgba(255, 255, 255, 0.2);">
+    <p class="mb-1 text-white small">✨ 輝きの記録</p>
+    <p class="h4 fw-bold text-white mb-0"><%= @sparks_count %>件</p>
+  </div>
+<% end %>
+
+<%# ★★★ 件数更新ここまで ★★★ %>
+
+<%# URLを更新(ページ番号が変わった場合のみ) %>
+<% if @current_page != params[:page].to_i %>
+  <%= turbo_stream.append 'head' do %>
+    <script>
+      history.replaceState(null, '', '<%= goal_path(@goal, page: @current_page) %>');
+    </script>
+  <% end %>
+<% end %>
+
+<%# 成功メッセージを表示 %>
+<%= turbo_stream.update "spark-flash-messages" do %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
     <%= flash[:success] %>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
   <script>
     (function() {
-      const alert = document.getElementById('delete_flash_<%= @spark.id %>');
+      const alert = document.querySelector('#spark-flash-messages .alert');
       if (alert) {
         setTimeout(() => {
           alert.classList.remove('show');

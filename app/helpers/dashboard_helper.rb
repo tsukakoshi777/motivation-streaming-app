@@ -28,7 +28,7 @@ module DashboardHelper
   def goal_sparks_chart_options
     {
       responsive: true,
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           position: 'bottom'
@@ -61,7 +61,7 @@ module DashboardHelper
   def monthly_sparks_chart_options
     {
       responsive: true,
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           display: false
@@ -73,8 +73,10 @@ module DashboardHelper
       scales: {
         y: {
           beginAtZero: true,
+          min: 0, # Y軸の最小値
+          max: 30, # Y軸の最大値
           ticks: {
-            stepSize: 1
+            stepSize: 2
           }
         }
       }

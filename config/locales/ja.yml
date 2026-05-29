@@ -205,7 +205,7 @@ ja:
 
       # 検索フォーム
       search:
-        placeholder: '目標を検索（タイトル・内容・AIの提案から検索）'
+        placeholder: '成長の星を検索'
         submit: '検索'
         clear: 'クリア'
 

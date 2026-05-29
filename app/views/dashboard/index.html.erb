@@ -66,7 +66,7 @@
       <div class="row g-4 mb-4">
         <!-- 円グラフ: 目標別の輝きメモ割合 -->
         <div class="col-md-6">
-          <div class="card shadow-lg" style="background: linear-gradient(to right, #928b97, #6ba3e9);">
+          <div class="card shadow-lg h-100" style="background: linear-gradient(to right, #928b97, #6ba3e9);">
             <div class="card-body p-4">
               <h3 class="h5 fw-bold mb-4 text-white text-center">
                 <%= t('.charts.goal_sparks_title') %>
@@ -89,13 +89,13 @@
 
         <!-- 棒グラフ: 月別の輝きメモ件数 -->
         <div class="col-md-6">
-          <div class="card shadow-lg" style="background: linear-gradient(to right, #928b97, #6ba3e9);">
+          <div class="card shadow-lg h-100" style="background: linear-gradient(to right, #928b97, #6ba3e9);">
             <div class="card-body p-4">
               <h3 class="h5 fw-bold mb-4 text-white text-center">
                 <%= t('.charts.monthly_sparks_title') %>
               </h3>
               <% if @monthly_sparks_data.present? %>
-                <div class="p-3 rounded" style="background-color: rgba(255, 255, 255, 0.9);">
+                <div class="p-3 rounded" style="background-color: rgba(255, 255, 255, 0.9); min-height: 330px;">
                   <canvas 
               data-controller="chart"
               data-chart-type-value="bar"

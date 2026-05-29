@@ -94,7 +94,7 @@ class SurveyProfilesController < ApplicationController
       survey_response.save!
       survey_result.save!
 
-      redirect_to @goal, notice: t('goals.update.success')
+      redirect_to @goal, notice: t('goals.update.success'), status: :see_other
     end
   rescue ActiveRecord::RecordInvalid => e
     Rails.logger.debug { "RecordInvalid: #{e.message}" }
