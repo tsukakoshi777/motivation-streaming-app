@@ -11,6 +11,13 @@ class SurveyProfilesController < ApplicationController
     @survey_profile.build_survey_response
     @survey_profile.build_survey_result
     load_select_options
+
+    # 🆕 日付が変わっていたらカウントをリセット
+    reset_ai_suggestion_count_if_needed
+
+    # 🆕 AI提案の使用回数とリセット日時を取得
+    @ai_suggestion_count = current_user.ai_suggestion_count
+    @reset_date = current_user.ai_suggestion_reset_date || Date.current
   end
 
   def create
@@ -313,7 +320,7 @@ class SurveyProfilesController < ApplicationController
     # 日付が変わっていたらカウントをリセット
     reset_ai_suggestion_count_if_needed
 
-    return unless current_user.ai_suggestion_count >= 3
+    return unless current_user.ai_suggestion_count >= 10
 
     render json: {
       error: t('survey_profiles.errors.ai_suggestion_limit_reached')

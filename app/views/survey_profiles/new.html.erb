@@ -21,7 +21,7 @@
          基本情報セクション
     ======================================== -->
     <div class="bg-white shadow-lg rounded-lg p-3 p-lg-4 pb-1 mb-4">
-      <h2 class="text-2xl font-bold mb-4 text-blue-600">📊 基本情報</h2>
+      <h2 class="text-2xl font-bold mb-4 text-blue-600">📋 基本情報</h2>
 
       <!-- 配信プラットフォーム -->
       <div class="mb-4">
@@ -284,12 +284,21 @@
         <p class="text-sm text-gray-500 mt-1"></p>
         あなたのもやもやから、自分だけの成長の星を作りましょう! ✨
 
+        <!-- 🆕 使用回数とリセット日時の表示 -->
+        <div class="text-center lg:text-left mt-3 p-3 bg-light rounded" style="width: 100%; max-width: 390px;">
+          <small class="text-gray-600">
+            💡 AI提案は <strong class="text-blue-600 font-semibold">あと<%= 10 - @ai_suggestion_count %>回</strong> 使用できます
+            <br>
+            <small>（<%= @reset_date.tomorrow.strftime('%m月%d日') %> にリセットされます）</small>
+          </small>
+        </div>
+
         <!-- 🆕 AI提案取得ボタン（常に表示） -->
         <div class="mt-4">
           <button type="button" 
                   class="btn btn-primary" 
                   id="fetch-ai-button">
-            ✨ AI提案を取得
+            🚀 AI提案を取得
           </button>
           <p class="text-sm text-gray-500 mt-2">
             ※ AI提案は最大3回まで取得できます<br>
