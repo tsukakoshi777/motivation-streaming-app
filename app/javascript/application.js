@@ -206,6 +206,13 @@ function initializeForm() {
         console.log('フォーマット後のアクションプラン:', formattedActionPlan);
       }
 
+      // 🆕 残り回数を更新
+      const remainingCountElement = document.getElementById('ai-suggestion-remaining');
+      if (remainingCountElement && data.remaining_count !== undefined) {
+        remainingCountElement.textContent = data.remaining_count;
+        console.log('残り回数を更新しました:', data.remaining_count);
+      }
+
       console.log('AI提案のデータを挿入しました!');
 
     } catch (error) {

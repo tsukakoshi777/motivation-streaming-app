@@ -52,8 +52,11 @@ class SurveyProfilesController < ApplicationController
     # カウントを増やす
     current_user.update!(ai_suggestion_count: current_user.ai_suggestion_count + 1)
 
-    # JSONで返す
-    render json: suggestion
+    # 🆕 残り回数を計算
+    remaining_count = 3 - current_user.ai_suggestion_count
+
+    # 🆕 JSONで返す（残り回数を追加）
+    render json: suggestion.merge(remaining_count: remaining_count)
   rescue GeminiService::RateLimitError => e
     handle_rate_limit_error(e)
   rescue GeminiService::InvalidResponseError => e
@@ -190,6 +193,10 @@ class SurveyProfilesController < ApplicationController
   def prepare_for_render
     load_select_options
     @streaming_reasons = params[:survey_profile][:streaming_reasons]&.reject(&:blank?) || []
+
+    # 🆕 AI提案の残り回数とリセット日時を設定
+    @ai_suggestion_count = current_user.ai_suggestion_count
+    @reset_date = current_user.ai_suggestion_reset_date
   end
 
   def survey_profile_params
@@ -320,7 +327,7 @@ class SurveyProfilesController < ApplicationController
     # 日付が変わっていたらカウントをリセット
     reset_ai_suggestion_count_if_needed
 
-    return unless current_user.ai_suggestion_count >= 10
+    return unless current_user.ai_suggestion_count >= 3
 
     render json: {
       error: t('survey_profiles.errors.ai_suggestion_limit_reached')
