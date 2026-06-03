@@ -67,6 +67,13 @@ class GoalsController < ApplicationController
 
     # streaming_reasons を配列に変換
     @streaming_reasons = @survey_profile&.survey_response&.streaming_reasons&.split(',') || []
+
+    # 🆕 日付が変わっていたらカウントをリセット
+    reset_ai_suggestion_count_if_needed
+
+    # 🆕 AI提案の使用回数とリセット日時を取得
+    @ai_suggestion_count = current_user.ai_suggestion_count
+    @reset_date = current_user.ai_suggestion_reset_date || Date.current
   end
 
   def destroy
@@ -165,5 +172,18 @@ class GoalsController < ApplicationController
         description: goal.survey_result&.goal_description&.truncate(50) || ''
       }
     end
+  end
+
+  #  カウントをリセット
+  def reset_ai_suggestion_count_if_needed
+    today = Date.current
+
+    # 最後にリセットした日付が今日でない場合、リセット
+    return unless current_user.ai_suggestion_reset_date != today
+
+    current_user.update!(
+      ai_suggestion_count: 0,
+      ai_suggestion_reset_date: today
+    )
   end
 end

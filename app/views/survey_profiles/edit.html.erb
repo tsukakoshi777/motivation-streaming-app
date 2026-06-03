@@ -21,7 +21,7 @@
          基本情報セクション
     ======================================== -->
     <div class="bg-white shadow-lg rounded-lg p-3 p-lg-4 pb-1 mb-4">
-      <h2 class="text-2xl font-bold mb-4 text-blue-600">📊 基本情報</h2>
+      <h2 class="text-2xl font-bold mb-4 text-blue-600">📋 基本情報</h2>
 
       <!-- 配信プラットフォーム -->
       <div class="mb-4">
@@ -284,6 +284,22 @@
           </label>
         </div>
         <p class="text-sm text-gray-500 mt-1">あなたのもやもやから、自分だけの成長の星を作りましょう! ✨</p>
+
+        <!-- 🆕 使用回数とリセット日時の表示 -->
+        <div class="text-center lg:text-left mt-3 p-3 bg-light rounded" style="width: 100%; max-width: 390px;">
+          <small class="text-gray-600">
+            <% remaining = 3 - @ai_suggestion_count %>
+            <% if remaining > 0 %>
+              💡 AI提案は <strong class="text-blue-600 font-semibold">あと<span id="ai-suggestion-remaining"><%= remaining %></span>回</strong> 使用できます
+              <br>
+              <small>（<%= @reset_date.tomorrow.strftime('%m月%d日') %> にリセットされます）</small>
+            <% else %>
+              💡 <strong class="text-red-600 font-semibold">本日のAI提案は利用できません</strong>
+              <br>
+              <small>（<%= @reset_date.tomorrow.strftime('%m月%d日') %> にリセットされます）</small>
+            <% end %>
+          </small>
+        </div>
 
         <!-- 🆕 AI提案取得ボタン（常に表示） -->
         <div class="mt-4">

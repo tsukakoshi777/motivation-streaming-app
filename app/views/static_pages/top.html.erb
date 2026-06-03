@@ -51,7 +51,7 @@
           <div class="hero-cta">
             <%= link_to new_survey_profile_path, 
                 class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg' do %>
-              <i class="fa-solid fa-rocket me-2"></i><%= t('.hero.cta_button') %>
+              <i class=" fa-solid fa-circle-plus me-2"></i><%= t('.hero.cta_button') %>
             <% end %>
           </div>
 
@@ -182,12 +182,12 @@
   <div class="container text-center py-5">
     <h3 class="h2 fw-bold mb-4"><%= t('.cta1.title') %></h3>
     <p class="lead mb-4">
-       <%= t('.cta1.description') %>
+      <%= t('.cta1.description') %>
     </p>
     <div class="d-flex justify-content-center gap-3 flex-wrap">
       <%= link_to new_survey_profile_path, 
           class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow' do %>
-        <i class="fa-solid fa-rocket me-2"></i><%= t('.cta1.button') %>
+        <i class=" fa-solid fa-circle-plus me-2"></i><%= t('.cta1.button') %>
       <% end %>
     </div>
   </div>
@@ -217,7 +217,7 @@
             <br>
             <strong class="text-primary">推しスタの分析シートなら、</strong><br>
             質問を構造化し、悩みを言語化しやすくします。<br>
-            <strong>「何を相談すればいいかわからない」層にも届きます。</strong>
+            <strong>「何を相談すればいいかわからない」方にもおすすめです。</strong>
           </p>
         </div>
       </div>
@@ -259,7 +259,7 @@
             <br>
             <strong class="text-primary">推しスタなら、</strong><br>
             過去の分析シートを保存し、モチベーションが下がったときに見返せます。<br>
-            <strong>「なぜモチベーションが低下したのか」を分析し、同じ失敗を繰り返さないようサポートします。</strong>
+            <strong>「なぜモチベーションが低下したのか」を明確にし、同じ失敗を繰り返さないようサポートします。</strong>
           </p>
         </div>
       </div>
@@ -294,6 +294,9 @@
             漠然とした悩みを具体的な課題として認識でき、その課題を解決するための手順・ツール・情報を自分で調べなくても得られます。<br>
             <strong>調べるのが苦手な人でも、適切な情報に迷わずたどり着けます。</strong>
           </p>
+        </div>
+        <div class="card-footer bg-light text-muted small">
+          <%= t('.reasons.solution1.note') %>
         </div>
       </div>
     </div>
@@ -332,6 +335,9 @@
             <strong>その時々の目標に合わせた情報・ツール・人脈を提供し続けます。</strong>
           </p>
         </div>
+        <div class="card-footer bg-light text-muted small">
+          <%= t('.reasons.solution3.note') %>
+        </div>
       </div>
     </div>
   </div>
@@ -359,7 +365,7 @@
           <p class="text-muted mb-4">
             <%= t('.steps.step1.description') %>
           </p>
-          
+
           <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
           <div class="demo-image-wrapper">
             <%= image_tag 'oshista-step1-pc.png', alt: 'ステップ1: 簡単な質問に答える', class: 'img-fluid rounded shadow d-none d-md-block' %>
@@ -381,7 +387,7 @@
           <p class="text-muted mb-4">
             <%= t('.steps.step2.description') %>
           </p>
-          
+
           <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
           <div class="demo-image-wrapper">
             <%= image_tag 'oshista-step2-pc.png', alt: 'ステップ2: AIが分析', class: 'img-fluid rounded shadow d-none d-md-block' %>
@@ -403,7 +409,7 @@
           <p class="text-muted mb-4">
             <%= t('.steps.step3.description') %>
           </p>
-          
+
           <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
           <div class="demo-image-wrapper">
             <%= image_tag 'oshista-step3-pc.png', alt: 'ステップ3: 具体的な提案を受け取る', class: 'img-fluid rounded shadow d-none d-md-block' %>
@@ -420,7 +426,7 @@
   <div class="container">
     <!-- セクションタイトル -->
     <h2 class="title12-parts"> <%= t('.sparkle.title') %></h2>
-    
+
     <!-- 機能説明とデモ動画 -->
     <div class="feature-content">
       <!-- テキスト文 -->
@@ -435,7 +441,7 @@
           ネガティブな気持ちを吐き出すことができます。
         </p>
       </div>
-      
+
       <!-- デモ動画 -->
       <div class="feature-demo">
         <div class="demo-video-item">
@@ -444,7 +450,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- モバイル版デモ動画 (モバイルのみ表示) -->
     <div class="feature-demo-mobile">
       <div class="demo-video-item">
@@ -467,28 +473,28 @@
             <i class="fa-solid fa-heart me-2"></i><%= t('.developer.title') %>
           </h2>
         </div>
-        
+
         <div class="developer-message">
           <p class="lead mb-4 text-white">
             配信活動を続ける中で、 「何だか配信やる気がでない、、、」といったもやもや☁した言語化できない想いを抱えていませんか?
           </p>
-          
+
           <p class="lead mb-4 text-white">
             または、具体的に「リスナーが増えない」「ファンがいなくなってしまう」<br>
             「配信活動を続けていていいと思える投げ銭の額の届いていない」など各々、活動を続ける限り様々な悩みがあると思います。
           </p>
-          
+
           <p class="lead mb-4 text-white">
             ✦推しスタ✦ は、そんな配信者の皆さんが 「もやもやした気持ち」を「明確な目標⭐」に変え 、継続的に成長を実感できるように作りました。<br>
             悩んでしまうのは、あなたの心が成長したい！配信を続けたい！と言っているからです。<br>
             悩んだままなんとなく嫌になって、配信をやめてしまう方を減らしたいと思ってこの推しスタ⭐を運営しています。<br>
           </p>
-          
+
           <p class="lead mb-4 text-white">
             あなたの配信活動が、もっと楽しく、もっと輝けるように。<br>
             推しスタが、あなたが 「なりたい推し⭐」 への道のりをサポートします。
           </p>
-          
+
           <div class="text-end mt-5">
             <p class="h4 fw-bold mb-2"><%= t('.developer.signature') %></p>
             <p class="text-white"><%= t('.developer.motto') %></p>
@@ -510,7 +516,7 @@
     </p>
     <%= link_to new_survey_profile_path, 
         class: 'btn btn-primary btn-lg px-5 py-4 rounded-pill shadow-lg' do %>
-      <i class="fa-solid fa-rocket me-2"></i><%= t('.final_cta.button') %>
+      <i class=" fa-solid fa-circle-plus me-2"></i><%= t('.final_cta.button') %>
     <% end %>
     <p class="text-muted mt-3 small">
       <%= t('.final_cta.note') %>

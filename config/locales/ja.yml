@@ -22,7 +22,7 @@ ja:
         title_html: | 
           配信を続けたい！<br class="d-md-none">
           でも自分には難しい？
-        cta_button: "+もやもや結晶を調査🔍"
+        cta_button: "もやもや結晶☁を調査🔍"
         note: "※googleログインですぐに利用可能"
       
       # 悩みセクション
@@ -51,7 +51,7 @@ ja:
       cta1:
         title: "まずは気軽にもやもやした気持ちを解消しませんか?"
         description: "AIがあなたの配信状況や気持ちに寄り添い、具体的な改善提案をお届けします。"
-        button: "+もやもや結晶を調査🔍"
+        button: "もやもや結晶☁を調査🔍"
       
       # 3つの理由セクション
       reasons:
@@ -66,7 +66,7 @@ ja:
             <br>
             <strong class="text-primary">推しスタの分析シートなら、</strong><br>
             質問を構造化し、悩みを言語化しやすくします。<br>
-            <strong>「何を相談すればいいかわからない」層にも届きます。</strong>
+            <strong>「何を相談すればいいかわからない」方にもおすすめです。</strong>
         
         # 理由2
         reason2:
@@ -86,7 +86,7 @@ ja:
             <br>
             <strong class="text-primary">推しスタなら、</strong><br>
             過去の分析シートを保存し、モチベーションが下がったときに見返せます。<br>
-            <strong>「なぜモチベーションが低下したのか」を分析し、同じ失敗を繰り返さないようサポートします。</strong>
+            <strong>「なぜモチベーションが低下したのか」を明確にし、同じ失敗を繰り返さないようサポートします。</strong>
         
         # 解決後のイメージ
         solution_title_html: |
@@ -99,6 +99,7 @@ ja:
           description: |
             漠然とした悩みを具体的な課題として認識でき、その課題を解決するための手順・ツール・情報を自分で調べなくても得られます。
             調べるのが苦手な人でも、適切な情報に迷わずたどり着けます。
+          note: "※ サービスや人脈の提供機能は今後実装予定"
         
         # 解決策2
         solution2:
@@ -114,6 +115,7 @@ ja:
             配信者の目標は変化し続けます。
             「雑談配信で楽しみたい」→「収益化を目指したい」→「特定のゲームで有名になりたい」
             その時々の目標に合わせた情報・ツール・人脈を提供し続けます。
+          note: "※ サービスや人脈の提供機能は今後実装予定"
 
       # 使い方セクション
       steps:
@@ -152,7 +154,7 @@ ja:
         description_html: |
           もやもやした気持ちはあなたをもっと輝かせる目標⭐になる<br>
           推しスタがあなたの配信の可能性を引き出します。
-        button: "+もやもや結晶を調査🔍"
+        button: "もやもや結晶☁を調査🔍"
         note: "※ googleログインですぐに利用可能"
  
     contact:
@@ -171,7 +173,7 @@ ja:
       or: 'または' 
       google_login: 'Googleでログイン' 
     create:
-      success: 'ログインしました'
+      success: 'ログインしました！ようこそ、推しスタへ⭐'
       failure: 'メールアドレスまたはパスワードが正しくありません'
     destroy:
       success: 'ログアウトしました'
@@ -181,12 +183,12 @@ ja:
       title: "ユーザー登録"
       to_login_page: "ログインページへ"
     create:
-      success: 'ユーザー登録が完了しました'
+      success: 'ユーザー登録が完了しました！あなただけの配信銀河🌌を描きましょう'
       failure: 'ユーザー登録に失敗しました'
 
   oauths:
     invalid_provider: '不正なプロバイダーです'
-    login_success: '%{provider}アカウントでログインしました'
+    login_success: '%{provider}アカウントでログインしました！ようこそ、推しスタへ⭐'
     link_success: '%{provider}アカウントを連携しました'
     login_failed: '%{provider}アカウントでのログインに失敗しました'
   
@@ -198,7 +200,7 @@ ja:
   goals:
     index:
       title: '⭐ 成長の星 一覧'
-      new_survey_button: '+もやもや結晶を調査🔍'
+      new_survey_button: '＋もやもや結晶☁を調査🔍'
       description_html: |
         あなたのもやもやから生まれた成長の星たちです。<br class="md:hidden">
         それぞれの星を育てて、輝かせましょう!
@@ -290,7 +292,7 @@ ja:
 
   survey_profiles:
     new:
-      title: 'もやもや結晶シート ✨'
+      title: 'もやもや結晶☁分析シート'
       description_html: |
         君のもやもやを教えてね。きっと素敵な星が生まれるよ! 🌟<br>
         <span class="text-danger">*</span> マークがついている項目は重要な項目なので必ず入力してね！

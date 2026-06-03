@@ -17,15 +17,16 @@
           <!-- タイトル・作成日・ボタンエリア -->
           <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
             <!-- タイトルと作成日 -->
-            <div class="flex-grow-1">
-              <h2 class="h3 fw-bold text-purple mb-2">🌟 <%= @goal.survey_result.goal_title %></h2>
+            <div class="flex-grow-1" style="min-width: 0;">
+              <h2 class="h3 fw-bold text-purple mb-2" style="line-height: 1.5; word-break: break-all; overflow-wrap: break-word;">
+                🌟 <%= @goal.survey_result.goal_title %></h2>
               <small class="text-muted">
                 作成日: <%= @goal.created_at.strftime('%Y年%m月%d日') %>
               </small>
             </div>
 
             <!-- 編集・削除ボタン -->
-            <div class="d-flex gap-2">
+            <div class="d-flex gap-2 flex-shrink-0">
               <%= link_to edit_goal_path(@goal), class: "btn btn-outline-primary shadow fw-bold btn-compact" do %>
                 <i class="bi bi-pencil"></i> <%= t('.actions.edit') %>
               <% end %> 

@@ -53,7 +53,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
         js_files.each { |script| puts "  - #{script[:src]}" }
 
         # ページが表示されるまで待機
-        expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+        expect(page).to have_content('もやもや結晶☁分析シート'), 'アンケートページが表示されません'
 
         # フォーム入力
         select 'YouTube', from: '配信プラットフォーム'
@@ -144,7 +144,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
         visit new_survey_profile_path
 
         # ページが表示されるまで待機
-        expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+        expect(page).to have_content('もやもや結晶☁分析シート'), 'アンケートページが表示されません'
 
         # フォーム入力
         select 'YouTube', from: '配信プラットフォーム'
@@ -203,7 +203,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
           visit new_survey_profile_path
 
           # ページが表示されるまで待機
-          expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+          expect(page).to have_content('もやもや結晶☁分析シート'), 'アンケートページが表示されません'
 
           # フォーム入力
           select 'YouTube', from: '配信プラットフォーム'
@@ -247,7 +247,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
           visit new_survey_profile_path
 
           # ページが表示されるまで待機
-          expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+          expect(page).to have_content('もやもや結晶☁分析シート'), 'アンケートページが表示されません'
 
           # 自分で設定するラジオボタンを選択
           choose 'survey_result_goal_source_1'
@@ -274,7 +274,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
           visit new_survey_profile_path
 
           # ページが表示されるまで待機
-          expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+          expect(page).to have_content('もやもや結晶☁分析シート'), 'アンケートページが表示されません'
 
           # 配信プラットフォーム以外を入力
           select 'ゲーム実況', from: '配信ジャンル'
@@ -327,7 +327,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
           visit new_survey_profile_path
 
           # ページが表示されるまで待機
-          expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+          expect(page).to have_content('もやもや結晶☁分析シート'), 'アンケートページが表示されません'
 
           # 週の配信頻度以外を入力
           select 'YouTube', from: '配信プラットフォーム'
@@ -387,7 +387,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
           visit new_survey_profile_path
 
           # ページが表示されるまで待機
-          expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+          expect(page).to have_content('もやもや結晶☁分析シート'), 'アンケートページが表示されません'
 
           # フォーム入力
           select 'YouTube', from: '配信プラットフォーム'
@@ -434,7 +434,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
         visit new_survey_profile_path
 
         # ページが表示されるまで待機
-        expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+        expect(page).to have_content('もやもや結晶☁分析シート'), 'アンケートページが表示されません'
 
         # 自分で設定するラジオボタンを選択
         choose 'survey_result_goal_source_1'
@@ -457,7 +457,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
         visit new_survey_profile_path
 
         # ページが表示されるまで待機
-        expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+        expect(page).to have_content('もやもや結晶☁分析シート'), 'アンケートページが表示されません'
 
         # フォーム入力（長文テスト）
         long_text = 'あ' * 1000 # 1000文字の長文
@@ -503,7 +503,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
         visit new_survey_profile_path
 
         # ページが表示されるまで待機
-        expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+        expect(page).to have_content('もやもや結晶☁分析シート'), 'アンケートページが表示されません'
 
         # フォーム入力（特殊文字テスト）
         special_chars = '!@#$%^&*()_+-=[]{}|;:\'",.<>?/~`'
@@ -549,7 +549,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
         visit new_survey_profile_path
 
         # ページが表示されるまで待機
-        expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+        expect(page).to have_content('もやもや結晶☁分析シート'), 'アンケートページが表示されません'
 
         # フォーム入力（絵文字テスト）
         emoji_text = '😀😃😄😁😆😅😂🤣😊😇'
@@ -595,7 +595,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
         visit new_survey_profile_path
 
         # ページが表示されるまで待機
-        expect(page).to have_content('もやもや結晶シート'), 'アンケートページが表示されません'
+        expect(page).to have_content('もやもや結晶☁分析シート'), 'アンケートページが表示されません'
 
         # フォーム入力（HTMLタグテスト）
         html_tags = '<script>alert("XSS")</script><h1>見出し</h1><p>段落</p>'
