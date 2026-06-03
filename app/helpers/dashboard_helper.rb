@@ -3,7 +3,8 @@
 module DashboardHelper
   # 円グラフのデータを生成
   def goal_sparks_chart_data(goal_sparks_data)
-    labels = goal_sparks_data.keys.pluck(1)
+    # タイトルを20文字で切り取る
+    labels = goal_sparks_data.keys.pluck(1).map { |label| truncate_label(label, 10) }
     data = goal_sparks_data.values
 
     {
@@ -81,5 +82,12 @@ module DashboardHelper
         }
       }
     }.to_json
+  end
+
+  private
+
+  # タイトルを省略表示するヘルパーメソッド
+  def truncate_label(label, length)
+    label.length > length ? "#{label[0...length]}..." : label
   end
 end

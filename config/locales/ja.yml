@@ -173,7 +173,7 @@ ja:
       or: 'または' 
       google_login: 'Googleでログイン' 
     create:
-      success: 'ログインしました'
+      success: 'ログインしました！ようこそ、推しスタへ⭐'
       failure: 'メールアドレスまたはパスワードが正しくありません'
     destroy:
       success: 'ログアウトしました'
@@ -183,12 +183,12 @@ ja:
       title: "ユーザー登録"
       to_login_page: "ログインページへ"
     create:
-      success: 'ユーザー登録が完了しました'
+      success: 'ユーザー登録が完了しました！あなただけの配信銀河🌌を描きましょう'
       failure: 'ユーザー登録に失敗しました'
 
   oauths:
     invalid_provider: '不正なプロバイダーです'
-    login_success: '%{provider}アカウントでログインしました'
+    login_success: '%{provider}アカウントでログインしました！ようこそ、推しスタへ⭐'
     link_success: '%{provider}アカウントを連携しました'
     login_failed: '%{provider}アカウントでのログインに失敗しました'
   
@@ -200,7 +200,7 @@ ja:
   goals:
     index:
       title: '⭐ 成長の星 一覧'
-      new_survey_button: '+もやもや結晶を調査🔍'
+      new_survey_button: '＋もやもや結晶☁を調査🔍'
       description_html: |
         あなたのもやもやから生まれた成長の星たちです。<br class="md:hidden">
         それぞれの星を育てて、輝かせましょう!

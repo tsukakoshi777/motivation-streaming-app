@@ -216,14 +216,14 @@
 
 /* 詳細ページ　PC画面用のボタンサイズ (btn-lg相当) */
 .btn.btn-compact {
-  padding: .75rem 2rem;
+  padding: .75rem 1.5rem;
   font-size: 1.05rem;
 }
 
 /* 詳細ページ　iPad mini 画面用のボタンサイズ調整 */
 @media (max-width: 768px) {
   .btn.btn-compact {
-    padding: .75rem 1.5rem;
+    padding: .75rem 1rem;
     font-size: 1rem;
   }
 }

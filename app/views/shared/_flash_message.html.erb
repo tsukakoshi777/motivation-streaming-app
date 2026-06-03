@@ -1,9 +1,9 @@
 <% flash.each do |key, message| %>
   <% css_class = case key.to_sym
                  when :notice, :success
-                   "alert alert-success"
+                   "alert alert-success mb-0"
                  when :alert, :danger
-                   "alert alert-danger"
+                   "alert alert-danger mb-0"
                  else
                    "alert"
                  end %>
