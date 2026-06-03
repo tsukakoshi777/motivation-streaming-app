@@ -181,4 +181,120 @@ RSpec.describe 'Sparks', type: :system do
       expect(page).not_to have_content('削除する内容'), '削除された内容が残っています'
     end
   end
+
+  # ========================================
+  # 【追加】 輝きのページネーションのテスト
+  # ========================================
+
+  describe '輝き一覧のページネーション' do
+    context 'ページネーションが機能する場合' do
+      before do
+        # 10件の輝きを作成（1ページ4件の場合、3ページ必要）
+        10.times do |i|
+          create(:spark, goal: goal, user: user, content: "輝き#{i + 1}")
+        end
+
+        visit goal_path(goal)
+      end
+
+      it '1ページ目に4件の輝きが表示される' do
+        # 輝きのカードを数える
+        expect(page).to have_css('.spark-item', count: 4)
+      end
+
+      it '2ページ目に移動できる' do
+        # 1ページ目に表示される輝きを確認
+        expect(page).to have_content('輝き10')
+        expect(page).to have_content('輝き9')
+
+        click_link '2'
+
+        # 2ページ目に表示される輝きを確認（1ページ目の輝きが消えていることを確認）
+        expect(page).not_to have_content('輝き10')
+        expect(page).not_to have_content('輝き9')
+
+        # 2ページ目の輝きが表示されることを確認
+        expect(page).to have_content('輝き6')
+        expect(page).to have_content('輝き5')
+      end
+
+      it '2ページ目に4件の輝きが表示される' do
+        click_link '2'
+        expect(page).to have_css('.spark-item', count: 4)
+      end
+
+      it '3ページ目に2件の輝きが表示される' do
+        click_link '3'
+        expect(page).to have_css('.spark-item', count: 2)
+      end
+
+      it 'ページネーションのリンクが正しく表示される' do
+        expect(page).to have_css('.pagination')
+        expect(page).to have_link('2')
+        expect(page).to have_link('3')
+      end
+
+      it '輝きの内容が表示される' do
+        # 降順表示の場合、最新の輝きが表示される
+        expect(page).to have_content('輝き10')
+        expect(page).to have_content('輝き9')
+        expect(page).to have_content('輝き8')
+        expect(page).to have_content('輝き7')
+      end
+    end
+
+    context 'ページネーションが不要な場合' do
+      before do
+        # 3件の輝きを作成
+        3.times do |i|
+          create(:spark, goal: goal, user: user, content: "輝き#{i + 1}")
+        end
+
+        visit goal_path(goal)
+      end
+
+      it 'ページネーションが表示されない' do
+        expect(page).not_to have_css('.pagination')
+      end
+
+      it '全ての輝きが表示される' do
+        expect(page).to have_css('.spark-item', count: 3)
+      end
+
+      it '輝きの内容が表示される' do
+        expect(page).to have_content('輝き3')
+        expect(page).to have_content('輝き2')
+        expect(page).to have_content('輝き1')
+      end
+    end
+
+    context '輝きを投稿した後のページネーション', js: true do
+      before do
+        # 4件の輝きを作成（1ページ目がちょうど埋まる）
+        4.times do |i|
+          create(:spark, goal: goal, user: user, content: "既存の輝き#{i + 1}")
+        end
+
+        visit goal_path(goal)
+      end
+
+      it '新しい輝きを投稿すると1ページ目に表示される' do
+        # 輝きを投稿
+        fill_in 'spark[content]', with: '新しい輝き'
+        click_button '輝きを記録'
+
+        # 投稿が成功するまで待機
+        expect(page).to have_content('輝きを記録しました'), 'フラッシュメッセージが表示されません'
+
+        # 1ページ目に新しい輝きが表示される
+        expect(page).to have_content('新しい輝き')
+
+        # 1ページ目に4件の輝きが表示される（新しい輝きが1番上に表示される）
+        expect(page).to have_css('.spark-item', count: 4)
+
+        # 2ページ目に移動できる
+        expect(page).to have_link('2')
+      end
+    end
+  end
 end
