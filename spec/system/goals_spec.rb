@@ -314,4 +314,143 @@ RSpec.describe 'Goals', type: :system do
       end
     end
   end
+
+  # ========================================
+  # 【追加】 ページネーションのテスト
+  # ========================================
+
+  describe '一覧ページのページネーション' do
+    context 'ページネーションが機能する場合' do
+      before do
+        # 10件の目標を作成(1ページ4件の場合)
+        10.times do |i|
+          profile = create(:survey_profile, user: user)
+          profile.survey_result.update!(
+            goal_title: "目標#{i + 1}",
+            goal_description: "説明#{i + 1}"
+          )
+          create(:goal, user: user, survey_profile: profile)
+        end
+
+        visit goals_path
+      end
+
+      it '1ページ目に4件の目標が表示される' do
+        # ビューファイルから .col-sm-12 .col-lg-6 のカードを数える
+        expect(page).to have_css('.col-sm-12', count: 4)
+      end
+
+      it '2ページ目に移動できる' do
+        click_link '2'
+        expect(page).to have_current_path(goals_path(page: 2))
+      end
+
+      it '2ページ目に4件の目標が表示される' do
+        click_link '2'
+        expect(page).to have_css('.col-sm-12', count: 4)
+      end
+
+      it '3ページ目に2件の目標が表示される' do
+        click_link '3'
+        expect(page).to have_css('.col-sm-12', count: 2)
+      end
+
+      it 'ページネーションのリンクが正しく表示される' do
+        expect(page).to have_css('.pagination')
+        expect(page).to have_link('2')
+        expect(page).to have_link('3')
+      end
+
+      it '目標のタイトルが表示される' do
+        expect(page).to have_content('目標10')
+        expect(page).to have_content('目標9')
+        expect(page).to have_content('目標8')
+        expect(page).to have_content('目標7')
+      end
+    end
+
+    context 'ページネーションが不要な場合' do
+      before do
+        # 3件の目標を作成
+        3.times do |i|
+          profile = create(:survey_profile, user: user)
+          profile.survey_result.update!(
+            goal_title: "目標#{i + 1}",
+            goal_description: "説明#{i + 1}"
+          )
+          create(:goal, user: user, survey_profile: profile)
+        end
+
+        visit goals_path
+      end
+
+      it 'ページネーションが表示されない' do
+        expect(page).not_to have_css('.pagination')
+      end
+
+      it '全ての目標が表示される' do
+        expect(page).to have_css('.col-sm-12', count: 3)
+      end
+
+      it '目標のタイトルが表示される' do
+        expect(page).to have_content('目標1')
+        expect(page).to have_content('目標2')
+        expect(page).to have_content('目標3')
+      end
+    end
+
+    context '検索機能とページネーションの組み合わせ' do
+      before do
+        # 10件の目標を作成
+        10.times do |i|
+          profile = create(:survey_profile, user: user)
+          profile.survey_result.update!(
+            goal_title: "目標#{i + 1}",
+            goal_description: "説明#{i + 1}"
+          )
+          create(:goal, user: user, survey_profile: profile)
+        end
+
+        # 検索キーワードに一致する目標を追加で作成
+        5.times do |i|
+          profile = create(:survey_profile, user: user)
+          profile.survey_result.update!(
+            goal_title: "特別な目標#{i + 1}",
+            goal_description: "特別な説明#{i + 1}"
+          )
+          create(:goal, user: user, survey_profile: profile)
+        end
+
+        visit goals_path
+      end
+
+      it '検索結果にページネーションが表示される' do
+        fill_in 'q', with: '特別な目標'
+        click_button '検索'
+
+        # 検索結果が表示されることを確認
+        expect(page).to have_content('「特別な目標」の検索結果')
+        expect(page).to have_css('.badge.bg-primary', text: '5件')
+
+        # 1ページ目に4件表示される
+        expect(page).to have_css('.col-sm-12', count: 4)
+
+        # 2ページ目に移動できる
+        expect(page).to have_link('2')
+      end
+
+      it '検索結果の2ページ目に移動できる' do
+        fill_in 'q', with: '特別な目標'
+        click_button '検索'
+
+        click_link '2'
+
+        # 2ページ目に1件表示される
+        expect(page).to have_css('.col-sm-12', count: 1)
+
+        # 検索キーワードが保持されている
+        expect(page).to have_field('q', with: '特別な目標')
+      end
+    end
+  end
 end
