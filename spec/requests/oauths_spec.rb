@@ -4,36 +4,40 @@ require 'rails_helper'
 
 RSpec.describe 'Oauths', type: :request do
   describe 'Google OAuth 認証' do
-    let(:oauth_data) do
+    # ✅ oauth_data メソッドを定義
+    def oauth_data(email: 'test@example.com', name: 'Test User')
       {
         provider: 'google',
         uid: '123456789',
         user_info: {
-          'email' => 'test@example.com',
-          'name' => 'Test User'
+          'email' => email,
+          'name' => name
         }
       }
     end
 
     context '新規ユーザーの場合' do
       before do
+        # ✅ @oauth_data を動的に生成
+        @oauth_data = oauth_data(email: 'newuser@example.com', name: 'Test User')
+
         # callback メソッド全体をモック化
         allow_any_instance_of(OauthsController).to receive(:callback) do |controller|
-          # @user_hash を設定
-          controller.instance_variable_set(:@user_hash, oauth_data)
+          # ✅ @oauth_data を参照
+          controller.instance_variable_set(:@user_hash, @oauth_data)
 
-          # 新規ユーザーを作成
+          # ✅ @oauth_data を参照
           @user = User.create!(
-            nickname: oauth_data[:user_info]['name'],
-            email: oauth_data[:user_info]['email'],
+            nickname: @oauth_data[:user_info]['name'],
+            email: @oauth_data[:user_info]['email'],
             password: 'password',
             password_confirmation: 'password'
           )
 
-          # Authentication を作成
+          # ✅ @oauth_data を参照
           @user.authentications.create!(
-            provider: oauth_data[:provider],
-            uid: oauth_data[:uid]
+            provider: @oauth_data[:provider],
+            uid: @oauth_data[:uid]
           )
 
           # ログイン処理
@@ -74,23 +78,27 @@ RSpec.describe 'Oauths', type: :request do
     end
 
     context '既存ユーザーの場合' do
-      let!(:user) { create(:user, email: 'test@example.com') }
+      # ✅ email を削除（Factory Bot の sequence を有効にする）
+      let!(:user) { create(:user) }
 
       context 'Google アカウントが未連携の場合' do
         before do
+          # ✅ oauth_data を動的に生成（既存ユーザーのメールアドレスを使う）
+          @oauth_data = oauth_data(email: user.email, name: 'Test User')
+
           # callback メソッド全体をモック化
           allow_any_instance_of(OauthsController).to receive(:callback) do |controller|
-            # @user_hash を設定
-            controller.instance_variable_set(:@user_hash, oauth_data)
+            # ✅ @oauth_data を参照
+            controller.instance_variable_set(:@user_hash, @oauth_data)
 
-            # 既存ユーザーを取得
-            email = oauth_data[:user_info]['email']
+            # ✅ @oauth_data を参照
+            email = @oauth_data[:user_info]['email']
             @user = User.find_by(email: email)
 
-            # Authentication を作成
+            # ✅ @oauth_data を参照
             @user.authentications.create!(
-              provider: oauth_data[:provider],
-              uid: oauth_data[:uid]
+              provider: @oauth_data[:provider],
+              uid: @oauth_data[:uid]
             )
 
             # ログイン処理
@@ -134,10 +142,13 @@ RSpec.describe 'Oauths', type: :request do
 
     context 'エラーハンドリング' do
       before do
+        # ✅ oauth_data を動的に生成
+        @oauth_data = oauth_data(email: 'error@example.com', name: 'Error User')
+
         # callback メソッド全体をモック化
         allow_any_instance_of(OauthsController).to receive(:callback) do |controller|
-          # @user_hash を設定
-          controller.instance_variable_set(:@user_hash, oauth_data)
+          # ✅ @oauth_data を参照
+          controller.instance_variable_set(:@user_hash, @oauth_data)
 
           # エラーを発生させる
           begin
