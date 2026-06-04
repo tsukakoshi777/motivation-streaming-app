@@ -329,7 +329,10 @@ RSpec.describe 'Goals', type: :system do
             goal_title: "目標#{i + 1}",
             goal_description: "説明#{i + 1}"
           )
-          create(:goal, user: user, survey_profile: profile)
+          create(:goal,
+                 user: user,
+                 survey_profile: profile,
+                 created_at: Time.current - (9 - i).seconds)
         end
 
         visit goals_path

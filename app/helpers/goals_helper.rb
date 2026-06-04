@@ -3,7 +3,7 @@
 module GoalsHelper
   # 星の絵文字を返すメソッド
   def star_emoji(goal)
-    spark_count = goal.sparks.count # ← sparks.count に変更
+    spark_count = goal.sparks_count
 
     case spark_count
     when 0..3
@@ -21,7 +21,7 @@ module GoalsHelper
 
   # 達成率を返すメソッド
   def achievement_rate(goal)
-    spark_count = goal.sparks.count # ← sparks.count に変更
+    spark_count = goal.sparks_count
     total_required = 20 # 完成に必要な件数
 
     rate = (spark_count.to_f / total_required * 100).round
@@ -30,7 +30,7 @@ module GoalsHelper
 
   # 星のGIFアニメーションを返すメソッド
   def star_gif(goal)
-    spark_count = goal.sparks.count
+    spark_count = goal.sparks_count
 
     case spark_count
     when 0..3
