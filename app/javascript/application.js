@@ -211,6 +211,25 @@ function initializeForm() {
       if (remainingCountElement && data.remaining_count !== undefined) {
         remainingCountElement.textContent = data.remaining_count;
         console.log('残り回数を更新しました:', data.remaining_count);
+
+        // 🆕 残り回数が0になったら、メッセージを切り替える
+        if (data.remaining_count === 0) {
+          const messageElement = remainingCountElement.closest('.text-gray-600');
+          if (messageElement) {
+            // 🆕 明日の日付を計算
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const month = (tomorrow.getMonth() + 1).toString().padStart(2, '0');
+            const day = tomorrow.getDate().toString().padStart(2, '0');
+            const tomorrowStr = `${month}月${day}日`;
+
+            messageElement.innerHTML = `
+              💡 <strong class="text-red-600 font-semibold">本日のAI提案は利用できません</strong>
+              <br>
+              <small>(${tomorrowStr} にリセットされます)</small>
+            `;
+          }
+        }
       }
 
       console.log('AI提案のデータを挿入しました!');

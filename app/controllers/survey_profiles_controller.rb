@@ -12,8 +12,8 @@ class SurveyProfilesController < ApplicationController
     @survey_profile.build_survey_result
     load_select_options
 
-    # 🆕 日付が変わっていたらカウントをリセット
-    reset_ai_suggestion_count_if_needed
+    # 🆕 Userモデルのメソッドを使う
+    current_user.reset_ai_suggestion_count_if_needed
 
     # 🆕 AI提案の使用回数とリセット日時を取得
     @ai_suggestion_count = current_user.ai_suggestion_count
@@ -49,11 +49,11 @@ class SurveyProfilesController < ApplicationController
     # AI提案を取得
     suggestion = fetch_suggestion_from_gemini(survey_profile, survey_response)
 
-    # カウントを増やす
-    current_user.update!(ai_suggestion_count: current_user.ai_suggestion_count + 1)
+    # ✅ Userモデルのメソッドを使う
+    current_user.increment_ai_suggestion_count
 
-    # 🆕 残り回数を計算
-    remaining_count = 3 - current_user.ai_suggestion_count
+    # ✅ 残り回数を計算（Userモデルのメソッドを使う）
+    remaining_count = current_user.remaining_ai_suggestion_count
 
     # 🆕 JSONで返す（残り回数を追加）
     render json: suggestion.merge(remaining_count: remaining_count)
@@ -322,28 +322,15 @@ class SurveyProfilesController < ApplicationController
     )
   end
 
-  # AI提案の利用回数制限をチェック
+  # 🆕 AI提案の利用回数制限をチェック（Userモデルのメソッドを使う）
   def check_ai_suggestion_limit
     # 日付が変わっていたらカウントをリセット
-    reset_ai_suggestion_count_if_needed
+    current_user.reset_ai_suggestion_count_if_needed
 
-    return unless current_user.ai_suggestion_count >= 3
+    return if current_user.can_use_ai_suggestion?
 
     render json: {
       error: t('survey_profiles.errors.ai_suggestion_limit_reached')
     }, status: :forbidden
-  end
-
-  #  カウントをリセット
-  def reset_ai_suggestion_count_if_needed
-    today = Date.current
-
-    # 最後にリセットした日付が今日でない場合、リセット
-    return unless current_user.ai_suggestion_reset_date != today
-
-    current_user.update!(
-      ai_suggestion_count: 0,
-      ai_suggestion_reset_date: today
-    )
   end
 end
