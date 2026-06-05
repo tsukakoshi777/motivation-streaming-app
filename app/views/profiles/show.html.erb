@@ -9,7 +9,8 @@
               <%= image_tag @user.avatar.url,
                   alt: t('profiles.show.avatar_alt', nickname: @user.nickname),
                   class: "rounded-circle profile-avatar img-thumbnail",
-                  style: "width: 150px; height: 150px; object-fit: cover;" %>
+                  style: "width: 150px; height: 150px; object-fit: cover;",
+                  loading: 'lazy' %>
             <% else %>
               <div class="rounded-circle profile-avatar bg-secondary d-flex align-items-center justify-content-center mx-auto" 
                    style="width: 150px; height: 150px;">

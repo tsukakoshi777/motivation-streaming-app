@@ -85,7 +85,7 @@
               <!-- 左側:GIFアニメーション -->
               <div class="col-md-6">
                 <div class="d-flex justify-content-center align-items-center h-100">
-                  <%= image_tag star_gif(@goal), alt: "成長の星", class: "img-fluid", style: "max-width: 300px;" %>
+                  <%= image_tag star_gif(@goal), alt: "成長の星", class: "img-fluid", style: "max-width: 300px;" , loading: 'lazy'%>
                 </div>
               </div>
 
@@ -134,7 +134,7 @@
           <div class="d-md-none">
           <!-- GIFアニメーション -->
           <div class="text-center mb-4">
-            <%= image_tag star_gif(@goal), alt: "成長の星", class: "img-fluid" %>
+            <%= image_tag star_gif(@goal), alt: "成長の星", class: "img-fluid" , loading: 'lazy'%>
           </div>
 
           <!-- 統計情報 -->

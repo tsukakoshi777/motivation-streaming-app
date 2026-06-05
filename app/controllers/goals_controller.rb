@@ -6,7 +6,7 @@ class GoalsController < ApplicationController
 
   def index
     @goals = current_user.goals
-                         .includes(goal_associations)
+                         .includes(goal_associations_for_index)
                          .order(created_at: :desc)
 
     # 検索キーワードがある場合は検索を実行
@@ -93,6 +93,18 @@ class GoalsController < ApplicationController
     redirect_to goals_path, alert: t('goals.show.not_found')
   end
 
+  # index アクション専用の goal_associations
+  def goal_associations_for_index
+    {
+      survey_profile: %i[
+        streaming_platform
+        streaming_category
+        streaming_experience
+        survey_result
+      ]
+    }
+  end
+
   def goal_associations
     {
       survey_profile: %i[
@@ -101,8 +113,7 @@ class GoalsController < ApplicationController
         streaming_experience
         survey_response
         survey_result
-      ],
-      sparks: []
+      ]
     }
   end
 
