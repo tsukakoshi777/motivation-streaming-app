@@ -8,7 +8,8 @@
             <% if spark.user.avatar.present? %>
               <%= image_tag spark.user.avatar.url, 
                   class: "rounded-circle", 
-                  style: "width: 48px; height: 48px; object-fit: cover;" %>
+                  style: "width: 48px; height: 48px; object-fit: cover;", 
+                  loading: 'lazy' %>
             <% else %>
               <div class="rounded-circle d-flex align-items-center justify-content-center" 
          style="width: 48px; height: 48px; background: linear-gradient(to bottom right, #ec4899, #a855f7);">

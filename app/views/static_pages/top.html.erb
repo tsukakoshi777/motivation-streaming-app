@@ -24,6 +24,7 @@
       src="<%= asset_path('oshista-hero-bg.png') %>" 
       alt="Oshista Hero Background"
       class="hero-bg-img"
+      loading="eager"
     >
   </picture>
 
@@ -98,7 +99,7 @@
 
         <!-- 星(スマホのみ表示) -->
         <div class="star-item text-center mt-3 d-md-none">
-          <%= image_tag 'oshista-example-star1.png', alt: '星1', class: 'star-image' %>
+          <%= image_tag 'oshista-example-star1.png', alt: '星1', class: 'star-image' , loading: 'lazy'%>
         </div>
       </div>
 
@@ -117,7 +118,7 @@
 
         <!-- 星(スマホのみ表示) -->
         <div class="star-item text-center mt-3 d-md-none">
-          <%= image_tag 'oshista-example-star2.png', alt: '星2', class: 'star-image' %>
+          <%= image_tag 'oshista-example-star2.png', alt: '星2', class: 'star-image' , loading: 'lazy'%>
         </div>
       </div>
 
@@ -136,7 +137,7 @@
 
         <!-- 星(スマホのみ表示) -->
         <div class="star-item text-center mt-3 d-md-none">
-          <%= image_tag 'oshista-example-star3.png', alt: '星3', class: 'star-image' %>
+          <%= image_tag 'oshista-example-star3.png', alt: '星3', class: 'star-image' , loading: 'lazy'%>
         </div>
       </div>
     </div>
@@ -149,7 +150,7 @@
           <div class="arrow-down text-center mb-5">
             <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
           </div>
-          <%= image_tag 'oshista-example-star1.png', alt: '星1', class: 'star-image' %>
+          <%= image_tag 'oshista-example-star1.png', alt: '星1', class: 'star-image' , loading: 'lazy'%>
         </div>
       </div>
       <div class="col-md-4 mb-4">
@@ -158,7 +159,7 @@
           <div class="arrow-down text-center mb-5">
             <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
           </div>
-          <%= image_tag 'oshista-example-star2.png', alt: '星2', class: 'star-image' %>
+          <%= image_tag 'oshista-example-star2.png', alt: '星2', class: 'star-image' , loading: 'lazy'%>
         </div>
       </div>
       <div class="col-md-4 mb-4">
@@ -167,7 +168,7 @@
           <div class="arrow-down text-center mb-5">
             <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
           </div>
-          <%= image_tag 'oshista-example-star3.png', alt: '星3', class: 'star-image' %>
+          <%= image_tag 'oshista-example-star3.png', alt: '星3', class: 'star-image' , loading: 'lazy'%>
         </div>
       </div>
     </div>
@@ -368,8 +369,8 @@
 
           <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
           <div class="demo-image-wrapper">
-            <%= image_tag 'oshista-step1-pc.png', alt: 'ステップ1: 簡単な質問に答える', class: 'img-fluid rounded shadow d-none d-md-block' %>
-            <%= image_tag 'oshista-step1-mb.png', alt: 'ステップ1: 簡単な質問に答える', class: 'img-fluid rounded shadow d-md-none' %>
+            <%= image_tag 'oshista-step1-pc.png', alt: 'ステップ1: 簡単な質問に答える', class: 'img-fluid rounded shadow d-none d-md-block' , loading: 'lazy'%>
+            <%= image_tag 'oshista-step1-mb.png', alt: 'ステップ1: 簡単な質問に答える', class: 'img-fluid rounded shadow d-md-none' , loading: 'lazy'%>
           </div>
         </div>
       </div>
@@ -390,8 +391,8 @@
 
           <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
           <div class="demo-image-wrapper">
-            <%= image_tag 'oshista-step2-pc.png', alt: 'ステップ2: AIが分析', class: 'img-fluid rounded shadow d-none d-md-block' %>
-            <%= image_tag 'oshista-step2-mb.png', alt: 'ステップ2: AIが分析', class: 'img-fluid rounded shadow d-md-none' %>
+            <%= image_tag 'oshista-step2-pc.png', alt: 'ステップ2: AIが分析', class: 'img-fluid rounded shadow d-none d-md-block' , loading: 'lazy'%>
+            <%= image_tag 'oshista-step2-mb.png', alt: 'ステップ2: AIが分析', class: 'img-fluid rounded shadow d-md-none' , loading: 'lazy'%>
           </div>
         </div>
       </div>
@@ -412,8 +413,8 @@
 
           <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
           <div class="demo-image-wrapper">
-            <%= image_tag 'oshista-step3-pc.png', alt: 'ステップ3: 具体的な提案を受け取る', class: 'img-fluid rounded shadow d-none d-md-block' %>
-            <%= image_tag 'oshista-step3-mb.png', alt: 'ステップ3: 具体的な提案を受け取る', class: 'img-fluid rounded shadow d-md-none' %>
+            <%= image_tag 'oshista-step3-pc.png', alt: 'ステップ3: 具体的な提案を受け取る', class: 'img-fluid rounded shadow d-none d-md-block' , loading: 'lazy'%>
+            <%= image_tag 'oshista-step3-mb.png', alt: 'ステップ3: 具体的な提案を受け取る', class: 'img-fluid rounded shadow d-md-none' , loading: 'lazy'%>
           </div>
         </div>
       </div>
@@ -446,7 +447,7 @@
       <div class="feature-demo">
         <div class="demo-video-item">
           <p class="demo-label"><%= t('.sparkle.demo_label_pc') %></p>
-          <%= image_tag 'sparkle-demo-pc.gif', alt: '輝き機能のデモ動画(PC版)', class: 'demo-gif' %>
+          <%= image_tag 'sparkle-demo-pc.gif', alt: '輝き機能のデモ動画(PC版)', class: 'demo-gif' , loading: 'lazy'%>
         </div>
       </div>
     </div>
@@ -455,7 +456,7 @@
     <div class="feature-demo-mobile">
       <div class="demo-video-item">
         <p class="demo-label"><%= t('.sparkle.demo_label_mobile') %></p>
-        <%= image_tag 'sparkle-demo-mb.gif', alt: '輝き機能のデモ動画(モバイル版)', class: 'demo-gif' %>
+        <%= image_tag 'sparkle-demo-mb.gif', alt: '輝き機能のデモ動画(モバイル版)', class: 'demo-gif' , loading: 'lazy'%>
       </div>
     </div>
   </div>
