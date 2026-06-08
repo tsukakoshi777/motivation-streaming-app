@@ -39,12 +39,12 @@
           <!-- ロゴ(オプション) -->
 
           <!-- メインキャッチコピー -->
-          <h1 class="hero-title display-3 fw-bold text-white mb-4">
+          <h1 class="hero-title display-3 fw-bold text-white mb-5 hero-title-custom">
             <%= t('.hero.title_html') %>
           </h1>
 
           <!-- サブキャッチコピー -->
-          <p class="hero-subtitle lead text-white mb-5">
+          <p class="hero-subtitle text-white mb-5 hero-subtitle-custom">
             <%= t('.description_html') %>
           </p>
 
@@ -57,7 +57,7 @@
           </div>
 
           <!-- 補足テキスト(オプション) -->
-          <p class="hero-note text-white mt-3 small">
+          <p class="hero-note text-white mt-4 small">
             <%= t('.hero.note') %>
           </p>
         </div>
@@ -181,7 +181,7 @@
      ======================================== -->
 <section class="bg-gradient py-3" style="background: #f8f9fa">
   <div class="container text-center py-5">
-    <h3 class="h2 fw-bold mb-4"><%= t('.cta1.title') %></h3>
+    <h3 class="h2 fw-bold mb-4"><%= t('.cta1.title_html') %></h3>
     <p class="lead mb-4">
       <%= t('.cta1.description') %>
     </p>
@@ -199,7 +199,7 @@
      テンプレート: list-before-after1
      ======================================== -->
 <section class="container my-5 py-5">
-  <h2 class="text-center mb-5 h1 fw-bold">配信者の「続けたい」を支える3つの理由</h2>
+  <h2 class="text-center mb-5 h1 fw-bold">配信者の「続けたい」を叶える<br>3つのポイント</h2>
 
   <div class="row g-4 mb-5">
     <!-- 理由1: 分析シートで悩みを言語化 -->
@@ -212,12 +212,12 @@
           <h4 class="card-title h5 mb-3">
             <%= raw t('.reasons.reason1.title_html') %>
           </h4>
-          <p class="card-text text-muted">
+          <p class="card-text text-muted text-start">
             <strong>一般的なAIは自由度が高い反面、</strong><br>
             「どう質問すればいいかわからない」という壁があります。<br>
             <br>
-            <strong class="text-primary">推しスタの分析シートなら、</strong><br>
-            質問を構造化し、悩みを言語化しやすくします。<br>
+            <strong class="text-primary">推しスタなら、</strong><br>
+            もやもや分析シートで質問を構造化し、悩みを言語化しやすくします。
             <strong>「何を相談すればいいかわからない」方にもおすすめです。</strong>
           </p>
         </div>
@@ -234,11 +234,11 @@
           <h4 class="card-title h5 mb-3">
             <%= raw t('.reasons.reason2.title_html') %>
           </h4>
-          <p class="card-text text-muted">
+          <p class="card-text text-muted text-start">
             <strong>一般的なAIは汎用的なアドバイスになりがち。</strong><br>
             <br>
             <strong class="text-primary">推しスタなら、</strong><br>
-            配信者特有の悩み(視聴者数、収益化、モチベーション維持など)に特化した分析基準を持ちます。<br>
+            配信者特有の悩み(視聴者数、収益化、モチベーション維持など)に特化した分析基準を持ちます。
             <strong>「どこを」「どう」改善すればいいのか具体的に提案します。</strong>
           </p>
         </div>
@@ -255,11 +255,11 @@
           <h4 class="card-title h5 mb-3">
             <%= raw t('.reasons.reason3.title_html') %>
           </h4>
-          <p class="card-text text-muted">
-            <strong>一般的な習慣化アプリは記録・可視化が中心。</strong><br>
+          <p class="card-text text-muted text-start">
+            <strong>目標への行動記録は毎日しなくてＯＫ、いつでも気軽に利用できます</strong><br>
             <br>
             <strong class="text-primary">推しスタなら、</strong><br>
-            過去の分析シートを保存し、モチベーションが下がったときに見返せます。<br>
+            過去の目標を保存し、モチベーションが下がったときに見返せます。
             <strong>「なぜモチベーションが低下したのか」を明確にし、同じ失敗を繰り返さないようサポートします。</strong>
           </p>
         </div>
@@ -291,7 +291,7 @@
           <h4 class="card-title h5 mb-3 text-primary fw-bold">
             <%= raw t('.reasons.solution1.title_html') %>
           </h4>
-          <p class="card-text">
+          <p class="card-text text-start">
             漠然とした悩みを具体的な課題として認識でき、その課題を解決するための手順・ツール・情報を自分で調べなくても得られます。<br>
             <strong>調べるのが苦手な人でも、適切な情報に迷わずたどり着けます。</strong>
           </p>
@@ -312,7 +312,7 @@
           <h4 class="card-title h5 mb-3 text-primary fw-bold">
             <%= raw t('.reasons.solution2.title_html') %>
           </h4>
-          <p class="card-text">
+          <p class="card-text text-start">
             過去の分析シートを見返すことで、自分がどれだけ成長したかを実感できます。<br>
             <strong>モチベーションが下がったときに、過去にどんな壁にぶつかり、どう乗り越えたのかを思い出せます。</strong>
           </p>
@@ -330,7 +330,7 @@
           <h4 class="card-title h5 mb-3 text-primary fw-bold">
             <%= raw t('.reasons.solution3.title_html') %>
           </h4>
-          <p class="card-text">
+          <p class="card-text text-start">
             配信者の目標は変化し続けます。<br>
             「雑談配信で楽しみたい」→「収益化を目指したい」→「特定のゲームで有名になりたい」<br>
             <strong>その時々の目標に合わせた情報・ツール・人脈を提供し続けます。</strong>
@@ -363,8 +363,8 @@
             </div>
           </div>
           <h3 class="h4 mb-3 fw-bold"><%= t('.steps.step1.title') %></h3>
-          <p class="text-muted mb-4">
-            <%= t('.steps.step1.description') %>
+          <p class="text-muted mb-4 text-start">
+            <%= t('.steps.step1.description_html') %>
           </p>
 
           <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
@@ -385,8 +385,8 @@
             </div>
           </div>
           <h3 class="h4 mb-3 fw-bold"><%= t('.steps.step2.title') %></h3>
-          <p class="text-muted mb-4">
-            <%= t('.steps.step2.description') %>
+          <p class="text-muted mb-4 text-start">
+            <%= t('.steps.step2.description_html') %>
           </p>
 
           <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
@@ -407,8 +407,8 @@
             </div>
           </div>
           <h3 class="h4 mb-3 fw-bold"><%= t('.steps.step3.title') %></h3>
-          <p class="text-muted mb-4">
-            <%= t('.steps.step3.description') %>
+          <p class="text-muted mb-4 text-start">
+            <%= t('.steps.step3.description_html') %>
           </p>
 
           <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
