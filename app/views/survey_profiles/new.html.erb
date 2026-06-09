@@ -284,7 +284,7 @@
         <p class="text-sm text-gray-500 mt-1"></p>
         あなたのもやもやから、自分だけの成長の星を作りましょう! ✨
 
-        <!-- 🆕 使用回数とリセット日時の表示 -->
+        <!--  使用回数とリセット日時の表示 -->
         <div class="text-center lg:text-left mt-3 p-3 bg-light rounded" style="width: 100%; max-width: 390px;">
           <small class="text-gray-600">
             <% remaining = current_user.remaining_ai_suggestion_count %>
@@ -300,7 +300,7 @@
           </small>
         </div>
 
-        <!-- 🆕 AI提案取得ボタン（常に表示） -->
+        <!--  AI提案取得ボタン（常に表示） -->
         <div class="mt-4">
           <button type="button" 
                   class="btn btn-primary" 
@@ -339,7 +339,7 @@
         <p class="text-sm text-gray-500 mt-1">自分で設定する場合は入力してください</p>
       </div>
 
-      <!-- 🆕 具体的なアクションプラン -->
+      <!-- 具体的なアクションプラン -->
       <div class="mb-4 form-field">
         <%= label_tag 'survey_result[action_plan]', '🚀 具体的なアクションプラン', class: 'block mb-2 font-bold text-gray-700' %>
         <%= text_area_tag 'survey_result[action_plan]',
