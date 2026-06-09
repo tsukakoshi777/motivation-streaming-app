@@ -170,7 +170,6 @@ class GeminiService
     end
   end
 
-  # 【プロンプト構築】目標提案用
   # 【プロンプト構築】目標提案用（わかりやすい言葉ver.）
   def build_goal_suggestion_prompt(survey_profile, survey_response)
     <<~PROMPT

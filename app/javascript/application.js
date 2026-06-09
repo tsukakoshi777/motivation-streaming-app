@@ -300,11 +300,11 @@ function initializeForm() {
   const fetchAiButton = document.querySelector('#fetch-ai-button');
 
   if (fetchAiButton) {
-    // 🆕 既存のイベントリスナーを削除してから新しいものを追加
+    //  既存のイベントリスナーを削除してから新しいものを追加
     const newFetchAiButton = fetchAiButton.cloneNode(true);
     fetchAiButton.parentNode.replaceChild(newFetchAiButton, fetchAiButton);
 
-    // 🆕 新しいイベントリスナーを追加
+    //  新しいイベントリスナーを追加
     newFetchAiButton.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation(); // 🆕 イベントの伝播を停止

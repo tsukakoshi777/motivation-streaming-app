@@ -6,7 +6,7 @@ export default class extends Controller {
 
   connect() {
     console.log("Loading controller connected")
-    // ✅ addEventListener は不要!data-action で自動的に接続される
+    //  addEventListener は不要!data-action で自動的に接続される
   }
 
   // AI提案取得時にローディングを表示
@@ -45,7 +45,7 @@ export default class extends Controller {
     console.log("cancel called")
     event.preventDefault()
 
-    // ✅ fetch リクエストをキャンセル
+    //  fetch リクエストをキャンセル
     if (window.abortController) {
       window.abortController.abort();
       console.log("fetch request aborted");

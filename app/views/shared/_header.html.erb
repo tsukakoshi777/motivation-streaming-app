@@ -14,7 +14,7 @@
           <%= link_to t('header.goals_index'), goals_path, class: 'nav-link' %>
         </li>
         <li class="nav-item">
-          <%= link_to '銀河系REPORT', dashboard_path, class: 'nav-link' %>
+          <%= link_to t('header.dashboard'), dashboard_path, class: 'nav-link' %>
         </li
         <li class='nav-item me-lg-3'>
           <%= link_to t('header.profile'), profile_path, class: 'nav-link' %>
@@ -22,7 +22,7 @@
         <li class='nav-item me-lg-3'>
           <%= button_to logout_path,
                        method: :delete,
-                       data: { turbo_confirm: 'ログアウトしますか?' },
+                       data: { turbo_confirm: t('defaults.logout_confirm') },
                        class: 'btn btn-outline-danger' do %>
           <%= t('defaults.logout') %>
         <% end %>
