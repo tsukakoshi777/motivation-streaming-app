@@ -309,6 +309,28 @@ ja:
       failure: '成長の星の削除に失敗しました'
 
   survey_profiles:
+    #  共通部分（new / edit / goals/edit で共有）
+    shared:
+      # セクションタイトル
+      sections:
+        basic_info:
+          title: '📋 基本情報'
+        activity_status:
+          title: '📈 現在の活動状況'
+        motivation:
+          title: '💗 モチベーション(あなたの気持ち)'
+        future_direction:
+          title: '🌟 目指す方向性(未来を描く)'
+        goal_setting:
+          title: '🎯 成長の星(目標)を設定'
+      
+      # ボタン
+      buttons:
+        fetch_ai_suggestion: '🚀 AI提案を取得'
+        fetch_ai_suggestion_note_html: |
+          ※ AI提案は最大3回まで取得できます<br>
+          ※ AI提案を参考にして、自由に編集できます
+
     new:
       title: 'もやもや結晶☁分析シート'
       description_html: |

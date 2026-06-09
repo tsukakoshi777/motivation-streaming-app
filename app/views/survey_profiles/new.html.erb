@@ -21,7 +21,7 @@
          基本情報セクション
     ======================================== -->
     <div class="bg-white shadow-lg rounded-lg p-3 p-lg-4 pb-1 mb-4">
-      <h2 class="text-2xl font-bold mb-4 text-blue-600">📋 基本情報</h2>
+      <h2 class="text-2xl font-bold mb-4 text-blue-600"><%= t('survey_profiles.shared.sections.basic_info.title') %></h2>
 
       <!-- 配信プラットフォーム -->
       <div class="mb-4">
@@ -67,7 +67,7 @@
          現在の活動状況セクション
     ======================================== -->
     <div class="bg-white shadow-lg rounded-lg p-3 p-lg-4 pb-1 mb-4">
-      <h2 class="text-2xl font-bold mb-4 text-green-600">📈 現在の活動状況</h2>
+      <h2 class="text-2xl font-bold mb-4 text-green-600"><%= t('survey_profiles.shared.sections.activity_status.title') %></h2>
 
       <!-- 週の配信頻度 -->
       <div class="mb-4">
@@ -127,7 +127,7 @@
          モチベーション（あなたの気持ち）セクション 
     ======================================== -->
     <div class="bg-white shadow-lg rounded-lg p-3 p-lg-4 pb-1 mb-4">
-      <h2 class="text-2xl font-bold mb-4 text-purple-600">💗 モチベーション（あなたの気持ち）</h2>
+      <h2 class="text-2xl font-bold mb-4 text-purple-600"><%= t('survey_profiles.shared.sections.motivation.title') %></h2>
 
       <!-- モチベーションレベル -->
       <div class="mb-4">
@@ -246,7 +246,7 @@
          目指す方向性（未来を描く）セクション
     ======================================== -->
     <div class="bg-white shadow-lg rounded-lg p-3 p-lg-4 pb-1 mb-4">
-      <h2 class="text-2xl font-bold mb-4 text-pink-600">🌟 目指す方向性（未来を描く）</h2>
+      <h2 class="text-2xl font-bold mb-4 text-pink-600"><%= t('survey_profiles.shared.sections.future_direction.title') %></h2>
 
       <!-- 目標の出典選択 -->
       <div class="mb-4">
@@ -305,11 +305,10 @@
           <button type="button" 
                   class="btn btn-primary" 
                   id="fetch-ai-button">
-            🚀 AI提案を取得
+            <%= t('survey_profiles.shared.buttons.fetch_ai_suggestion') %>
           </button>
           <p class="text-sm text-gray-500 mt-2">
-            ※ AI提案は最大3回まで取得できます<br>
-            ※ AI提案を参考にして、自由に編集できます
+            <%= t('survey_profiles.shared.buttons.fetch_ai_suggestion_note_html').html_safe %>
           </p>
         </div>
 
