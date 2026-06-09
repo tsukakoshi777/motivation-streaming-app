@@ -151,6 +151,34 @@
   }
 }
 
+/* Nest Hub 専用(1024x600) */
+@media (min-width: 1024px) and (max-height: 768px) {
+  h1.hero-title-custom {
+    font-size: calc(1.475rem + 2.7vw);
+    line-height: 1.2;
+  }
+}
+
+/* サブタイトル用のカスタムクラス */
+.hero-subtitle-custom {
+  font-size: 1.25rem; /* スマホ:20px */
+  line-height: 1.6;
+}
+
+/* タブレット以上 */
+@media (min-width: 768px) {
+  .hero-subtitle-custom {
+    font-size: 1.3rem; /* タブレット:20.8px */
+  }
+}
+
+/* PC以上 */
+@media (min-width: 992px) {
+  .hero-subtitle-custom {
+    font-size: 1.5rem; /* PC:24px */
+  }
+}
+
 /* ========================================
    新規追加: グラデーション見出しセクション
    テンプレート: title12
