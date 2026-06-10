@@ -1,9 +1,48 @@
-# -motivation-streaming-app
+# 推しスタ⭐
+
+**配信者が成長を感じながら、楽しく配信を継続できように支援するサービスです。**
+
+## 目次
+- [サービス概要](#サービス概要)
+- [スクリーンショット](#スクリーンショット)
+- [ER図](#er図)
+- [画面遷移図](#画面遷移図)
+- [このサービスへの思い・作りたい理由](#このサービスへの思い作りたい理由)
+- [ユーザー層について](#ユーザー層について)
+- [サービスの利用イメージ](#サービスの利用イメージ)
+- [ユーザーの獲得について](#ユーザーの獲得について)
+- [サービスの差別化ポイント・推しポイント](#サービスの差別化ポイント推しポイント)
+- [機能候補](#機能候補)
+- [使用する技術スタック](#使用する技術スタック)
+- [デプロイ](#デプロイ)
+- [セットアップ手順](#セットアップ手順)
+- [テストの実行方法](#テストの実行方法)
+- [一般的なCRUD以外の主要機能](#一般的なcrud以外の主要機能)
+- [今後の展望](#今後の展望)
+
+
+---
 
 ## サービス概要
 配信活動に悩む配信者向けに、分析シートで悩みを構造化し、AIが配信者特化の分析で最適な目標と行動プランを提案するWebアプリです。
 ChatGPTとは異なり「何を相談すればいいかわからない」を解消し、視聴者数・収益化・モチベーション維持など配信者特有の課題に対応します。
 過去の記録から成長を実感でき、目標が変化しても継続的にサポートし、必要なリソースや仲間との出会いも創出します。
+
+## 📸 スクリーンショット
+
+### トップページ
+![トップページ](./docs/images/top.png)
+
+### ダッシュボード（銀河系REPORT）
+![ダッシュボード](./docs/images/dashboard.png)
+
+### もやもや分析シート
+![もやもや分析シート](./docs/images/survey_profile.png)
+
+### 成長の星（目標設定）
+![成長の星](./docs/images/goals.png)
+
+---
 
 ## ER図
 https://app.diagrams.net/?src=about#G1Mn3Fo1JmXokXuOZXDp3K77CDDZr67CKN#%7B%22pageId%22%3A%22HoqT9CWVDikT26MCecsN%22%7D
@@ -197,7 +236,7 @@ https://www.figma.com/design/cizJCSP8YJmHmw1O5jWpug/%E9%85%8D%E4%BF%A1%E8%80%85%
 
 ---
 
-**配信者が成長を感じながら、楽しく配信を継続できるサービスです。**
+
 
 
 ## 機能候補
@@ -220,7 +259,7 @@ MVPリリース
 本リリース
 【優先度高】
 1. AIによる分析・アドバイス機能
-   - ChatGPT APIを使用
+   - Gemini APIを使用
    - 入力内容(分析シート)をもとに、個別の状況を分析
    - 現状に合った適切な目標設定を提案
    - 目標達成のために必要な具体的なアクションを提案
@@ -238,57 +277,117 @@ MVPリリース
    - 月一の記録リマインドメール
 
 ## 使用する技術スタック
+
 ### 基本構成
 - **フレームワーク**: Ruby on Rails 7.0.10
 - **Ruby**: 3.2.2
 - **データベース**: PostgreSQL
 - **デプロイ先**: AWS
-- **フロントエンド**: Hotwire (Turbo + Stimulus)
+
+### フロントエンド
+- **Hotwire**: Turbo + Stimulus
+- **CSS**: Bootstrap 5
+- **JavaScript**: Stimulus.js
+- **グラフ**: Chart.js
+
+### 主要なGem
+- **gemini-ai**: Gemini AIとの連携
+- **sorcery**: ユーザー認証
+- **kaminari**: ページネーション
+- **active_model_serializers**: JSON API の作成
+- **dotenv-rails**: 環境変数の管理
+
+---
+
 
 ## デプロイ
 - URL: http://35.74.180.37
 - 環境: AWS EC2
 
-## 今後の改善ポイント
-- HTTPS 化（ACM を使用）
+## セットアップ手順
 
-### 認証・ユーザー管理
-- **Sorcery**
-  - メールアドレス+パスワードでの登録・ログイン
-  - ログイン状態の維持
+### 1. リポジトリのクローン
 
-### AI機能
-- **ruby-openai gem**
-  - OpenAI API (ChatGPT API)を使用
-  - 配信者の入力内容をもとに、個別のアドバイスを生成
-  - 適切な目標設定とアクションプランの提案
+```bash
+git clone https://github.com/tsukakoshi777/motivation-streaming-app.git
+cd motivation-streaming-app
+```
 
-### グラフ・可視化
-- **Chart.js (JavaScript)**
-  - 配信頻度や視聴者数の推移をグラフ化
-  - モチベーションの変化を可視化
+### 2. 環境変数の設定
 
-### 環境変数管理
-- **dotenv-rails**
-  - OpenAI APIキーなどの秘密情報を管理
+`.env` ファイルを作成し、以下の内容を記載してください。
 
-## 一般的なCRUD以外の実装予定の機能
+```bash
+GEMINI_API_KEY=your_gemini_api_key_here
+DATABASE_URL=postgresql://postgres:password@db:5432/motivation_streaming_app_development
+```
+
+**⚠️ 重要**: 
+- `GEMINI_API_KEY` には、[Google AI Studio](https://aistudio.google.com/app/apikey) で取得した実際のAPIキーを設定してください
+- `.env` ファイルは `.gitignore` に含まれており、Gitで管理されません
+- **絶対に実際のAPIキーをGitHubにプッシュしないでください**
+
+### 3. Dockerコンテナのビルドと起動
+
+```bash
+docker compose build
+docker compose up -d
+```
+
+### 4. データベースのセットアップ
+
+```bash
+docker compose exec app rails db:create
+docker compose exec app rails db:migrate
+docker compose exec app rails db:seed
+```
+
+### 5. ブラウザで確認
+
+ブラウザで http://localhost:3000 にアクセスしてください。
+
+### 6. コンテナの停止
+
+```bash
+docker compose down
+```
+
+---
+
+## テストの実行方法
+
+### RSpecの実行
+
+```bash
+docker compose exec web bundle exec rspec
+```
+
+### 特定のテストファイルを実行
+
+```bash
+docker compose exec web bundle exec rspec spec/models/user_spec.rb
+```
+
+
+## 一般的なCRUD以外の主要機能
 
 ### 1. AI機能
 
-**使用技術**: OpenAI API (ChatGPT API) + ruby-openai gem
+**使用技術**: Gemini API + gemini-ai gem
 
 **実装の流れ:**
 1. ユーザーが分析シートを入力・保存
 2. 「アドバイスを見る」ボタンをクリック
 3. サーバー側で入力内容をもとにプロンプトを作成
-4. OpenAI APIにリクエストを送信
+4. Gemini APIにリクエストを送信
 5. AIが生成したアドバイスをデータベースに保存
 6. 画面に表示
 
 **参考記事:**
-- [ruby-openai gemの使い方](https://github.com/alexrudall/ruby-openai)
-- [OpenAI API公式ドキュメント](https://platform.openai.com/docs/api-reference)
+- [gemini-ai gemの使い方](https://github.com/gbaptista/gemini-ai)
+- [Gemini API公式ドキュメント](https://ai.google.dev/docs)
+
+---
 
 ### 2. グラフ・可視化機能
 
@@ -299,15 +398,36 @@ MVPリリース
 2. JSON形式でフロントエンドに渡す
 3. Chart.jsを使ってグラフを描画
 
-**表示予定のグラフ:**
-- 配信頻度の推移(折れ線グラフ)
-- モチベーションの変化(折れ線グラフ)
-- 視聴者数の推移(棒グラフ)
+**表示されるグラフ:**
+- 各成長の星の輝き割合（円グラフ）
+- 月別の宿した輝き数（棒グラフ）
 
 **参考記事:**
 - [Chart.js公式ドキュメント](https://www.chartjs.org/docs/latest/)
 - [RailsでChart.jsを使う方法](https://qiita.com/search?q=Rails+Chart.js)
 
+### 3. 銀河系REPORT（ダッシュボード）
+
+**表示内容:**
+- 見つかった成長の星（目標数）
+- 達成した成長の星（達成数）
+- 宿した輝きの数（記録数）
+- きらめきバッジ（継続の証、マルチタスカー）
+- 各成長の星の輝き割合（円グラフ）
+- 月別の宿した輝き数（棒グラフ）
+
+**実装の流れ:**
+1. ユーザーの目標、達成、記録データを集計
+2. バッジの条件を判定
+3. Chart.jsで円グラフと棒グラフを描画
+
+### 今後実装予定の機能
+
+#### 1. 通知機能
+- 月に2回、LINEに目標に対する行動記録を促す通知
+
+#### 2. LINEとXでのログイン機能
+- Googleログインに加えて、LINEログインとXログインを追加
 
 ## 今後の展望
 
@@ -315,7 +435,7 @@ MVPリリース
 まずは、配信者が自身の活動状況やモチベーションを記録し、過去の状態を振り返ることができる基盤を提供します。分析シートに答えるだけで、配信活動の現状を構造化して記録できる仕組みを構築します。
 
 ### フェーズ2: AI分析・アドバイス機能の追加
-記録した情報をもとに、ChatGPT APIを活用した個別分析・アドバイス機能を実装します。配信者特有の悩みに対応した目標設定の提案や、具体的なアクションプランの提示により、モチベーション維持をより強力にサポートします。
+記録した情報をもとに、Gemini APIを活用した個別分析・アドバイス機能を実装します。配信者特有の悩みに対応した目標設定の提案や、具体的なアクションプランの提示により、モチベーション維持をより強力にサポートします。
 
 ### フェーズ3: コミュニティ・メンター機能
 配信活動を続けている先輩配信者が、後輩配信者をサポートするためのメンター機能を追加します。経験者の知見を共有し、コミュニティとしての価値を高めます。
