@@ -19,27 +19,27 @@ class User < ApplicationRecord
   validates :password, confirmation: true, if: -> { new_record? || changes[:crypted_password] }
   validates :password_confirmation, presence: true, if: -> { new_record? || changes[:crypted_password] }
 
-  # 🆕 AI提案の利用回数制限
+  #  AI提案の利用回数制限
   AI_SUGGESTION_LIMIT = 3
 
-  # 🆕 AI提案を使用できるかチェック
+  #  AI提案を使用できるかチェック
   def can_use_ai_suggestion?
     reset_ai_suggestion_count_if_needed
     ai_suggestion_count < AI_SUGGESTION_LIMIT
   end
 
-  # 🆕 AI提案の残り回数を取得
+  #  AI提案の残り回数を取得
   def remaining_ai_suggestion_count
     reset_ai_suggestion_count_if_needed
     [AI_SUGGESTION_LIMIT - ai_suggestion_count, 0].max
   end
 
-  # 🆕 AI提案を使用したらカウントを増やす
+  #  AI提案を使用したらカウントを増やす
   def increment_ai_suggestion_count
     update!(ai_suggestion_count: ai_suggestion_count + 1)
   end
 
-  # 🆕 日付が変わっていたらカウントをリセット
+  #  日付が変わっていたらカウントをリセット
   def reset_ai_suggestion_count_if_needed
     today = Date.current
 

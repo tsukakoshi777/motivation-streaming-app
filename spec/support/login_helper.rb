@@ -2,7 +2,7 @@
 
 module LoginHelper
   def login_as(user)
-    # ✅ user_session の中に email と password を入れる
+    #  user_session の中に email と password を入れる
     post login_path, params: {
       user_session: {
         email: user.email,
@@ -10,12 +10,7 @@ module LoginHelper
       }
     }
 
-    # デバッグ用のログ
-    puts '=== ログイン処理 ==='
-    puts "Response status: #{response.status}"
-    puts "Response location: #{response.location}"
-
-    # ✅ リダイレクトの確認
+    #  リダイレクトの確認
     expect(response).to have_http_status(:redirect),
                         "ログインに失敗しました。Status: #{response.status}"
 

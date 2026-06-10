@@ -90,7 +90,7 @@ class SparksController < ApplicationController
 
     end
 
-    # ★★★ 輝きの件数を取得 ★★★
+    #  輝きの件数を取得
     @sparks_count = @goal.sparks.count
 
     # ページ番号を保存

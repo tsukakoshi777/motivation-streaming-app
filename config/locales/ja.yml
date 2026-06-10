@@ -4,13 +4,14 @@ ja:
     logout: 'ログアウト'
     register: '新規登録'
     delete_confirm: '本当に削除しますか?'
+    logout_confirm: 'ログアウトしますか?'
     message:
       require_login: 'ログインしてください'
 
   header:
     goals_index: '成長⭐一覧'
     profile: 'プロフィール'
-
+    dashboard: '銀河系REPORT'
 
   static_pages:
     top:
@@ -56,7 +57,8 @@ ja:
       
       # 3つの理由セクション
       reasons:
-        title: "配信者の「続けたい」を支える3つの理由"
+        title_html: |
+          配信者の「続けたい」を叶える<br>6つのポイント
         
         # 理由1
         reason1:

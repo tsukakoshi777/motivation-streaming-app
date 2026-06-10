@@ -63,7 +63,7 @@ RSpec.describe SurveyProfile, type: :model do
       end
     end
 
-    # ✅ エッジケーステストを追加
+    #  エッジケーステストを追加
     context 'エッジケース' do
       describe 'motivation_level' do
         it '1 でも有効であること' do

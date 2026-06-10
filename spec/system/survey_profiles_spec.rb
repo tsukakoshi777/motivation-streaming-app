@@ -46,12 +46,6 @@ RSpec.describe 'SurveyProfiles', type: :system do
         # アンケートページに遷移
         visit new_survey_profile_path
 
-        # デバッグ1: JavaScriptファイルが読み込まれているか確認
-        puts "\n=== JavaScriptファイルの確認 ==="
-        js_files = page.all('script[src]', visible: false)
-        puts "読み込まれているJSファイル数: #{js_files.count}"
-        js_files.each { |script| puts "  - #{script[:src]}" }
-
         # ページが表示されるまで待機
         expect(page).to have_content('もやもや結晶☁分析シート'), 'アンケートページが表示されません'
 
@@ -80,10 +74,6 @@ RSpec.describe 'SurveyProfiles', type: :system do
         fill_in 'survey_profile_desired_listener', with: '優しくて楽しい人'
         fill_in 'survey_profile_desired_monthly_income', with: 50_000
 
-        # デバッグ2: ラジオボタン選択前の状態
-        puts "\n=== ラジオボタン選択前 ==="
-        puts "goal_source_ai の存在: #{page.has_selector?('#goal_source_ai', visible: :all)}"
-
         # AI提案から選択するラジオボタンを選択
         choose 'goal_source_ai'
 
@@ -92,32 +82,6 @@ RSpec.describe 'SurveyProfiles', type: :system do
 
         # JavaScript が実行されるまで待機
         sleep 3
-
-        begin
-          alert = page.driver.browser.switch_to.alert
-          puts "\n=== アラート内容 ==="
-          puts "アラートテキスト: #{alert.text}"
-          alert.accept # アラートを閉じる
-        rescue Selenium::WebDriver::Error::NoSuchAlertError
-          puts 'アラートは表示されませんでした'
-        end
-
-        # アラートを閉じた後にラジオボタンの状態を確認
-        puts "\n=== ラジオボタンの状態 ==="
-        puts "ラジオボタンがチェック済み: #{page.has_checked_field?('goal_source_ai')}"
-
-        # デバッグ4: ブラウザのコンソールログ確認
-        puts "\n=== ブラウザコンソールログ ==="
-        begin
-          logs = page.driver.browser.logs.get(:browser)
-          if logs.any?
-            logs.each { |log| puts "  [#{log.level}] #{log.message}" }
-          else
-            puts '  (ログなし)'
-          end
-        rescue StandardError => e
-          puts "  ログ取得不可: #{e.message}"
-        end
 
         # AI提案が表示されるまで待機
         goal_title_field = page.find('input[name="survey_result[goal_title]"]', visible: :all)
