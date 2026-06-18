@@ -19,6 +19,9 @@ class User < ApplicationRecord
   validates :password, confirmation: true, if: -> { new_record? || changes[:crypted_password] }
   validates :password_confirmation, presence: true, if: -> { new_record? || changes[:crypted_password] }
 
+  # ファイルサイズのバリデーション
+  # validate :avatar_size_validation
+
   #  AI提案の利用回数制限
   AI_SUGGESTION_LIMIT = 3
 
@@ -51,4 +54,13 @@ class User < ApplicationRecord
       ai_suggestion_reset_date: today
     )
   end
+
+  # private
+
+  # def avatar_size_validation
+  #   return unless avatar.present? && avatar.file.present?
+  #   return unless avatar.file.size > 5.megabytes
+  #
+  #   errors.add(:avatar, :max_size_error, size: '5MB')
+  # end
 end
