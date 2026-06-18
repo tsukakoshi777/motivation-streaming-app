@@ -31,7 +31,10 @@ class AvatarUploader < CarrierWave::Uploader::Base
     1..(5.megabytes)
   end
 
-  # 画像のリサイズ（必要に応じて）
+  # メイン画像のリサイズ（800x800以下に制限）
+  process resize_to_limit: [800, 800]
+
+  # サムネイル画像のリサイズ（200x200）
   version :thumb do
     process resize_to_fit: [200, 200]
   end

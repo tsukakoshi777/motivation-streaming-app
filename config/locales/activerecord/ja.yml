@@ -35,6 +35,7 @@ ja:
         email: "メールアドレス"
         password: "パスワード"
         password_confirmation: "パスワード（確認）"
+        avatar: "プロフィール画像"
       
       profile:
         nickname: "ニックネーム"
@@ -60,3 +61,10 @@ ja:
       header:
         one: "%{model}に1個のエラーが発生しました"
         other: "%{model}に%{count}個のエラーが発生しました"
+    messages:
+      max_size_error: "は5MB以下にしてください"
+  
+  # CarrierWave 用のエラーメッセージを追加
+  carrierwave:
+    errors:
+      file_size_out_of_range: "は5MB以下にしてください"
