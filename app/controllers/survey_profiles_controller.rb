@@ -46,23 +46,15 @@ class SurveyProfilesController < ApplicationController
     survey_profile = build_temporary_survey_profile(params_data)
     survey_response = build_temporary_survey_response(params_data)
 
-    # AI提案を取得
-    suggestion = fetch_suggestion_from_gemini(survey_profile, survey_response)
+    # ジョブをキューに追加（一瞬で完了）
+    AiSuggestionJob.perform_later(
+      current_user.id,
+      survey_profile.attributes,
+      survey_response.attributes
+    )
 
-    #  Userモデルのメソッドを使う
-    current_user.increment_ai_suggestion_count
-
-    #  残り回数を計算（Userモデルのメソッドを使う）
-    remaining_count = current_user.remaining_ai_suggestion_count
-
-    # 🆕 JSONで返す（残り回数を追加）
-    render json: suggestion.merge(remaining_count: remaining_count)
-  rescue GeminiService::RateLimitError => e
-    handle_rate_limit_error(e)
-  rescue GeminiService::InvalidResponseError => e
-    handle_invalid_response_error(e)
-  rescue GeminiService::ApiError => e
-    handle_gemini_error(e)
+    #  JSONを返す
+    render json: { status: 'accepted', message: 'AI提案を取得中です...' }, status: :accepted
   end
 
   def update

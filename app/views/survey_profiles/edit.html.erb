@@ -1,4 +1,8 @@
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-4 py-8" data-controller="loading">
+
+  <!-- Turbo Streams のチャンネルを購読 -->
+  <%= turbo_stream_from "user_#{current_user.id}" %>
+
   <!-- ローディングオーバーレイを追加 -->
   <%= render 'shared/loading' %>
 
@@ -312,6 +316,13 @@
             <%= t('survey_profiles.shared.buttons.fetch_ai_suggestion_note_html').html_safe %>
           </p>
         </div>
+
+        
+        <!-- ★ データを受け取る要素に変更 -->
+        <%= turbo_frame_tag "ai_suggestion_form" do %>
+          <div id="ai-suggestion-data"></div>
+        <% end %>
+
       </div>
 
       <!-- 目標のタイトル -->
