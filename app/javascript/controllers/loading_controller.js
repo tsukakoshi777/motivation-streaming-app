@@ -183,7 +183,101 @@ export default class extends Controller {
 
   submit(event) {
     event.preventDefault();
+    console.log('✅ 送信ボタンがクリックされました');
+
+    // ★ 現在のフォームの内容を保存
+    this.previousValues = {
+      title: document.getElementById('survey_result_goal_title')?.value || '',
+      description: document.getElementById('survey_result_goal_description')?.value || '',
+      actionPlan: document.getElementById('survey_result_action_plan')?.value || ''
+    };
+
+    console.log('✅ 現在の値を保存しました:', this.previousValues);
+
     this.showLoading();
     this.formTarget.submit();
+  }
+
+  // ★ AI提案ボタン用のメソッドを追加
+  submitAi(event) {
+    event.preventDefault();
+    console.log('✅ AI提案ボタンがクリックされました!');
+
+    // ★ 現在のフォームの内容を保存
+    this.previousValues = {
+      title: document.getElementById('survey_result_goal_title')?.value || '',
+      description: document.getElementById('survey_result_goal_description')?.value || '',
+      actionPlan: document.getElementById('survey_result_action_plan')?.value || ''
+    };
+
+    console.log('✅ 現在の値を保存しました:', this.previousValues);
+
+    this.showLoading();
+
+    // ★ 別のエンドポイントに送信
+    fetch('/survey_profiles/fetch_ai_suggestions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+      },
+      body: JSON.stringify({
+        // 必要なデータをここに追加
+        platform: document.querySelector('select[name="survey_profile[platform]"]')?.value,
+        genre: document.querySelector('select[name="survey_profile[genre]"]')?.value,
+        experience: document.querySelector('select[name="survey_profile[experience]"]')?.value
+      })
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+      })
+      .then(html => {
+        // Turbo Streams のレスポンスを処理
+        Turbo.renderStreamMessage(html);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        this.hideLoading();
+        alert('エラーが発生しました。もう一度お試しください。');
+      });
+  }
+
+  cancel(event) {
+    event.preventDefault();
+    console.log('✅ キャンセルボタンがクリックされました!');
+
+    // ★ 保存しておいた内容を復元
+    if (this.previousValues) {
+      const titleElement = document.getElementById('survey_result_goal_title');
+      const descriptionElement = document.getElementById('survey_result_goal_description');
+      const actionPlanElement = document.getElementById('survey_result_action_plan');
+
+      if (titleElement) {
+        titleElement.value = this.previousValues.title;
+        console.log('✅ タイトルを復元しました:', this.previousValues.title);
+      }
+
+      if (descriptionElement) {
+        descriptionElement.value = this.previousValues.description;
+        console.log('✅ 説明を復元しました');
+      }
+
+      if (actionPlanElement) {
+        actionPlanElement.value = this.previousValues.actionPlan;
+        console.log('✅ アクションプランを復元しました');
+      }
+
+      console.log('✅ すべてのフォーム内容を復元しました!');
+    } else {
+      console.log('⚠️ 保存されたデータがありません');
+    }
+
+    // ★ ローディングオーバーレイを非表示にする
+    this.hideLoading();
+
+    console.log('✅ キャンセル処理が完了しました!');
   }
 }
