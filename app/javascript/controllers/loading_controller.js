@@ -26,10 +26,29 @@ export default class extends Controller {
     }
   }
 
+  cancel(event) {
+    console.log('✅ キャンセルボタンがクリックされました');
+
+    // ★ フラグを立てる
+    this.isCancelled = true;
+
+    // ★ ローディングを非表示
+    this.hideLoading();
+
+    console.log('✅ ローディングを非表示にしました');
+  }
+
   handleStreamRender(event) {
     console.log('✅✅✅ turbo:before-stream-render イベントを受信しました ✅✅✅');
     console.log('✅ event.detail:', event.detail);
     console.log('✅ event.target:', event.target);
+
+    // ★ キャンセルされていたら何もしない
+    if (this.isCancelled) {
+      console.log('✅ キャンセルされているため、処理をスキップします');
+      event.preventDefault(); // ★ Turbo Streamの処理を止める
+      return;
+    }
 
     // ★ Turbo Stream の内容を取得
     const streamElement = event.target;
@@ -66,6 +85,16 @@ export default class extends Controller {
     } else {
       console.log('ℹ️ 他のフレームが更新されました:', targetId);
     }
+  }
+
+  submit(event) {
+    event.preventDefault();
+
+    // ★ フラグをリセット
+    this.isCancelled = false;
+
+    this.showLoading();
+    this.formTarget.submit();
   }
 
   // ★ AI提案のデータを処理
@@ -181,9 +210,4 @@ export default class extends Controller {
     }
   }
 
-  submit(event) {
-    event.preventDefault();
-    this.showLoading();
-    this.formTarget.submit();
-  }
 }
