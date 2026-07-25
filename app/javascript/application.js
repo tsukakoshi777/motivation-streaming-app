@@ -89,7 +89,15 @@ function initializeForm() {
   // RailsのAPIからAI提案を取得する関数
   // ========================================
 
+  // ★★★ グローバル変数として定義 ★★★
+  window.isCancelled = false;
+
   async function fetchAiSuggestion() {
+
+    // ★★★ フラグをリセット ★★★
+    window.isCancelled = false;
+    console.log('✅ フラグをリセットしました:', window.isCancelled);
+
     //  data-* 属性から翻訳済みメッセージを取得 
     const messages = document.querySelector('#ai-messages');
     const loadingMessage = messages?.dataset.loading || 'AI提案を取得中...';

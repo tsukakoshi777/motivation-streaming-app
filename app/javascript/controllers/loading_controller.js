@@ -29,43 +29,35 @@ export default class extends Controller {
   cancel(event) {
     console.log('✅ キャンセルボタンがクリックされました');
 
-    // ★ フラグを立てる
-    this.isCancelled = true;
+    // ★ グローバル変数を使う
+    window.isCancelled = true;
 
-    // ★ ローディングを非表示
     this.hideLoading();
-
     console.log('✅ ローディングを非表示にしました');
   }
 
   handleStreamRender(event) {
     console.log('✅✅✅ turbo:before-stream-render イベントを受信しました ✅✅✅');
-    console.log('✅ event.detail:', event.detail);
-    console.log('✅ event.target:', event.target);
 
-    // ★ キャンセルされていたら何もしない
-    if (this.isCancelled) {
+    // ★ グローバル変数を使う
+    if (window.isCancelled) {
       console.log('✅ キャンセルされているため、処理をスキップします');
-      event.preventDefault(); // ★ Turbo Streamの処理を止める
+      event.preventDefault();
       return;
     }
 
-    // ★ Turbo Stream の内容を取得
+    // 以下、既存のコード
     const streamElement = event.target;
-
-    // ★ ai_suggestion_form フレームが更新されるか確認
     const targetId = streamElement.getAttribute('target');
     console.log('✅ target ID:', targetId);
 
     if (targetId === 'ai_suggestion_form') {
       console.log('✅ ai_suggestion_form フレームが更新されます');
 
-      // ★ 少し遅延させてからデータを取得（DOMの更新を待つ）
       setTimeout(() => {
         const dataElement = document.getElementById('ai-suggestion-data');
         if (dataElement) {
           console.log('✅ ai-suggestion-data を発見しました');
-          console.log('✅ dataElement.dataset:', dataElement.dataset);
 
           if (dataElement.dataset.goalTitle) {
             console.log('✅ データがあります。handleAiSuggestion() を実行します。');
@@ -81,7 +73,7 @@ export default class extends Controller {
         } else {
           console.log('❌ ai-suggestion-data が見つかりませんでした');
         }
-      }, 100); // ★ 100ms 遅延
+      }, 100);
     } else {
       console.log('ℹ️ 他のフレームが更新されました:', targetId);
     }
