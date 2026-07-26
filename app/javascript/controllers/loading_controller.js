@@ -2,16 +2,21 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["overlay", "form"]
+  //  入力内容を保存する変数を追加 
+  savedGoalTitle = ""
+  savedGoalDescription = ""
+  savedActionPlan = ""
+
 
   connect() {
     console.log('Loading controller connected');
 
-    // ★ 既存のイベントリスナーを解除
+    // 既存のイベントリスナーを解除
     if (this.handleStreamRenderBound) {
       document.removeEventListener('turbo:before-stream-render', this.handleStreamRenderBound);
     }
 
-    // ★ 新しいイベントリスナーを登録
+    // 新しいイベントリスナーを登録
     this.handleStreamRenderBound = this.handleStreamRender.bind(this);
     document.addEventListener('turbo:before-stream-render', this.handleStreamRenderBound);
 
@@ -19,7 +24,7 @@ export default class extends Controller {
   }
 
   disconnect() {
-    // ★ イベントリスナーを解除
+    // イベントリスナーを解除
     if (this.handleStreamRenderBound) {
       document.removeEventListener('turbo:before-stream-render', this.handleStreamRenderBound);
       console.log('✅ turbo:before-stream-render イベントリスナーを解除しました');
@@ -29,8 +34,28 @@ export default class extends Controller {
   cancel(event) {
     console.log('✅ キャンセルボタンがクリックされました');
 
-    // ★ グローバル変数を使う
+    // グローバル変数を使う
     window.isCancelled = true;
+
+    // 保存した内容を復元 
+    const goalTitleField = document.querySelector('input[name="survey_result[goal_title]"]');
+    const goalDescriptionField = document.querySelector('textarea[name="survey_result[goal_description]"]');
+    const actionPlanField = document.querySelector('textarea[name="survey_result[action_plan]"]');
+
+    if (goalTitleField) {
+      goalTitleField.value = this.savedGoalTitle;
+      console.log('✅ タイトルを復元しました:', this.savedGoalTitle);
+    }
+
+    if (goalDescriptionField) {
+      goalDescriptionField.value = this.savedGoalDescription;
+      console.log('✅ 説明を復元しました');
+    }
+
+    if (actionPlanField) {
+      actionPlanField.value = this.savedActionPlan;
+      console.log('✅ アクションプランを復元しました');
+    }
 
     this.hideLoading();
     console.log('✅ ローディングを非表示にしました');
@@ -82,8 +107,8 @@ export default class extends Controller {
   submit(event) {
     event.preventDefault();
 
-    // ★ フラグをリセット
-    this.isCancelled = false;
+    // フラグをリセット
+    window.isCancelled = false;
 
     this.showLoading();
     this.formTarget.submit();
@@ -191,8 +216,30 @@ export default class extends Controller {
   }
 
   showLoading() {
-    if (this.hasOverlayTarget) {
-      this.overlayTarget.classList.remove('hidden');
+    console.log('✅ showLoading() が呼び出されました');
+
+    // ★★★ 現在の入力内容を保存 ★★★
+    const goalTitleField = document.querySelector('input[name="survey_result[goal_title]"]');
+    const goalDescriptionField = document.querySelector('textarea[name="survey_result[goal_description]"]');
+    const actionPlanField = document.querySelector('textarea[name="survey_result[action_plan]"]');
+
+    this.savedGoalTitle = goalTitleField?.value || "";
+    this.savedGoalDescription = goalDescriptionField?.value || "";
+    this.savedActionPlan = actionPlanField?.value || "";
+
+    console.log('✅ 入力内容を保存しました:', {
+      goalTitle: this.savedGoalTitle,
+      goalDescription: this.savedGoalDescription,
+      actionPlan: this.savedActionPlan
+    });
+
+    // 以下、既存のコード
+    const loadingModal = document.getElementById('loading-modal');
+    if (loadingModal) {
+      loadingModal.classList.remove('hidden');
+      console.log('✅ ローディングを表示しました');
+    } else {
+      console.log('❌ loading-modal が見つかりませんでした');
     }
   }
 

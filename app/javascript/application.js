@@ -89,12 +89,12 @@ function initializeForm() {
   // RailsのAPIからAI提案を取得する関数
   // ========================================
 
-  // ★★★ グローバル変数として定義 ★★★
+  // グローバル変数として定義 
   window.isCancelled = false;
 
   async function fetchAiSuggestion() {
 
-    // ★★★ フラグをリセット ★★★
+    // フラグをリセット 
     window.isCancelled = false;
     console.log('✅ フラグをリセットしました:', window.isCancelled);
 
@@ -171,7 +171,7 @@ function initializeForm() {
         if (goalDescriptionField) goalDescriptionField.value = previousDescription;
         if (actionPlanField) actionPlanField.value = previousActionPlan;
 
-        // ★ ここを追加
+        // ここを追加
         const overlay = document.getElementById('loading-overlay');
         if (overlay) {
           overlay.classList.add('hidden');
@@ -201,7 +201,7 @@ function initializeForm() {
         if (goalDescriptionField) goalDescriptionField.value = previousDescription;
         if (actionPlanField) actionPlanField.value = previousActionPlan;
 
-        // ★ ここを追加
+        // ここを追加
         const overlay = document.getElementById('loading-overlay');
         if (overlay) {
           overlay.classList.add('hidden');
@@ -225,7 +225,6 @@ function initializeForm() {
     }
 
   }
-
 
   // ========================================
   // アクションプラン用の自動箇条書き機能
