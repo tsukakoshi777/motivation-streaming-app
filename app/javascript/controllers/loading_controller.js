@@ -233,13 +233,13 @@ export default class extends Controller {
       actionPlan: this.savedActionPlan
     });
 
-    // 以下、既存のコード
-    const loadingModal = document.getElementById('loading-modal');
+    // ✅ loading-overlay を探す
+    const loadingModal = document.getElementById('loading-overlay');
     if (loadingModal) {
       loadingModal.classList.remove('hidden');
       console.log('✅ ローディングを表示しました');
     } else {
-      console.log('❌ loading-modal が見つかりませんでした');
+      console.log('❌ loading-overlay が見つかりませんでした');
     }
   }
 

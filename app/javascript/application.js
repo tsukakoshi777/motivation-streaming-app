@@ -271,9 +271,12 @@ function initializeForm() {
       e.stopPropagation(); // 🆕 イベントの伝播を停止
 
       // ローディング表示
-      const overlay = document.getElementById('loading-overlay');
-      if (overlay) {
-        overlay.classList.remove('hidden');
+      const loadingController = document.querySelector('[data-controller="loading"]');
+      if (loadingController) {
+        const controller = window.Stimulus.getControllerForElementAndIdentifier(loadingController, 'loading');
+        if (controller) {
+          controller.showLoading();
+        }
       }
 
       // AI提案を取得（finally で自動的にローディング非表示）
