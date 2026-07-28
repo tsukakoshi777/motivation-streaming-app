@@ -17,13 +17,6 @@ class AiSuggestionJob < ApplicationJob
       survey_response: survey_response
     )
 
-    # ★ ログを追加（デバッグ用）
-    Rails.logger.info('=== AI Suggestion ===')
-    Rails.logger.info("suggestion: #{suggestion.inspect}")
-    Rails.logger.info("title: #{suggestion[:goal_title].inspect}")
-    Rails.logger.info("description: #{suggestion[:goal_description].inspect}")
-    Rails.logger.info("action_plan: #{suggestion[:action_plan].inspect}")
-
     # AI提案の使用回数をインクリメント
     user.increment_ai_suggestion_count
 
