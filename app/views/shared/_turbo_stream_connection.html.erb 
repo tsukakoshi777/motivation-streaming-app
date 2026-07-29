@@ -1,0 +1,10 @@
+<%# エラーがない場合のみ Action Cable に接続する %>
+<% if defined?(@survey_profile) && @survey_profile.present? %>
+  <% has_errors = @survey_profile.errors.any? ||
+                  (defined?(@survey_response) && @survey_response&.errors&.any?) ||
+                  (defined?(@survey_result) && @survey_result&.errors&.any?) %>
+  
+  <% unless has_errors %>
+    <%= turbo_stream_from "user_#{current_user.id}" %>
+  <% end %>
+<% end %>
