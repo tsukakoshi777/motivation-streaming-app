@@ -34,6 +34,14 @@ export default class extends Controller {
   cancel(event) {
     console.log('✅ キャンセルボタンがクリックされました');
 
+    // ★★★ ここを追加 ★★★
+    // AbortController を使ってリクエストをキャンセル
+    if (window.abortController) {
+      window.abortController.abort();
+      console.log('✅ リクエストをキャンセルしました');
+    }
+
+
     // グローバル変数を使う
     window.isCancelled = true;
 
