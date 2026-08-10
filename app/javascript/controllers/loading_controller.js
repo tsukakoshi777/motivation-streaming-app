@@ -21,6 +21,19 @@ export default class extends Controller {
     document.addEventListener('turbo:before-stream-render', this.handleStreamRenderBound);
 
     console.log('✅ turbo:before-stream-render イベントリスナーを登録しました');
+
+    // Turbo Streams の接続を確認
+    this.checkTurboStreamConnection()
+  }
+
+  checkTurboStreamConnection() {
+    const turboStreamElement = document.querySelector('[data-turbo-stream-from]')
+    if (turboStreamElement) {
+      console.log("✅ Turbo Stream element found:", turboStreamElement)
+      console.log("Channel name:", turboStreamElement.getAttribute('data-turbo-stream-from'))
+    } else {
+      console.error("❌ Turbo Stream element NOT found!")
+    }
   }
 
   disconnect() {
@@ -32,6 +45,7 @@ export default class extends Controller {
   }
 
   cancel(event) {
+    event.preventDefault(); // ⭐ これを追加
     console.log('✅ キャンセルボタンがクリックされました');
 
 
@@ -245,8 +259,14 @@ export default class extends Controller {
   }
 
   hideLoading() {
-    if (this.hasOverlayTarget) {
-      this.overlayTarget.classList.add('hidden');
+    console.log('✅ hideLoading() が呼び出されました');
+  
+    const loadingModal = document.getElementById('loading-overlay');
+    if (loadingModal) {
+      loadingModal.classList.add('hidden');
+      console.log('✅ ローディングを非表示にしました');
+    } else {
+      console.log('❌ loading-overlay が見つかりませんでした');
     }
   }
 
