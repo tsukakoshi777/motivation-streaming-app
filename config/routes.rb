@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   resources :survey_profiles, only: %i[new create] do
     collection do
       post :fetch_ai_suggestion 
+      post :cancel_ai_suggestion
     end
   end
 
