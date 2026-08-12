@@ -46,15 +46,22 @@ class SurveyProfilesController < ApplicationController
     survey_profile = build_temporary_survey_profile(params_data)
     survey_response = build_temporary_survey_response(params_data)
 
-    # ジョブをキューに追加（一瞬で完了）
-    AiSuggestionJob.perform_later(
+    # ⭐ ジョブをキューに追加し、ジョブIDを取得
+    job = AiSuggestionJob.perform_later(
       current_user.id,
       survey_profile.attributes,
       survey_response.attributes
     )
 
-    #  JSONを返す
-    render json: { status: 'accepted', message: 'AI提案を取得中です...' }, status: :accepted
+    # ⭐ ジョブIDをセッションに保存
+    session[:ai_suggestion_job_id] = job.job_id
+
+    # ⭐ JSONを返す（ジョブIDを含める）
+    render json: {
+      status: 'accepted',
+      message: 'AI提案を取得中です...',
+      job_id: job.job_id # ⭐ 追加
+    }, status: :accepted
   end
 
   def update
@@ -324,5 +331,23 @@ class SurveyProfilesController < ApplicationController
     render json: {
       error: t('survey_profiles.errors.ai_suggestion_limit_reached')
     }, status: :forbidden
+  end
+
+  # AI提案をキャンセルするアクション
+  def cancel_ai_suggestion
+    # ⭐ セッションからジョブIDを取得
+    job_id = session[:ai_suggestion_job_id]
+
+    if job_id
+      # ⭐ Redisにキャンセルフラグを保存
+      Rails.cache.write("ai_suggestion_cancelled:#{job_id}", true, expires_in: 1.hour)
+
+      # ⭐ セッションからジョブIDを削除
+      session.delete(:ai_suggestion_job_id)
+
+      render json: { status: 'cancelled' }, status: :ok
+    else
+      render json: { error: 'キャンセルするジョブが見つかりません' }, status: :not_found
+    end
   end
 end

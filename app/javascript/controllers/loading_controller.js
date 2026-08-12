@@ -48,6 +48,31 @@ export default class extends Controller {
     event.preventDefault(); // ⭐ これを追加
     console.log('✅ キャンセルボタンがクリックされました');
 
+    // ★★★ コントローラーにキャンセルリクエストを送信 ★★★
+    const jobId = this.element.dataset.jobId;
+    if (jobId) {
+      console.log('✅ ジョブIDを取得しました:', jobId);
+
+      fetch(`/survey_profiles/cancel_ai_suggestion?job_id=${jobId}`, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log('✅ キャンセルリクエストを送信しました');
+        } else {
+          console.error('❌ キャンセルリクエストが失敗しました');
+        }
+      })
+      .catch(error => {
+        console.error('❌ キャンセルリクエストでエラーが発生しました:', error);
+      });
+    } else {
+      console.error('❌ ジョブIDが見つかりませんでした');
+    }
 
     // グローバル変数を使う
     window.isCancelled = true;
