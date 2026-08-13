@@ -124,6 +124,17 @@ export default class extends Controller {
         if (dataElement) {
           console.log('✅ ai-suggestion-data を発見しました');
 
+          // ★ ジョブIDをセット
+          const jobId = dataElement.dataset.jobId;
+          console.log('✅ dataElement.dataset.jobId:', jobId); // ← デバッグ用ログ
+
+          if (jobId) {
+            this.element.dataset.jobId = jobId;
+            console.log('✅ ジョブIDをセットしました:', jobId);
+          } else {
+            console.log('❌ ジョブIDが取得できませんでした');
+          }
+
           if (dataElement.dataset.goalTitle) {
             console.log('✅ データがあります。handleAiSuggestion() を実行します。');
             this.handleAiSuggestion();

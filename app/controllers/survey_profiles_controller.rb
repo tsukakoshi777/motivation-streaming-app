@@ -24,8 +24,32 @@ class SurveyProfilesController < ApplicationController
     @survey_profile = build_survey_profile
     build_associated_records
 
-    # AI による目標提案を生成（goal_source が ai の場合のみ）
-    generate_ai_goal_suggestion if params.dig(:survey_result, :goal_source).to_i == SurveyResult.goal_sources[:ai]
+    # AI による目標提案を生成(goal_source が ai の場合のみ)
+    if params.dig(:survey_result, :goal_source).to_i == SurveyResult.goal_sources[:ai]
+      # ★ ジョブを実行してジョブIDを取得
+      job = AiSuggestionJob.perform_later(current_user.id, survey_profile_params)
+
+      # ★ ジョブIDをセッションに保存
+      session[:ai_suggestion_job_id] = job.job_id
+
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            'ai_suggestion_form',
+            partial: 'survey_profiles/ai_suggestion_form',
+            locals: {
+              job_id: job.job_id,
+              goal_title: '', # ← 追加
+              goal_description: '', # ← 追加
+              action_plan: '', # ← 追加
+              remaining_count: current_user.remaining_ai_suggestion_count # ← 追加
+            }
+          )
+        end
+        format.html { render :new, status: :unprocessable_entity }
+      end
+      return
+    end
 
     if save_all_records
       redirect_to goal_path(@goal), notice: t('.success')
