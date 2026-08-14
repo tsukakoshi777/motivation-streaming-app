@@ -66,6 +66,7 @@ class AiSuggestionJob < ApplicationJob
       target: 'ai_suggestion_form',
       partial: 'survey_profiles/ai_suggestion_form',
       locals: {
+        job_id: job_id,
         goal_title: suggestion[:goal_title],
         goal_description: suggestion[:goal_description],
         action_plan: suggestion[:action_plan],
