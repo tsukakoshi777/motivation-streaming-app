@@ -139,6 +139,24 @@ class SurveyProfilesController < ApplicationController
     render :edit, status: :unprocessable_entity
   end
 
+  # AI提案をキャンセルするアクション
+  def cancel_ai_suggestion
+    # ⭐ セッションからジョブIDを取得
+    job_id = session[:ai_suggestion_job_id]
+
+    if job_id
+      # ⭐ Redisにキャンセルフラグを保存
+      Rails.cache.write("ai_suggestion_cancelled:#{job_id}", true, expires_in: 1.hour)
+
+      # ⭐ セッションからジョブIDを削除
+      session.delete(:ai_suggestion_job_id)
+
+      render json: { status: 'cancelled' }, status: :ok
+    else
+      render json: { error: 'キャンセルするジョブが見つかりません' }, status: :not_found
+    end
+  end
+
   private
 
   def build_survey_profile
@@ -355,23 +373,5 @@ class SurveyProfilesController < ApplicationController
     render json: {
       error: t('survey_profiles.errors.ai_suggestion_limit_reached')
     }, status: :forbidden
-  end
-
-  # AI提案をキャンセルするアクション
-  def cancel_ai_suggestion
-    # ⭐ セッションからジョブIDを取得
-    job_id = session[:ai_suggestion_job_id]
-
-    if job_id
-      # ⭐ Redisにキャンセルフラグを保存
-      Rails.cache.write("ai_suggestion_cancelled:#{job_id}", true, expires_in: 1.hour)
-
-      # ⭐ セッションからジョブIDを削除
-      session.delete(:ai_suggestion_job_id)
-
-      render json: { status: 'cancelled' }, status: :ok
-    else
-      render json: { error: 'キャンセルするジョブが見つかりません' }, status: :not_found
-    end
   end
 end
