@@ -141,8 +141,11 @@ class SurveyProfilesController < ApplicationController
 
   # AI提案をキャンセルするアクション
   def cancel_ai_suggestion
-    # ⭐ セッションからジョブIDを取得
-    job_id = session[:ai_suggestion_job_id]
+    # ⭐ パラメータからジョブIDを取得（優先）
+    job_id = params[:job_id]
+
+    # ⭐ パラメータにない場合は、セッションから取得
+    job_id ||= session[:ai_suggestion_job_id]
 
     if job_id
       # ⭐ Redisにキャンセルフラグを保存
@@ -151,8 +154,12 @@ class SurveyProfilesController < ApplicationController
       # ⭐ セッションからジョブIDを削除
       session.delete(:ai_suggestion_job_id)
 
+      # ⭐ ログを出力（デバッグ用）
+      Rails.logger.info "✅ キャンセルフラグをセットしました: #{job_id}"
+
       render json: { status: 'cancelled' }, status: :ok
     else
+      Rails.logger.warn '❌ キャンセルするジョブが見つかりません'
       render json: { error: 'キャンセルするジョブが見つかりません' }, status: :not_found
     end
   end
