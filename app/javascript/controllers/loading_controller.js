@@ -32,7 +32,7 @@ export default class extends Controller {
       console.log("✅ Turbo Stream element found:", turboStreamElement)
       console.log("Channel name:", turboStreamElement.getAttribute('data-turbo-stream-from'))
     } else {
-      console.error("❌ Turbo Stream element NOT found!")
+      console.log('✅ Turbo Stream element not found (ページ読み込み時は正常)')  
     }
   }
 
