@@ -70,15 +70,18 @@ class SurveyProfilesController < ApplicationController
     survey_profile = build_temporary_survey_profile(params_data)
     survey_response = build_temporary_survey_response(params_data)
 
-    # ⭐ ジョブをキューに追加し、ジョブIDを取得
-    job = AiSuggestionJob.perform_later(
+    # ⭐ ジョブIDを事前に生成
+    job_id = SecureRandom.uuid
+
+    # ⭐ ジョブIDをセッションに保存
+    session[:ai_suggestion_job_id] = job_id
+
+    # ⭐ ジョブIDを指定してジョブをキューに追加
+    AiSuggestionJob.set(job_id: job_id).perform_later(
       current_user.id,
       survey_profile.attributes,
       survey_response.attributes
     )
-
-    # ⭐ ジョブIDをセッションに保存
-    session[:ai_suggestion_job_id] = job.job_id
 
     # ⭐ JSONを返す（ジョブIDを含める）
     render json: {
