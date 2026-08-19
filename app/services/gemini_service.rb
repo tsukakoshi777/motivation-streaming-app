@@ -38,12 +38,12 @@ class GeminiService
   # survey_profile: 配信プロフィール(配信経験・頻度・視聴者数等)
   # survey_response: アンケート回答(嬉しかった瞬間・辛かった瞬間・配信理由等)
   # @return [Hash] { goal_title:, goal_description:, action_plan: }
-  def suggest_streamer_goal(survey_profile:, survey_response:)
+  def suggest_streamer_goal(survey_profile:, survey_response:, job_id: nil)
     # モックを使う場合はモックレスポンスを返す
     return mock_goal_response(survey_profile, survey_response) if use_mock?
 
     prompt = build_goal_suggestion_prompt(survey_profile, survey_response)
-    response_text = generate_text(prompt)
+    response_text = generate_text(prompt, job_id: job_id)
 
     parse_goal_response(response_text)
   rescue StandardError => e
@@ -98,12 +98,27 @@ class GeminiService
     false
   end
 
+  # キャンセルフラグをチェックするメソッド
+  def cancelled?(job_id)
+    Rails.cache.read("ai_suggestion_cancelled:#{job_id}").present?
+  end
+
   # テキスト生成の共通メソッド
-  def generate_text(prompt)
+  def generate_text(prompt, job_id: nil)
+    # ← job_id を追加
+
     max_retries = 3
     retry_count = 0
 
     begin
+      # ✅ API呼び出し前にキャンセルフラグをチェック
+      if job_id.present? && cancelled?(job_id)
+        Rails.logger.info "❌ API呼び出しをスキップしました: #{job_id}"
+        raise ApiError, 'API呼び出しがキャンセルされました'
+      end
+
+      Rails.logger.info "✅ API呼び出しを開始します: #{job_id}"
+
       result = @client.stream_generate_content(
         { contents: { role: 'user', parts: { text: prompt } } }
       )
@@ -114,6 +129,8 @@ class GeminiService
         Rails.logger.error 'Gemini API returned empty response'
         raise InvalidResponseError, 'Empty response from Gemini API'
       end
+
+      Rails.logger.info "✅ API呼び出しが完了しました: #{job_id}"
 
       response_text
     rescue Faraday::TooManyRequestsError => e

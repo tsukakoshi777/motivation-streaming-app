@@ -32,7 +32,7 @@ export default class extends Controller {
       console.log("✅ Turbo Stream element found:", turboStreamElement)
       console.log("Channel name:", turboStreamElement.getAttribute('data-turbo-stream-from'))
     } else {
-      console.log('✅ Turbo Stream element not found (ページ読み込み時は正常)')  
+      console.log('✅ Turbo Stream element not found (ページ読み込み時は正常)')
     }
   }
 
@@ -45,21 +45,17 @@ export default class extends Controller {
   }
 
   cancel(event) {
-    event.preventDefault(); // ⭐ これを追加
+    event.preventDefault();
     console.log('✅ キャンセルボタンがクリックされました');
 
-    // ★★★ コントローラーにキャンセルリクエストを送信 ★★★
-    const jobId = this.element.dataset.jobId;
-    if (jobId) {
-      console.log('✅ ジョブIDを取得しました:', jobId);
-
-      fetch(`/survey_profiles/cancel_ai_suggestion?job_id=${jobId}`, {
-        method: 'POST',
-        headers: {
-          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
-          'Content-Type': 'application/json'
-        }
-      })
+    // ✅ ジョブIDを送信せず、サーバー側でセッションから取得する
+    fetch('/survey_profiles/cancel_ai_suggestion', {
+      method: 'POST',
+      headers: {
+        'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
+        'Content-Type': 'application/json'
+      }
+    })
       .then(response => {
         if (response.ok) {
           console.log('✅ キャンセルリクエストを送信しました');
@@ -70,14 +66,11 @@ export default class extends Controller {
       .catch(error => {
         console.error('❌ キャンセルリクエストでエラーが発生しました:', error);
       });
-    } else {
-      console.error('❌ ジョブIDが見つかりませんでした');
-    }
 
     // グローバル変数を使う
     window.isCancelled = true;
 
-    // 保存した内容を復元 
+    // 保存した内容を復元
     const goalTitleField = document.querySelector('input[name="survey_result[goal_title]"]');
     const goalDescriptionField = document.querySelector('textarea[name="survey_result[goal_description]"]');
     const actionPlanField = document.querySelector('textarea[name="survey_result[action_plan]"]');
@@ -296,7 +289,7 @@ export default class extends Controller {
 
   hideLoading() {
     console.log('✅ hideLoading() が呼び出されました');
-  
+
     const loadingModal = document.getElementById('loading-overlay');
     if (loadingModal) {
       loadingModal.classList.add('hidden');

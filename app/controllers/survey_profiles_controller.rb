@@ -61,7 +61,7 @@ class SurveyProfilesController < ApplicationController
     end
   end
 
-  # AI提案を取得するアクション（リファクタリング後）
+  # AI提案を取得するアクション(リファクタリング後)
   def fetch_ai_suggestion
     # パラメータを取得
     params_data = fetch_ai_suggestion_params
@@ -76,18 +76,25 @@ class SurveyProfilesController < ApplicationController
     # ⭐ ジョブIDをセッションに保存
     session[:ai_suggestion_job_id] = job_id
 
-    # ⭐ ジョブIDを指定してジョブをキューに追加
-    AiSuggestionJob.set(job_id: job_id).perform_later(
+    # ✅ デバッグログを追加
+    Rails.logger.info "✅ セッションにジョブIDを保存しました: #{job_id}"
+    Rails.logger.info "✅ セッションの内容: #{session[:ai_suggestion_job_id]}"
+
+    # ⭐ ジョブIDをパラメータとして渡す
+    AiSuggestionJob.perform_later(
       current_user.id,
       survey_profile.attributes,
-      survey_response.attributes
+      survey_response.attributes,
+      job_id # ← ジョブIDを追加
     )
 
-    # ⭐ JSONを返す（ジョブIDを含める）
+    Rails.logger.info "✅ ジョブを開始しました: #{job_id}"
+
+    # ⭐ JSONを返す(ジョブIDを含める)
     render json: {
       status: 'accepted',
       message: 'AI提案を取得中です...',
-      job_id: job.job_id # ⭐ 追加
+      job_id: job_id
     }, status: :accepted
   end
 
@@ -142,22 +149,15 @@ class SurveyProfilesController < ApplicationController
     render :edit, status: :unprocessable_entity
   end
 
-  # AI提案をキャンセルするアクション
   def cancel_ai_suggestion
-    # ⭐ パラメータからジョブIDを取得（優先）
-    job_id = params[:job_id]
+    # ✅ セッションから最新のジョブIDを取得
+    job_id = session[:ai_suggestion_job_id]
 
-    # ⭐ パラメータにない場合は、セッションから取得
-    job_id ||= session[:ai_suggestion_job_id]
-
-    if job_id
-      # ⭐ Redisにキャンセルフラグを保存
+    if job_id.present?
+      # ✅ Redisにキャンセルフラグを保存
       Rails.cache.write("ai_suggestion_cancelled:#{job_id}", true, expires_in: 1.hour)
 
-      # ⭐ セッションからジョブIDを削除
-      session.delete(:ai_suggestion_job_id)
-
-      # ⭐ ログを出力（デバッグ用）
+      # ✅ ログを出力(デバッグ用)
       Rails.logger.info "✅ キャンセルフラグをセットしました: #{job_id}"
 
       render json: { status: 'cancelled' }, status: :ok

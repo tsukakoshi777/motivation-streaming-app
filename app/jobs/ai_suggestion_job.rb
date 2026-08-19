@@ -3,8 +3,11 @@
 class AiSuggestionJob < ApplicationJob
   queue_as :default
 
-  def perform(user_id, survey_profile_attrs, survey_response_attrs)
-    job_id = self.job_id
+  def perform(user_id, survey_profile_attrs, survey_response_attrs, job_id)
+    # ← 4つ目の引数を追加
+
+    # ✅ デバッグログを追加
+    Rails.logger.info "✅ ジョブを開始しました: #{job_id}"
 
     # キャンセルチェック: ジョブ開始時
     return if cancelled_early?(job_id, 'before starting')
@@ -20,7 +23,7 @@ class AiSuggestionJob < ApplicationJob
     # キャンセルチェック: API呼び出し後
     return if cancelled_early?(job_id, 'after API call')
 
-    broadcast_success(user, suggestion)
+    broadcast_success(user, suggestion, job_id) # ← job_id を渡す
   rescue GeminiService::ApiError => e
     handle_api_error(user_id, e)
   end
@@ -57,7 +60,7 @@ class AiSuggestionJob < ApplicationJob
   end
 
   # 成功時のTurbo Stream配信
-  def broadcast_success(user, suggestion)
+  def broadcast_success(user, suggestion, job_id)
     user.increment_ai_suggestion_count
     remaining_count = user.remaining_ai_suggestion_count
 
