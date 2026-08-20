@@ -105,20 +105,27 @@ class GeminiService
 
   # テキスト生成の共通メソッド
   def generate_text(prompt, job_id: nil)
-    # ← job_id を追加
+    # ✅ API呼び出し前にキャンセルフラグをチェック
+    if job_id.present? && cancelled?(job_id)
+      Rails.logger.info "❌ API呼び出しをスキップしました: #{job_id}"
+      raise ApiError, 'API呼び出しがキャンセルされました'
+    end
 
-    max_retries = 3
+    Rails.logger.info "✅ API呼び出しを開始します: #{job_id}"
+
+    # リトライ処理を含むAPI呼び出し
+    response_text = call_gemini_api_with_retry(prompt)
+
+    Rails.logger.info "✅ API呼び出しが完了しました: #{job_id}"
+
+    response_text
+  end
+
+  # リトライ処理を含むAPI呼び出し
+  def call_gemini_api_with_retry(prompt, max_retries: 3)
     retry_count = 0
 
     begin
-      # ✅ API呼び出し前にキャンセルフラグをチェック
-      if job_id.present? && cancelled?(job_id)
-        Rails.logger.info "❌ API呼び出しをスキップしました: #{job_id}"
-        raise ApiError, 'API呼び出しがキャンセルされました'
-      end
-
-      Rails.logger.info "✅ API呼び出しを開始します: #{job_id}"
-
       result = @client.stream_generate_content(
         { contents: { role: 'user', parts: { text: prompt } } }
       )
@@ -129,8 +136,6 @@ class GeminiService
         Rails.logger.error 'Gemini API returned empty response'
         raise InvalidResponseError, 'Empty response from Gemini API'
       end
-
-      Rails.logger.info "✅ API呼び出しが完了しました: #{job_id}"
 
       response_text
     rescue Faraday::TooManyRequestsError => e
