@@ -9,6 +9,10 @@ module AiSuggestionManagement
 
   # AI提案を取得するアクション(リファクタリング後)
   def fetch_ai_suggestion
+    Rails.logger.info '========== fetch_ai_suggestion 開始 =========='
+    Rails.logger.info "current_user.id: #{current_user.id}"
+    Rails.logger.info "params: #{params.inspect}"
+
     # パラメータを取得
     params_data = fetch_ai_suggestion_params
 
@@ -16,15 +20,22 @@ module AiSuggestionManagement
     survey_profile = build_temporary_survey_profile(params_data)
     survey_response = build_temporary_survey_response(params_data)
 
+    # ⭐ デバッグログ
+    Rails.logger.info "survey_profile: #{survey_profile.attributes.inspect}"
+    Rails.logger.info "survey_response: #{survey_response.attributes.inspect}"
+
     # ⭐ ジョブIDを事前に生成
     job_id = SecureRandom.uuid
+    Rails.logger.info "job_id: #{job_id}"
 
     # ⭐ ジョブIDをセッションに保存
     session[:ai_suggestion_job_id] = job_id
+    Rails.logger.info "セッションに保存: #{session[:ai_suggestion_job_id]}"
 
-    # ✅ デバッグログを追加
-    Rails.logger.info "✅ セッションにジョブIDを保存しました: #{job_id}"
-    Rails.logger.info "✅ セッションの内容: #{session[:ai_suggestion_job_id]}"
+    # ⭐ ジョブを実行する直前にログを出力
+    Rails.logger.info 'AiSuggestionJob.perform_later を呼び出します'
+    Rails.logger.info "引数: user_id=#{current_user.id}, survey_profile=#{survey_profile.attributes},
+    survey_response=#{survey_response.attributes}, job_id=#{job_id}"
 
     # ⭐ ジョブIDをパラメータとして渡す
     AiSuggestionJob.perform_later(
@@ -35,6 +46,7 @@ module AiSuggestionManagement
     )
 
     Rails.logger.info "✅ ジョブを開始しました: #{job_id}"
+    Rails.logger.info '========== fetch_ai_suggestion 終了 =========='
 
     # ⭐ JSONを返す(ジョブIDを含める)
     render json: {
@@ -42,6 +54,11 @@ module AiSuggestionManagement
       message: 'AI提案を取得中です...',
       job_id: job_id
     }, status: :accepted
+  rescue StandardError => e
+    Rails.logger.error "❌ エラーが発生しました: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+
+    render json: { error: e.message }, status: :internal_server_error
   end
 
   def cancel_ai_suggestion
@@ -88,6 +105,7 @@ module AiSuggestionManagement
   # 一時的な survey_profile を作成（保存しない）
   def build_temporary_survey_profile(params_data)
     SurveyProfile.new(
+      user_id: current_user.id,
       streaming_platform_id: params_data[:streaming_platform_id],
       streaming_category_id: params_data[:streaming_category_id],
       streaming_experience_id: params_data[:streaming_experience_id],

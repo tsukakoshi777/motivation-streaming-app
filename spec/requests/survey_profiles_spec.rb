@@ -33,36 +33,53 @@ RSpec.describe 'SurveyProfiles', type: :request do
     end
 
     context '正常系' do
+      # ⭐ ジョブを同期的に実行するように設定
       before do
-        allow_any_instance_of(GeminiService).to receive(:suggest_streamer_goal).and_return(
-          {
-            goal_title: 'テスト目標',
-            goal_description: '# テスト説明',
-            action_plan: '# テスト計画'
-          }
-        )
+        ActiveJob::Base.queue_adapter = :test
+        ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
       end
 
       it 'AI提案を取得できること' do
-        post fetch_ai_suggestion_survey_profiles_path, params: valid_params
+        # ⭐ デバッグ用ログ
+        puts "\n========== デバッグ開始 =========="
+        puts 'Before post:'
+        puts "  user.id: #{user.id}"
+        puts "  user.ai_suggestion_count: #{user.ai_suggestion_count}"
+        puts "  user.can_use_ai_suggestion?: #{user.can_use_ai_suggestion?}"
+        puts "  valid_params: #{valid_params.inspect}"
 
-        expect(response).to have_http_status(:success)
+        # ⭐ ジョブが実行されることを確認
+        expect do
+          post fetch_ai_suggestion_survey_profiles_path, params: valid_params
+        end.to have_enqueued_job(AiSuggestionJob)
+
+        # ⭐ デバッグ用ログ（expectブロックの後）
+        puts "\nAfter post:"
+        puts "  response.status: #{response.status}"
+        puts "  response.body: #{response.body}"
+        puts "========== デバッグ終了 ==========\n"
+
+        # ⭐ レスポンスを確認
+        expect(response).to have_http_status(:accepted)
         json = response.parsed_body
-        expect(json['goal_title']).to eq('テスト目標')
-        expect(json['goal_description']).to eq('# テスト説明')
-        expect(json['action_plan']).to eq('# テスト計画')
+        expect(json['status']).to eq('accepted')
+        expect(json['message']).to eq('AI提案を取得中です...')
+        expect(json['job_id']).to be_present
+
+        # ⭐ ジョブが自動的に実行されるため、perform_enqueued_jobs は不要
+        user.reload
+        expect(user.ai_suggestion_count).to eq(1)
       end
 
-      # AI提案を3回まで利用できること
       it 'AI提案を3回まで利用できること' do
         3.times do
           post fetch_ai_suggestion_survey_profiles_path, params: valid_params
 
-          expect(response).to have_http_status(:success)
+          expect(response).to have_http_status(:accepted)
           json = response.parsed_body
-          expect(json['goal_title']).to eq('テスト目標')
-          expect(json['goal_description']).to eq('# テスト説明')
-          expect(json['action_plan']).to eq('# テスト計画')
+          expect(json['status']).to eq('accepted')
+          expect(json['message']).to eq('AI提案を取得中です...')
+          expect(json['job_id']).to be_present
         end
 
         # カウントが3になっていることを確認
@@ -70,7 +87,6 @@ RSpec.describe 'SurveyProfiles', type: :request do
         expect(user.ai_suggestion_count).to eq(3)
       end
 
-      # 日付が変わった後、カウントがリセットされること
       it '日付が変わった後、カウントがリセットされること' do
         # 3回AI提案を利用
         3.times do
@@ -87,9 +103,9 @@ RSpec.describe 'SurveyProfiles', type: :request do
         # 再度AI提案を利用
         post fetch_ai_suggestion_survey_profiles_path, params: valid_params
 
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:accepted)
         json = response.parsed_body
-        expect(json['goal_title']).to eq('テスト目標')
+        expect(json['status']).to eq('accepted')
 
         # カウントがリセットされ、1にカウントされていることを確認
         user.reload
@@ -99,18 +115,7 @@ RSpec.describe 'SurveyProfiles', type: :request do
     end
 
     context '異常系' do
-      # パラメータが不足していてもAI提案を返すことを確認
       context 'パラメータが不足している場合' do
-        before do
-          allow_any_instance_of(GeminiService).to receive(:suggest_streamer_goal).and_return(
-            {
-              goal_title: 'デフォルト目標',
-              goal_description: '# デフォルト説明',
-              action_plan: '# デフォルト計画'
-            }
-          )
-        end
-
         let(:minimal_params) do
           {
             streaming_platform_id: streaming_platform.id,
@@ -133,44 +138,25 @@ RSpec.describe 'SurveyProfiles', type: :request do
         it '最小限のパラメータでもAI提案を返すこと' do
           post fetch_ai_suggestion_survey_profiles_path, params: minimal_params
 
-          expect(response).to have_http_status(:success)
+          # ⭐ レスポンスを確認
+          expect(response).to have_http_status(:accepted)
           json = response.parsed_body
-          expect(json['goal_title']).to eq('デフォルト目標')
-          expect(json['goal_description']).to eq('# デフォルト説明')
-          expect(json['action_plan']).to eq('# デフォルト計画')
+          expect(json['status']).to eq('accepted')
+          expect(json['message']).to eq('AI提案を取得中です...')
+          expect(json['job_id']).to be_present
         end
       end
 
-      # APIエラーのテストケースを追加
       context 'APIエラーが発生した場合' do
-        before do
-          allow_any_instance_of(GeminiService)
-            .to receive(:suggest_streamer_goal)
-            .and_raise(GeminiService::ApiError.new('API Error'))
-        end
-
-        it 'エラーレスポンスが返ること' do
-          post fetch_ai_suggestion_survey_profiles_path, params: valid_params
-
-          expect(response).to have_http_status(:internal_server_error)
-          json = response.parsed_body
-          expect(json['error']).to eq('AI提案の取得に失敗しました')
-        end
+        # ⭐ このテストは削除または変更が必要
+        # 理由: 非同期処理に変更したため、エラーはジョブ内で発生する
+        # コントローラではエラーが発生しない
       end
 
-      # 3回制限に達した後、403 Forbidden が返されること
       context '3回制限に達した場合' do
         before do
           # ユーザーのカウントを3に設定
           user.update!(ai_suggestion_count: 3, ai_suggestion_reset_date: Date.current)
-
-          allow_any_instance_of(GeminiService).to receive(:suggest_streamer_goal).and_return(
-            {
-              goal_title: 'テスト目標',
-              goal_description: '# テスト説明',
-              action_plan: '# テスト計画'
-            }
-          )
         end
 
         it '403 Forbidden が返されること' do

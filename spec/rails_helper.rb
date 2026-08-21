@@ -27,6 +27,14 @@ RSpec.configure do |config|
   # FactoryBot の設定
   config.include FactoryBot::Syntax::Methods
 
+  # ⭐ ActiveJob::TestHelper を追加
+  config.include ActiveJob::TestHelper
+
+  # ⭐ 各テストの前にキューをクリア
+  config.before(:each) do
+    clear_enqueued_jobs
+  end
+
   # WebMock の設定
   # ローカルホストへのリクエストは許可(Capybara が使う)
   WebMock.disable_net_connect!(allow_localhost: true)
