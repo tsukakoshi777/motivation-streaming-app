@@ -9,10 +9,6 @@ module AiSuggestionManagement
 
   # AI提案を取得するアクション(リファクタリング後)
   def fetch_ai_suggestion
-    Rails.logger.info '========== fetch_ai_suggestion 開始 =========='
-    Rails.logger.info "current_user.id: #{current_user.id}"
-    Rails.logger.info "params: #{params.inspect}"
-
     # パラメータを取得
     params_data = fetch_ai_suggestion_params
 
@@ -20,17 +16,11 @@ module AiSuggestionManagement
     survey_profile = build_temporary_survey_profile(params_data)
     survey_response = build_temporary_survey_response(params_data)
 
-    # ⭐ デバッグログ
-    Rails.logger.info "survey_profile: #{survey_profile.attributes.inspect}"
-    Rails.logger.info "survey_response: #{survey_response.attributes.inspect}"
-
     # ⭐ ジョブIDを事前に生成
     job_id = SecureRandom.uuid
-    Rails.logger.info "job_id: #{job_id}"
 
     # ⭐ ジョブIDをセッションに保存
     session[:ai_suggestion_job_id] = job_id
-    Rails.logger.info "セッションに保存: #{session[:ai_suggestion_job_id]}"
 
     # ⭐ ジョブを実行する直前にログを出力
     Rails.logger.info 'AiSuggestionJob.perform_later を呼び出します'
