@@ -171,20 +171,16 @@ RSpec.describe 'SurveyProfiles', type: :system do
           fill_in 'survey_profile_desired_listener', with: '優しくて楽しい人'
           fill_in 'survey_profile_desired_monthly_income', with: 50_000
 
-          # alert() が表示されることを確認
-          alert_message = accept_alert do
-            # AI提案から選択するラジオボタンを選択
+          allow_any_instance_of(GeminiService).to receive(:suggest_streamer_goal)
+            .and_raise(GeminiService::ApiError.new('API エラー'))
+
+          perform_enqueued_jobs do
             choose 'goal_source_ai'
-
-            # ✨ AI提案を取得ボタンをクリック
             click_button 'fetch-ai-button'
-
-            # アラートが表示されるまで待機
-            sleep 3
           end
 
-          # アラートのメッセージを検証
-          expect(alert_message).to eq('AI提案の取得に失敗しました。もう一度お試しください。'), 'エラーメッセージが表示されません'
+          expect(page).to have_content('AI提案の取得に失敗しました。もう一度お試しください。', wait: 10),
+                          'エラーメッセージが表示されません'
         end
       end
 

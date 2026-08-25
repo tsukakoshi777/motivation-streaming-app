@@ -86,7 +86,7 @@ class AiSuggestionJob < ApplicationJob
       "user_#{user_id}",
       target: 'ai_suggestion_form',
       partial: 'survey_profiles/ai_suggestion_error',
-      locals: { error_message: error.message }
+      locals: { error_message: 'AI提案の取得に失敗しました。もう一度お試しください。' }
     )
   end
 end
