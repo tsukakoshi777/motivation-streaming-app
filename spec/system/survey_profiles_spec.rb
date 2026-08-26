@@ -235,18 +235,15 @@ RSpec.describe 'SurveyProfiles', type: :system do
           fill_in 'survey_profile_desired_listener', with: '優しくて楽しい人'
           fill_in 'survey_profile_desired_monthly_income', with: 50_000
 
-          # AI提案から選択するラジオボタンを選択
-          choose 'goal_source_ai'
+          # AI提案から選択するラジオボタンを選択 + ボタンクリックを perform_enqueued_jobs で囲む
+          perform_enqueued_jobs do
+            choose 'goal_source_ai'
+            click_button 'fetch-ai-button'
+          end
 
-          # ✨ AI提案を取得ボタンをクリック
-          click_button 'fetch-ai-button'
-
-          # JavaScript が実行されるまで待機
-          sleep 3
-
-          # AI提案が表示されるまで待機
-          goal_title_field = page.find('input[name="survey_result[goal_title]"]', visible: :all)
-          expect(goal_title_field.value).to eq('テスト目標'), 'AI提案の目標タイトルが表示されません'
+          # AI提案がフォームに反映されるまで待機(値が入るまでポーリングして待つ)
+          expect(page).to have_field('survey_result_goal_title', with: 'テスト目標', wait: 10),
+                          'AI提案の目標タイトルが表示されません'
 
           # 成長の星を誕生させるボタンをクリック
           click_button '成長の星を誕生させる'
@@ -288,18 +285,15 @@ RSpec.describe 'SurveyProfiles', type: :system do
           fill_in 'survey_profile_desired_listener', with: '優しくて楽しい人'
           fill_in 'survey_profile_desired_monthly_income', with: 50_000
 
-          # AI提案から選択するラジオボタンを選択
-          choose 'goal_source_ai'
+          # AI提案から選択するラジオボタンを選択 + ボタンクリックを perform_enqueued_jobs で囲む
+          perform_enqueued_jobs do
+            choose 'goal_source_ai'
+            click_button 'fetch-ai-button'
+          end
 
-          # ✨ AI提案を取得ボタンをクリック
-          click_button 'fetch-ai-button'
-
-          # JavaScript が実行されるまで待機
-          sleep 3
-
-          # AI提案が表示されるまで待機
-          goal_title_field = page.find('input[name="survey_result[goal_title]"]', visible: :all)
-          expect(goal_title_field.value).to eq('テスト目標'), 'AI提案の目標タイトルが表示されません'
+          # AI提案がフォームに反映されるまで待機(値が入るまでポーリングして待つ)
+          expect(page).to have_field('survey_result_goal_title', with: 'テスト目標', wait: 10),
+                          'AI提案の目標タイトルが表示されません'
 
           # 成長の星を誕生させるボタンをクリック
           click_button '成長の星を誕生させる'
