@@ -16,18 +16,18 @@ module AiSuggestionManagement
     survey_profile = build_temporary_survey_profile(params_data)
     survey_response = build_temporary_survey_response(params_data)
 
-    # ⭐ ジョブIDを事前に生成
+    # ジョブIDを事前に生成
     job_id = SecureRandom.uuid
 
-    # ⭐ ジョブIDをセッションに保存
+    # ジョブIDをセッションに保存
     session[:ai_suggestion_job_id] = job_id
 
-    # ⭐ ジョブを実行する直前にログを出力
+    # ジョブを実行する直前にログを出力
     Rails.logger.info 'AiSuggestionJob.perform_later を呼び出します'
     Rails.logger.info "引数: user_id=#{current_user.id}, survey_profile=#{survey_profile.attributes},
     survey_response=#{survey_response.attributes}, job_id=#{job_id}"
 
-    # ⭐ ジョブIDをパラメータとして渡す
+    # ジョブIDをパラメータとして渡す
     AiSuggestionJob.perform_later(
       current_user.id,
       survey_profile.attributes,
@@ -38,7 +38,7 @@ module AiSuggestionManagement
     Rails.logger.info "✅ ジョブを開始しました: #{job_id}"
     Rails.logger.info '========== fetch_ai_suggestion 終了 =========='
 
-    # ⭐ JSONを返す(ジョブIDを含める)
+    # JSONを返す(ジョブIDを含める)
     render json: {
       status: 'accepted',
       message: 'AI提案を取得中です...',
@@ -52,14 +52,14 @@ module AiSuggestionManagement
   end
 
   def cancel_ai_suggestion
-    # ✅ セッションから最新のジョブIDを取得
+    # セッションから最新のジョブIDを取得
     job_id = session[:ai_suggestion_job_id]
 
     if job_id.present?
-      # ✅ Redisにキャンセルフラグを保存
+      # Redisにキャンセルフラグを保存
       Rails.cache.write("ai_suggestion_cancelled:#{job_id}", true, expires_in: 1.hour)
 
-      # ✅ ログを出力(デバッグ用)
+      # ログを出力(デバッグ用)
       Rails.logger.info "✅ キャンセルフラグをセットしました: #{job_id}"
 
       render json: { status: 'cancelled' }, status: :ok

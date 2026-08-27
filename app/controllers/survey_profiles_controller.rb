@@ -27,10 +27,10 @@ class SurveyProfilesController < ApplicationController
 
     # AI による目標提案を生成(goal_source が ai の場合のみ)
     if params.dig(:survey_result, :goal_source).to_i == SurveyResult.goal_sources[:ai]
-      # ★ ジョブを実行してジョブIDを取得
+      # ジョブを実行してジョブIDを取得
       job = AiSuggestionJob.perform_later(current_user.id, survey_profile_params)
 
-      # ★ ジョブIDをセッションに保存
+      # ジョブIDをセッションに保存
       session[:ai_suggestion_job_id] = job.job_id
 
       respond_to do |format|

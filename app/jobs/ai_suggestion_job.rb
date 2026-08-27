@@ -4,9 +4,7 @@ class AiSuggestionJob < ApplicationJob
   queue_as :default
 
   def perform(user_id, survey_profile_attrs, survey_response_attrs, job_id)
-    # ← 4つ目の引数を追加
-
-    # ✅ デバッグログを追加
+    # デバッグログを追加
     Rails.logger.info "✅ ジョブを開始しました: #{job_id}"
 
     # キャンセルチェック: ジョブ開始時

@@ -8,7 +8,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
   let!(:streaming_category) { create(:streaming_category, name: 'ゲーム実況') }
   let!(:streaming_experience) { create(:streaming_experience, name: '初心者(1ヶ月未満)') }
 
-  # ⭐ ここに配置（before ブロックの前）
+  # ここに配置（before ブロックの前）
   before do
     ActiveJob::Base.queue_adapter = :test
   end
@@ -350,7 +350,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
             # AI提案から選択するラジオボタンを選択
             choose 'goal_source_ai'
 
-            # ✨ AI提案を取得ボタンをクリック
+            # AI提案を取得ボタンをクリック
             click_button 'fetch-ai-button'
 
             # アラートが表示されるまで待機
