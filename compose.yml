@@ -35,6 +35,7 @@ services:
       DATABASE_HOST: db
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: password
+      REDIS_URL: redis://redis:6379/0
       SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub  
     stdin_open: true
     tty: true
@@ -52,6 +53,7 @@ services:
       DATABASE_HOST: db
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: password
+      REDIS_URL: redis://redis:6379/0
 
   chrome:  # Chrome コンテナを追加
     image: selenium/standalone-chrome:124.0
