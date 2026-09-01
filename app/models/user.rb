@@ -23,7 +23,7 @@ class User < ApplicationRecord
   # validate :avatar_size_validation
 
   #  AI提案の利用回数制限
-  AI_SUGGESTION_LIMIT = 50
+  AI_SUGGESTION_LIMIT = 3
 
   #  AI提案を使用できるかチェック
   def can_use_ai_suggestion?
