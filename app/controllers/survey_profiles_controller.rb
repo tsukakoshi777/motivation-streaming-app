@@ -4,6 +4,8 @@ class SurveyProfilesController < ApplicationController
   include AiErrorHandler
   include AiSuggestionManagement
 
+  wrap_parameters false, only: :fetch_ai_suggestion
+
   before_action :require_login
   before_action :check_ai_suggestion_limit, only: [:fetch_ai_suggestion]
 
