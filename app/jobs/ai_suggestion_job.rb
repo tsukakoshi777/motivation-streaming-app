@@ -61,6 +61,7 @@ class AiSuggestionJob < ApplicationJob
   def broadcast_success(user, suggestion, job_id)
     user.increment_ai_suggestion_count
     remaining_count = user.remaining_ai_suggestion_count
+    reset_date_text = user.ai_suggestion_reset_date.tomorrow.strftime('%m月%d日')
 
     Turbo::StreamsChannel.broadcast_replace_to(
       "user_#{user.id}",
@@ -71,7 +72,8 @@ class AiSuggestionJob < ApplicationJob
         goal_title: suggestion[:goal_title],
         goal_description: suggestion[:goal_description],
         action_plan: suggestion[:action_plan],
-        remaining_count: remaining_count
+        remaining_count: remaining_count,
+        reset_date_text: reset_date_text
       }
     )
   end

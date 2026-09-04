@@ -289,17 +289,17 @@
 
         <!--  使用回数とリセット日時の表示 -->
         <div class="text-center lg:text-left mt-3 p-3 bg-light rounded" style="width: 100%; max-width: 390px;">
-          <small class="text-gray-600">
+          <small id="ai-suggestion-status" class="text-gray-600">
             <% remaining = current_user.remaining_ai_suggestion_count %>
             <% if remaining > 0 %>
               💡 AI提案は <strong class="text-blue-600 font-semibold">あと<span id="ai-suggestion-remaining"><%= remaining %></span>回</strong> 使用できます
-              <br>
-              <small>(<%= current_user.ai_suggestion_reset_date.tomorrow.strftime('%m月%d日') %> にリセットされます)</small>
             <% else %>
               💡 <strong class="text-red-600 font-semibold">本日のAI提案は利用できません</strong>
-              <br>
-              <small>(<%= current_user.ai_suggestion_reset_date.tomorrow.strftime('%m月%d日') %> にリセットされます)</small>
             <% end %>
+          </small>
+          <br>
+          <small>
+            (<span id="ai-suggestion-reset-date"><%= current_user.ai_suggestion_reset_date.tomorrow.strftime('%m月%d日') %></span> にリセットされます)
           </small>
         </div>
 
@@ -315,7 +315,6 @@
           </p>
         </div>
 
-        
         <!-- ★ データを受け取る要素に変更 -->
         <%= turbo_frame_tag "ai_suggestion_form" do %>
           <div id="ai-suggestion-data"></div>

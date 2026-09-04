@@ -186,12 +186,12 @@ export default class extends Controller {
     const goalDescription = dataElement.dataset.goalDescription;
     const actionPlan = dataElement.dataset.actionPlan;
     const remainingCount = dataElement.dataset.remainingCount;
+    const resetDateText = dataElement.dataset.resetDateText;
 
     console.log('✅ 取得したデータ:');
     console.log('  goalTitle:', goalTitle);
     console.log('  goalDescription:', goalDescription ? '(データあり)' : '(データなし)');
     console.log('  actionPlan:', actionPlan ? '(データあり)' : '(データなし)');
-    console.log('  remainingCount:', remainingCount);
 
     // ★ データが揃っているか確認
     if (!goalTitle || !goalDescription || !actionPlan) {
@@ -205,13 +205,12 @@ export default class extends Controller {
     const titleElement = document.getElementById('survey_result_goal_title');
     const descriptionElement = document.getElementById('survey_result_goal_description');
     const actionPlanElement = document.getElementById('survey_result_action_plan');
-    const remainingElement = document.getElementById('ai-suggestion-remaining');
+    const resetDateElement = document.getElementById('ai-suggestion-reset-date');
 
     console.log('✅ フォーム要素の取得結果:');
     console.log('  titleElement:', titleElement);
     console.log('  descriptionElement:', descriptionElement);
     console.log('  actionPlanElement:', actionPlanElement);
-    console.log('  remainingElement:', remainingElement);
 
     // ★ 要素が見つからない場合
     if (!titleElement) {
@@ -248,9 +247,25 @@ export default class extends Controller {
     actionPlanElement.value = formattedActionPlan;
     console.log('✅ アクションプランを設定しました');
 
-    if (remainingElement) {
-      remainingElement.textContent = remainingCount;
-      console.log('✅ 残り回数を更新しました:', remainingCount);
+    const statusElement = document.getElementById("ai-suggestion-status");
+    if (statusElement) {
+      if (Number(remainingCount) > 0) {
+        statusElement.innerHTML = `💡 AI提案は <strong class="text-blue-600 font-semibold">あと<span id="ai-suggestion-remaining">${remainingCount}</span>回</strong> 使用できます`;
+        console.log('✅ 残り回数を更新しました:', remainingCount);
+      } else {
+        statusElement.innerHTML = `💡 <strong class="text-red-600 font-semibold">本日のAI提案は利用できません</strong>`;
+        console.log('✅ 利用不可メッセージに切り替えました');
+      }
+    } else {
+      console.log('❌ ai-suggestion-status が見つかりませんでした');
+    }
+
+    // 追加
+    if (resetDateElement) {
+      resetDateElement.textContent = resetDateText;
+      console.log('✅ リセット日を更新しました:', resetDateText);
+    } else {
+      console.log('❌ ai-suggestion-reset-date が見つかりませんでした');
     }
 
     // ★ ローディングを非表示
