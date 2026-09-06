@@ -8,6 +8,11 @@ RSpec.describe 'SurveyProfiles', type: :system do
   let!(:streaming_category) { create(:streaming_category, name: 'ゲーム実況') }
   let!(:streaming_experience) { create(:streaming_experience, name: '初心者(1ヶ月未満)') }
 
+  # ここに配置（before ブロックの前）
+  before do
+    ActiveJob::Base.queue_adapter = :test
+  end
+
   before do
     # ログイン処理
     visit login_path
@@ -30,11 +35,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
       it 'アンケートフォームからAI提案を取得できること', js: true do
         # スタブを正確に設定
         gemini_service_mock = instance_double(GeminiService)
-
-        # GeminiService.new が呼ばれたときに、モックを返す
         allow(GeminiService).to receive(:new).and_return(gemini_service_mock)
-
-        # モックの suggest_streamer_goal メソッドをスタブ化
         allow(gemini_service_mock).to receive(:suggest_streamer_goal).and_return(
           {
             goal_title: 'テスト目標',
@@ -43,11 +44,8 @@ RSpec.describe 'SurveyProfiles', type: :system do
           }
         )
 
-        # アンケートページに遷移
         visit new_survey_profile_path
-
-        # ページが表示されるまで待機
-        expect(page).to have_content('もやもや結晶☁分析シート'), 'アンケートページが表示されません'
+        expect(page).to have_content('もやもや結晶☁分析シート')
 
         # フォーム入力
         select 'YouTube', from: '配信プラットフォーム'
@@ -57,41 +55,28 @@ RSpec.describe 'SurveyProfiles', type: :system do
         fill_in 'survey_profile_average_listeners', with: 10
         fill_in 'survey_profile_total_listeners', with: 100
         select '1〜2人', from: '最近のリスナーの離脱人数'
-
-        # モチベーションレベルはラジオボタンなので choose を使う
         choose 'survey_profile_motivation_level_3'
-
         fill_in 'survey_profile_happy_moment', with: 'リスナーさんからコメントをもらえたとき'
         fill_in 'survey_profile_sad_moment', with: 'リスナーが全然増えない'
-
-        # チェックボックスは check を使う
         check '稼ぎたい'
         check '有名になりたい'
         check '友達を作りたい'
-
         fill_in 'survey_profile_streaming_reasons_other', with: '特になし'
         fill_in 'survey_profile_desired_streaming_style', with: 'みんなでワイワイ楽しめる配信'
         fill_in 'survey_profile_desired_listener', with: '優しくて楽しい人'
         fill_in 'survey_profile_desired_monthly_income', with: 50_000
 
-        # AI提案から選択するラジオボタンを選択
         choose 'goal_source_ai'
 
-        # ✨ AI提案を取得ボタンをクリック
-        click_button 'fetch-ai-button'
+        # ⭐ perform_enqueued_jobs でジョブを同期実行
+        perform_enqueued_jobs do
+          click_button 'fetch-ai-button'
+        end
 
-        # JavaScript が実行されるまで待機
-        sleep 3
-
-        # AI提案が表示されるまで待機
-        goal_title_field = page.find('input[name="survey_result[goal_title]"]', visible: :all)
-        expect(goal_title_field.value).to eq('テスト目標'), 'AI提案の目標タイトルが表示されません'
-
-        goal_description_field = page.find('textarea[name="survey_result[goal_description]"]', visible: :all)
-        expect(goal_description_field.value).to eq('テスト説明'), 'AI提案の目標説明が表示されません'
-
-        action_plan_field = page.find('textarea[name="survey_result[action_plan]"]', visible: :all)
-        expect(action_plan_field.value).to include('テスト計画'), 'AI提案のアクションプランが表示されません'
+        # ⭐ AI提案が表示されるまで待機（最大30秒）
+        expect(page).to have_field('survey_result[goal_title]', with: 'テスト目標', wait: 30)
+        expect(page).to have_field('survey_result[goal_description]', with: 'テスト説明', wait: 30)
+        expect(page).to have_field('survey_result[action_plan]', with: /テスト計画/, wait: 30)
       end
 
       it 'AI提案を採用して目標作成できること', js: true do
@@ -132,15 +117,13 @@ RSpec.describe 'SurveyProfiles', type: :system do
         # AI提案から選択するラジオボタンを選択
         choose 'goal_source_ai'
 
-        # ✨ AI提案を取得ボタンをクリック
-        click_button 'fetch-ai-button'
+        # ⭐ perform_enqueued_jobs でジョブを同期実行
+        perform_enqueued_jobs do
+          click_button 'fetch-ai-button'
+        end
 
-        # JavaScript が実行されるまで待機
-        sleep 3
-
-        # AI提案が表示されるまで待機
-        goal_title_field = page.find('input[name="survey_result[goal_title]"]', visible: :all)
-        expect(goal_title_field.value).to eq('テスト目標'), 'AI提案の目標タイトルが表示されません'
+        # ⭐ AI提案が表示されるまで待機（最大30秒）
+        expect(page).to have_field('survey_result[goal_title]', with: 'テスト目標', wait: 30), 'AI提案の目標タイトルが表示されません'
 
         # 成長の星を誕生させるボタンをクリック
         click_button '成長の星を誕生させる'
@@ -188,20 +171,16 @@ RSpec.describe 'SurveyProfiles', type: :system do
           fill_in 'survey_profile_desired_listener', with: '優しくて楽しい人'
           fill_in 'survey_profile_desired_monthly_income', with: 50_000
 
-          # alert() が表示されることを確認
-          alert_message = accept_alert do
-            # AI提案から選択するラジオボタンを選択
+          allow_any_instance_of(GeminiService).to receive(:suggest_streamer_goal)
+            .and_raise(GeminiService::ApiError.new('API エラー'))
+
+          perform_enqueued_jobs do
             choose 'goal_source_ai'
-
-            # ✨ AI提案を取得ボタンをクリック
             click_button 'fetch-ai-button'
-
-            # アラートが表示されるまで待機
-            sleep 3
           end
 
-          # アラートのメッセージを検証
-          expect(alert_message).to eq('AI提案の取得に失敗しました。もう一度お試しください。'), 'エラーメッセージが表示されません'
+          expect(page).to have_content('AI提案の取得に失敗しました。もう一度お試しください。', wait: 10),
+                          'エラーメッセージが表示されません'
         end
       end
 
@@ -256,18 +235,15 @@ RSpec.describe 'SurveyProfiles', type: :system do
           fill_in 'survey_profile_desired_listener', with: '優しくて楽しい人'
           fill_in 'survey_profile_desired_monthly_income', with: 50_000
 
-          # AI提案から選択するラジオボタンを選択
-          choose 'goal_source_ai'
+          # AI提案から選択するラジオボタンを選択 + ボタンクリックを perform_enqueued_jobs で囲む
+          perform_enqueued_jobs do
+            choose 'goal_source_ai'
+            click_button 'fetch-ai-button'
+          end
 
-          # ✨ AI提案を取得ボタンをクリック
-          click_button 'fetch-ai-button'
-
-          # JavaScript が実行されるまで待機
-          sleep 3
-
-          # AI提案が表示されるまで待機
-          goal_title_field = page.find('input[name="survey_result[goal_title]"]', visible: :all)
-          expect(goal_title_field.value).to eq('テスト目標'), 'AI提案の目標タイトルが表示されません'
+          # AI提案がフォームに反映されるまで待機(値が入るまでポーリングして待つ)
+          expect(page).to have_field('survey_result_goal_title', with: 'テスト目標', wait: 10),
+                          'AI提案の目標タイトルが表示されません'
 
           # 成長の星を誕生させるボタンをクリック
           click_button '成長の星を誕生させる'
@@ -309,18 +285,15 @@ RSpec.describe 'SurveyProfiles', type: :system do
           fill_in 'survey_profile_desired_listener', with: '優しくて楽しい人'
           fill_in 'survey_profile_desired_monthly_income', with: 50_000
 
-          # AI提案から選択するラジオボタンを選択
-          choose 'goal_source_ai'
+          # AI提案から選択するラジオボタンを選択 + ボタンクリックを perform_enqueued_jobs で囲む
+          perform_enqueued_jobs do
+            choose 'goal_source_ai'
+            click_button 'fetch-ai-button'
+          end
 
-          # ✨ AI提案を取得ボタンをクリック
-          click_button 'fetch-ai-button'
-
-          # JavaScript が実行されるまで待機
-          sleep 3
-
-          # AI提案が表示されるまで待機
-          goal_title_field = page.find('input[name="survey_result[goal_title]"]', visible: :all)
-          expect(goal_title_field.value).to eq('テスト目標'), 'AI提案の目標タイトルが表示されません'
+          # AI提案がフォームに反映されるまで待機(値が入るまでポーリングして待つ)
+          expect(page).to have_field('survey_result_goal_title', with: 'テスト目標', wait: 10),
+                          'AI提案の目標タイトルが表示されません'
 
           # 成長の星を誕生させるボタンをクリック
           click_button '成長の星を誕生させる'
@@ -377,7 +350,7 @@ RSpec.describe 'SurveyProfiles', type: :system do
             # AI提案から選択するラジオボタンを選択
             choose 'goal_source_ai'
 
-            # ✨ AI提案を取得ボタンをクリック
+            # AI提案を取得ボタンをクリック
             click_button 'fetch-ai-button'
 
             # アラートが表示されるまで待機

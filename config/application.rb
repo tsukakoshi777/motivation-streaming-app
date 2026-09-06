@@ -57,6 +57,9 @@ module App
 
     # rack-attack を有効化
     config.middleware.use Rack::Attack
+
+    # ActiveJob のバックエンドを Sidekiq に設定
+    config.active_job.queue_adapter = :sidekiq
   end
 end
 

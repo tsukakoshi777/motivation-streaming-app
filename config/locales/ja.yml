@@ -330,8 +330,9 @@ ja:
       buttons:
         fetch_ai_suggestion: '🚀 AI提案を取得'
         fetch_ai_suggestion_note_html: |
-          ※ AI提案は最大3回まで取得できます<br>
-          ※ AI提案を参考にして、自由に編集できます
+          ※ AI提案は最大3回まで取得でき、自由に編集できます。<br>
+          ※ キャンセルが遅くなると、取得中止ができないことがあり、<br>
+             AI提案のカウントは減少します。ご注意ください。
 
     new:
       title: 'もやもや結晶☁分析シート'

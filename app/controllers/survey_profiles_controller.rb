@@ -2,6 +2,9 @@
 
 class SurveyProfilesController < ApplicationController
   include AiErrorHandler
+  include AiSuggestionManagement
+
+  wrap_parameters false, only: :fetch_ai_suggestion
 
   before_action :require_login
   before_action :check_ai_suggestion_limit, only: [:fetch_ai_suggestion]
@@ -24,8 +27,32 @@ class SurveyProfilesController < ApplicationController
     @survey_profile = build_survey_profile
     build_associated_records
 
-    # AI による目標提案を生成（goal_source が ai の場合のみ）
-    generate_ai_goal_suggestion if params.dig(:survey_result, :goal_source).to_i == SurveyResult.goal_sources[:ai]
+    # AI による目標提案を生成(goal_source が ai の場合のみ)
+    if params.dig(:survey_result, :goal_source).to_i == SurveyResult.goal_sources[:ai]
+      # ジョブを実行してジョブIDを取得
+      job = AiSuggestionJob.perform_later(current_user.id, survey_profile_params)
+
+      # ジョブIDをセッションに保存
+      session[:ai_suggestion_job_id] = job.job_id
+
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            'ai_suggestion_form',
+            partial: 'survey_profiles/ai_suggestion_form',
+            locals: {
+              job_id: job.job_id,
+              goal_title: '', # ← 追加
+              goal_description: '', # ← 追加
+              action_plan: '', # ← 追加
+              remaining_count: current_user.remaining_ai_suggestion_count # ← 追加
+            }
+          )
+        end
+        format.html { render :new, status: :unprocessable_entity }
+      end
+      return
+    end
 
     if save_all_records
       redirect_to goal_path(@goal), notice: t('.success')
@@ -35,34 +62,6 @@ class SurveyProfilesController < ApplicationController
 
       render :new, status: :unprocessable_entity
     end
-  end
-
-  # AI提案を取得するアクション（リファクタリング後）
-  def fetch_ai_suggestion
-    # パラメータを取得
-    params_data = fetch_ai_suggestion_params
-
-    # 一時的なオブジェクトを作成
-    survey_profile = build_temporary_survey_profile(params_data)
-    survey_response = build_temporary_survey_response(params_data)
-
-    # AI提案を取得
-    suggestion = fetch_suggestion_from_gemini(survey_profile, survey_response)
-
-    #  Userモデルのメソッドを使う
-    current_user.increment_ai_suggestion_count
-
-    #  残り回数を計算（Userモデルのメソッドを使う）
-    remaining_count = current_user.remaining_ai_suggestion_count
-
-    # 🆕 JSONで返す（残り回数を追加）
-    render json: suggestion.merge(remaining_count: remaining_count)
-  rescue GeminiService::RateLimitError => e
-    handle_rate_limit_error(e)
-  rescue GeminiService::InvalidResponseError => e
-    handle_invalid_response_error(e)
-  rescue GeminiService::ApiError => e
-    handle_gemini_error(e)
   end
 
   def update
@@ -263,74 +262,5 @@ class SurveyProfilesController < ApplicationController
     Rails.logger.error "AI goal suggestion generation failed: #{e.message}"
     @survey_profile.errors.add(:base, t('survey_profiles.create.ai_generation_failed'))
     raise ActiveRecord::Rollback
-  end
-
-  # fetch_ai_suggestion 用のパラメータ取得
-  def fetch_ai_suggestion_params
-    params.permit(
-      :streaming_platform_id,
-      :streaming_category_id,
-      :streaming_experience_id,
-      :weekly_frequency,
-      :average_listeners,
-      :total_listeners,
-      :listener_dropout_rate,
-      :motivation_level,
-      :happy_moment,
-      :sad_moment,
-      :desired_streaming_style,
-      :desired_listener,
-      :desired_monthly_income,
-      :streaming_reasons_other,
-      streaming_reasons: []
-    )
-  end
-
-  # 一時的な survey_profile を作成（保存しない）
-  def build_temporary_survey_profile(params_data)
-    SurveyProfile.new(
-      streaming_platform_id: params_data[:streaming_platform_id],
-      streaming_category_id: params_data[:streaming_category_id],
-      streaming_experience_id: params_data[:streaming_experience_id],
-      weekly_frequency: params_data[:weekly_frequency],
-      average_listeners: params_data[:average_listeners],
-      total_listeners: params_data[:total_listeners],
-      listener_dropout_rate: params_data[:listener_dropout_rate],
-      motivation_level: params_data[:motivation_level]
-    )
-  end
-
-  # 一時的な survey_response を作成（保存しない）
-  def build_temporary_survey_response(params_data)
-    SurveyResponse.new(
-      happy_moment: params_data[:happy_moment],
-      sad_moment: params_data[:sad_moment],
-      desired_streaming_style: params_data[:desired_streaming_style],
-      desired_listener: params_data[:desired_listener],
-      desired_monthly_income: params_data[:desired_monthly_income],
-      streaming_reasons: params_data[:streaming_reasons]&.compact_blank&.join(','),
-      streaming_reasons_other: params_data[:streaming_reasons_other]
-    )
-  end
-
-  # Gemini Service から AI提案を取得
-  def fetch_suggestion_from_gemini(survey_profile, survey_response)
-    gemini_service = GeminiService.new
-    gemini_service.suggest_streamer_goal(
-      survey_profile: survey_profile,
-      survey_response: survey_response
-    )
-  end
-
-  #  AI提案の利用回数制限をチェック（Userモデルのメソッドを使う）
-  def check_ai_suggestion_limit
-    # 日付が変わっていたらカウントをリセット
-    current_user.reset_ai_suggestion_count_if_needed
-
-    return if current_user.can_use_ai_suggestion?
-
-    render json: {
-      error: t('survey_profiles.errors.ai_suggestion_limit_reached')
-    }, status: :forbidden
   end
 end

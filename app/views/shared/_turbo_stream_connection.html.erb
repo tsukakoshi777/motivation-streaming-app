@@ -1,0 +1,2 @@
+<%# AI提案機能のために常に Action Cable に接続する %>
+<%= turbo_stream_from "user_#{current_user.id}" %>
