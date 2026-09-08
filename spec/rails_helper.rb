@@ -8,6 +8,7 @@ require 'rspec/rails'
 
 # WebMock を読み込む
 require 'webmock/rspec'
+require 'sidekiq/testing'
 
 # テスト環境で環境変数を設定
 ENV['GEMINI_API_KEY'] = 'test_dummy_api_key_for_testing'
@@ -33,6 +34,11 @@ RSpec.configure do |config|
   # ⭐ 各テストの前にキューをクリア
   config.before(:each) do
     clear_enqueued_jobs
+  end
+
+  # ⭐ system spec 実行時は Sidekiq ジョブを同期実行にする
+  config.before(:each, type: :system) do
+    Sidekiq::Testing.inline!
   end
 
   # WebMock の設定
