@@ -38,7 +38,7 @@ RSpec.configure do |config|
 
   # ⭐ system spec 実行時は Sidekiq ジョブを同期実行にする
   config.before(:each, type: :system) do
-    Sidekiq::Testing.inline!
+    Sidekiq::Testing.fake!
   end
 
   # WebMock の設定
