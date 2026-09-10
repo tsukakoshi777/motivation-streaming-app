@@ -68,10 +68,13 @@ RSpec.describe 'SurveyProfiles', type: :system do
 
         choose 'goal_source_ai'
 
-        # ⭐ perform_enqueued_jobs でジョブを同期実行
-        perform_enqueued_jobs do
-          click_button 'fetch-ai-button'
-        end
+        click_button 'fetch-ai-button'
+
+        # ジョブが enqueue されるまで明示的に待つ
+        expect(page).to have_content('AI分析中...', wait: 10) # ローディング表示などで待機
+
+        # enqueue されたジョブを実行する
+        perform_enqueued_jobs
 
         # ⭐ AI提案が表示されるまで待機（最大30秒）
         expect(page).to have_field('survey_result[goal_title]', with: 'テスト目標', wait: 30)
@@ -117,10 +120,13 @@ RSpec.describe 'SurveyProfiles', type: :system do
         # AI提案から選択するラジオボタンを選択
         choose 'goal_source_ai'
 
-        # ⭐ perform_enqueued_jobs でジョブを同期実行
-        perform_enqueued_jobs do
-          click_button 'fetch-ai-button'
-        end
+        click_button 'fetch-ai-button'
+
+        # ジョブが enqueue されるまで明示的に待つ
+        expect(page).to have_content('AI分析中...', wait: 10) # ローディング表示などで待機
+
+        # enqueue されたジョブを実行する
+        perform_enqueued_jobs
 
         # ⭐ AI提案が表示されるまで待機（最大30秒）
         expect(page).to have_field('survey_result[goal_title]', with: 'テスト目標', wait: 30), 'AI提案の目標タイトルが表示されません'
@@ -174,10 +180,13 @@ RSpec.describe 'SurveyProfiles', type: :system do
           allow_any_instance_of(GeminiService).to receive(:suggest_streamer_goal)
             .and_raise(GeminiService::ApiError.new('API エラー'))
 
-          perform_enqueued_jobs do
-            choose 'goal_source_ai'
-            click_button 'fetch-ai-button'
-          end
+          choose 'goal_source_ai'
+          click_button 'fetch-ai-button'
+
+          # ローディング表示を待ってから実行する
+          expect(page).to have_content('AI分析中...', wait: 10)
+
+          perform_enqueued_jobs
 
           expect(page).to have_content('AI提案の取得に失敗しました。もう一度お試しください。', wait: 10),
                           'エラーメッセージが表示されません'
@@ -235,11 +244,12 @@ RSpec.describe 'SurveyProfiles', type: :system do
           fill_in 'survey_profile_desired_listener', with: '優しくて楽しい人'
           fill_in 'survey_profile_desired_monthly_income', with: 50_000
 
-          # AI提案から選択するラジオボタンを選択 + ボタンクリックを perform_enqueued_jobs で囲む
-          perform_enqueued_jobs do
-            choose 'goal_source_ai'
-            click_button 'fetch-ai-button'
-          end
+          choose 'goal_source_ai'
+          click_button 'fetch-ai-button'
+
+          expect(page).to have_content('AI分析中...', wait: 10)
+
+          perform_enqueued_jobs
 
           # AI提案がフォームに反映されるまで待機(値が入るまでポーリングして待つ)
           expect(page).to have_field('survey_result_goal_title', with: 'テスト目標', wait: 10),
@@ -285,11 +295,12 @@ RSpec.describe 'SurveyProfiles', type: :system do
           fill_in 'survey_profile_desired_listener', with: '優しくて楽しい人'
           fill_in 'survey_profile_desired_monthly_income', with: 50_000
 
-          # AI提案から選択するラジオボタンを選択 + ボタンクリックを perform_enqueued_jobs で囲む
-          perform_enqueued_jobs do
-            choose 'goal_source_ai'
-            click_button 'fetch-ai-button'
-          end
+          choose 'goal_source_ai'
+          click_button 'fetch-ai-button'
+
+          expect(page).to have_content('AI分析中...', wait: 10)
+
+          perform_enqueued_jobs
 
           # AI提案がフォームに反映されるまで待機(値が入るまでポーリングして待つ)
           expect(page).to have_field('survey_result_goal_title', with: 'テスト目標', wait: 10),
