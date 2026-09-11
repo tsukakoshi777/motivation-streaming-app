@@ -89,12 +89,25 @@ function initializeForm() {
   // RailsのAPIからAI提案を取得する関数
   // ========================================
 
+  // グローバル変数として定義 
+  window.isCancelled = false;
+
   async function fetchAiSuggestion() {
+
+    // フラグをリセット 
+    window.isCancelled = false;
+    console.log('✅ フラグをリセットしました:', window.isCancelled);
+
     //  data-* 属性から翻訳済みメッセージを取得 
     const messages = document.querySelector('#ai-messages');
     const loadingMessage = messages?.dataset.loading || 'AI提案を取得中...';
     const limitReachedMessage = messages?.dataset.limitReached || 'AI提案の利用回数が上限に達しました。';
     const fetchFailedMessage = messages?.dataset.fetchFailed || 'AI提案の取得に失敗しました。もう一度お試しください。';
+
+    // ✅ ここで goalTitleField などを定義
+    const goalTitleField = document.querySelector('input[name="survey_result[goal_title]"]');
+    const goalDescriptionField = document.querySelector('textarea[name="survey_result[goal_description]"]');
+    const actionPlanField = document.querySelector('textarea[name="survey_result[action_plan]"]');
 
     // ✅ AI提案を取得する前の内容を保存
     const previousTitle = goalTitleField?.value || '';
@@ -158,6 +171,11 @@ function initializeForm() {
         if (goalDescriptionField) goalDescriptionField.value = previousDescription;
         if (actionPlanField) actionPlanField.value = previousActionPlan;
 
+        // ここを追加
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+          overlay.classList.add('hidden');
+        }
 
         // エラーメッセージを表示
         alert(limitReachedMessage);
@@ -169,70 +187,7 @@ function initializeForm() {
         throw new Error('AI提案の取得に失敗しました');
       }
 
-      const data = await response.json();
 
-      console.log('受信したデータ:', data);
-
-      // フォームに挿入
-      if (goalTitleField) {
-        goalTitleField.value = data.goal_title || '';
-      }
-
-      if (goalDescriptionField) {
-        goalDescriptionField.value = data.goal_description || '';
-      }
-
-      if (actionPlanField) {
-        // アクションプランに ◇ を挿入 
-        const actionPlan = data.action_plan || '';
-
-        // 改行で分割して、各行の先頭に ◇ を追加
-        const formattedActionPlan = actionPlan.split('\n').map(line => {
-          const trimmedLine = line.trim();
-
-          // 空行はそのまま
-          if (trimmedLine === '') return '';
-
-          // 既に ◇ が付いている場合はそのまま
-          if (trimmedLine.startsWith('◇')) return line;
-
-          // 数字で始まる場合は、数字の前に ◇ を追加
-          // 例: "1. ステップ1" → "◇ 1. ステップ1"
-          return `◇ ${trimmedLine}`;
-        }).join('\n');
-
-        actionPlanField.value = formattedActionPlan;
-
-        console.log('フォーマット後のアクションプラン:', formattedActionPlan);
-      }
-
-      // 🆕 残り回数を更新
-      const remainingCountElement = document.getElementById('ai-suggestion-remaining');
-      if (remainingCountElement && data.remaining_count !== undefined) {
-        remainingCountElement.textContent = data.remaining_count;
-        console.log('残り回数を更新しました:', data.remaining_count);
-
-        // 🆕 残り回数が0になったら、メッセージを切り替える
-        if (data.remaining_count === 0) {
-          const messageElement = remainingCountElement.closest('.text-gray-600');
-          if (messageElement) {
-            // 🆕 明日の日付を計算
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            const month = (tomorrow.getMonth() + 1).toString().padStart(2, '0');
-            const day = tomorrow.getDate().toString().padStart(2, '0');
-            const tomorrowStr = `${month}月${day}日`;
-
-            messageElement.innerHTML = `
-              💡 <strong class="text-red-600 font-semibold">本日のAI提案は利用できません</strong>
-              <br>
-              <small>(${tomorrowStr} にリセットされます)</small>
-            `;
-          }
-        }
-      }
-
-      console.log('AI提案のデータを挿入しました!');
 
     } catch (error) {
       console.error('AI提案の取得に失敗しました:', error);
@@ -246,6 +201,12 @@ function initializeForm() {
         if (goalDescriptionField) goalDescriptionField.value = previousDescription;
         if (actionPlanField) actionPlanField.value = previousActionPlan;
 
+        // ここを追加
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+          overlay.classList.add('hidden');
+        }
+
         return;
       }
 
@@ -254,16 +215,16 @@ function initializeForm() {
       if (goalDescriptionField) goalDescriptionField.value = previousDescription;
       if (actionPlanField) actionPlanField.value = previousActionPlan;
 
-      alert(fetchFailedMessage);
-    } finally {
-      // ローディングを非表示（成功時・エラー時・キャンセル時すべてで実行）
+      // ★ ここを追加
       const overlay = document.getElementById('loading-overlay');
       if (overlay) {
         overlay.classList.add('hidden');
       }
-    }
-  }
 
+      alert(fetchFailedMessage);
+    }
+
+  }
 
   // ========================================
   // アクションプラン用の自動箇条書き機能
@@ -310,9 +271,12 @@ function initializeForm() {
       e.stopPropagation(); // 🆕 イベントの伝播を停止
 
       // ローディング表示
-      const overlay = document.getElementById('loading-overlay');
-      if (overlay) {
-        overlay.classList.remove('hidden');
+      const loadingController = document.querySelector('[data-controller="loading"]');
+      if (loadingController) {
+        const controller = window.Stimulus.getControllerForElementAndIdentifier(loadingController, 'loading');
+        if (controller) {
+          controller.showLoading();
+        }
       }
 
       // AI提案を取得（finally で自動的にローディング非表示）

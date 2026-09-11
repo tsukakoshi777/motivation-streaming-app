@@ -88,8 +88,10 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 
 # レート制限
+gem 'connection_pool', '< 3.0.0'
 gem 'rack-attack'
 gem 'redis', '>= 4.0.1'
+gem 'sidekiq', '~> 7.3' # 7.3 系の最新版を使用
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
