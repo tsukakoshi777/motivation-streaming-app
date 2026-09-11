@@ -83,8 +83,10 @@ RSpec.describe 'SurveyProfiles', type: :system do
       end
 
       it 'AI提案を採用して目標作成できること', js: true do
-        # どのインスタンスに対してもスタブが効くようにする
-        allow_any_instance_of(GeminiService).to receive(:suggest_streamer_goal).and_return(
+        # スタブを正確に設定
+        gemini_service_mock = instance_double(GeminiService)
+        allow(GeminiService).to receive(:new).and_return(gemini_service_mock)
+        allow(gemini_service_mock).to receive(:suggest_streamer_goal).and_return(
           {
             goal_title: 'テスト目標',
             goal_description: 'テスト説明',
@@ -92,11 +94,8 @@ RSpec.describe 'SurveyProfiles', type: :system do
           }
         )
 
-        # アンケートページに遷移
         visit new_survey_profile_path
-
-        # ページが表示されるまで待機
-        expect(page).to have_content('もやもや結晶☁分析シート'), 'アンケートページが表示されません'
+        expect(page).to have_content('もやもや結晶☁分析シート')
 
         # フォーム入力
         select 'YouTube', from: '配信プラットフォーム'
