@@ -242,7 +242,7 @@ export default class extends Controller {
       if (trimmedLine === '') return '';
       if (trimmedLine.startsWith('◇')) return line;
       return `◇ ${trimmedLine}`;
-    }).join('\n');
+    }).join('\n\n'); // ← ここを変更(空白行を1つ挟む)
 
     actionPlanElement.value = formattedActionPlan;
     console.log('✅ アクションプランを設定しました');
