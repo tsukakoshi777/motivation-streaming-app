@@ -296,31 +296,11 @@ function initializeForm() {
     // 新しいイベントリスナーを追加 
     newGoalSourceManual.addEventListener('change', (e) => {
       if (e.target.checked) {
-        // フォームをクリア(任意)
-        // clearFormFields();
+
       }
     });
   }
 
-
-
-  // ========================================
-  // フォームをクリアする関数(任意)
-  // ========================================
-
-  function clearFormFields() {
-    if (goalTitleField) {
-      goalTitleField.value = '';
-    }
-
-    if (goalDescriptionField) {
-      goalDescriptionField.value = '';
-    }
-
-    if (textarea) {
-      textarea.value = '';
-    }
-  }
 }  // ← initializeForm() の終了
 
 // ========================================
