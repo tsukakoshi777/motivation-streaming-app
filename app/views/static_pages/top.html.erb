@@ -67,6 +67,84 @@
 </div>
 
 <!-- ========================================
+     新規追加: 使い方セクション
+     テンプレート: ui-tools-steps1
+     ======================================== -->
+<section class="bg-light py-4">
+  <div class="container py-5">
+    <h2 class="text-center mb-5 h1 fw-bold"><%= t('.steps.title') %></h2>
+
+    <div class="row g-5">
+      <!-- ステップ1 -->
+      <div class="col-md-4">
+        <div class="text-center">
+          <div class="mb-4">
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" 
+                 style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
+              1
+            </div>
+          </div>
+          <h3 class="h4 mb-3 fw-bold"><%= t('.steps.step1.title') %></h3>
+          <p class="text-muted mb-4 text-start">
+            <%= t('.steps.step1.description_html') %>
+          </p>
+
+          <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
+          <div class="demo-image-wrapper">
+            <%= image_tag 'oshista-step1-pc.png', alt: 'ステップ1: 簡単な質問に答える', class: 'img-fluid rounded shadow d-none d-md-block' , loading: 'lazy'%>
+            <%= image_tag 'oshista-step1-mb.png', alt: 'ステップ1: 簡単な質問に答える', class: 'img-fluid rounded shadow d-md-none' , loading: 'lazy'%>
+          </div>
+        </div>
+      </div>
+
+      <!-- ステップ2 -->
+      <div class="col-md-4">
+        <div class="text-center">
+          <div class="mb-4">
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" 
+                 style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
+              2
+            </div>
+          </div>
+          <h3 class="h4 mb-3 fw-bold"><%= t('.steps.step2.title') %></h3>
+          <p class="text-muted mb-4 text-start">
+            <%= t('.steps.step2.description_html') %>
+          </p>
+
+          <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
+          <div class="demo-image-wrapper">
+            <%= image_tag 'oshista-step2-pc.png', alt: 'ステップ2: AIが分析', class: 'img-fluid rounded shadow d-none d-md-block' , loading: 'lazy'%>
+            <%= image_tag 'oshista-step2-mb.png', alt: 'ステップ2: AIが分析', class: 'img-fluid rounded shadow d-md-none' , loading: 'lazy'%>
+          </div>
+        </div>
+      </div>
+
+      <!-- ステップ3 -->
+      <div class="col-md-4">
+        <div class="text-center">
+          <div class="mb-4">
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" 
+                 style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
+              3
+            </div>
+          </div>
+          <h3 class="h4 mb-3 fw-bold"><%= t('.steps.step3.title') %></h3>
+          <p class="text-muted mb-4 text-start">
+            <%= t('.steps.step3.description_html') %>
+          </p>
+
+          <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
+          <div class="demo-image-wrapper">
+            <%= image_tag 'oshista-step3-pc.png', alt: 'ステップ3: 具体的な提案を受け取る', class: 'img-fluid rounded shadow d-none d-md-block' , loading: 'lazy'%>
+            <%= image_tag 'oshista-step3-mb.png', alt: 'ステップ3: 具体的な提案を受け取る', class: 'img-fluid rounded shadow d-md-none' , loading: 'lazy'%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
      新規追加: グラデーション見出しセクション
      テンプレート: title12
      ======================================== -->
@@ -326,86 +404,8 @@
   </div>
 </section>
 
-<!-- ========================================
-     新規追加: 使い方セクション
-     テンプレート: ui-tools-steps1
-     ======================================== -->
-<section class="bg-light py-4">
-  <div class="container py-5">
-    <h2 class="text-center mb-5 h1 fw-bold"><%= t('.steps.title') %></h2>
-
-    <div class="row g-5">
-      <!-- ステップ1 -->
-      <div class="col-md-4">
-        <div class="text-center">
-          <div class="mb-4">
-            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" 
-                 style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
-              1
-            </div>
-          </div>
-          <h3 class="h4 mb-3 fw-bold"><%= t('.steps.step1.title') %></h3>
-          <p class="text-muted mb-4 text-start">
-            <%= t('.steps.step1.description_html') %>
-          </p>
-
-          <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
-          <div class="demo-image-wrapper">
-            <%= image_tag 'oshista-step1-pc.png', alt: 'ステップ1: 簡単な質問に答える', class: 'img-fluid rounded shadow d-none d-md-block' , loading: 'lazy'%>
-            <%= image_tag 'oshista-step1-mb.png', alt: 'ステップ1: 簡単な質問に答える', class: 'img-fluid rounded shadow d-md-none' , loading: 'lazy'%>
-          </div>
-        </div>
-      </div>
-
-      <!-- ステップ2 -->
-      <div class="col-md-4">
-        <div class="text-center">
-          <div class="mb-4">
-            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" 
-                 style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
-              2
-            </div>
-          </div>
-          <h3 class="h4 mb-3 fw-bold"><%= t('.steps.step2.title') %></h3>
-          <p class="text-muted mb-4 text-start">
-            <%= t('.steps.step2.description_html') %>
-          </p>
-
-          <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
-          <div class="demo-image-wrapper">
-            <%= image_tag 'oshista-step2-pc.png', alt: 'ステップ2: AIが分析', class: 'img-fluid rounded shadow d-none d-md-block' , loading: 'lazy'%>
-            <%= image_tag 'oshista-step2-mb.png', alt: 'ステップ2: AIが分析', class: 'img-fluid rounded shadow d-md-none' , loading: 'lazy'%>
-          </div>
-        </div>
-      </div>
-
-      <!-- ステップ3 -->
-      <div class="col-md-4">
-        <div class="text-center">
-          <div class="mb-4">
-            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" 
-                 style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
-              3
-            </div>
-          </div>
-          <h3 class="h4 mb-3 fw-bold"><%= t('.steps.step3.title') %></h3>
-          <p class="text-muted mb-4 text-start">
-            <%= t('.steps.step3.description_html') %>
-          </p>
-
-          <!-- デモ画像 (PC版はデスクトップで表示・モバイル版はスマホで表示) -->
-          <div class="demo-image-wrapper">
-            <%= image_tag 'oshista-step3-pc.png', alt: 'ステップ3: 具体的な提案を受け取る', class: 'img-fluid rounded shadow d-none d-md-block' , loading: 'lazy'%>
-            <%= image_tag 'oshista-step3-mb.png', alt: 'ステップ3: 具体的な提案を受け取る', class: 'img-fluid rounded shadow d-md-none' , loading: 'lazy'%>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- 輝き機能セクション -->
-<section class="sparkle-feature-section py-5">
+<section class="sparkle-feature-section py-5" style="background: #f8f9fa">
   <div class="container">
     <!-- セクションタイトル -->
     <h2 class="title12-parts"> <%= t('.sparkle.title') %></h2>
