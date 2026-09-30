@@ -145,6 +145,59 @@
 </section>
 
 <!-- ========================================
+     新規追加: CTAセクション
+     テンプレート: ui-tools-cta1
+     ======================================== -->
+<section class="bg-gradient py-3">
+  <div class="container text-center py-5">
+    <h3 class="h2 fw-bold mb-4"><%= t('.cta1.title_html') %></h3>
+    <p class="lead mb-4">
+      <%= t('.cta1.description') %>
+    </p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <%= link_to new_survey_profile_path, 
+          class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow' do %>
+        <i class=" fa-solid fa-circle-plus me-2"></i><%= t('.cta1.button') %>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- 輝き機能セクション -->
+<section class="sparkle-feature-section py-5" style="background: #f8f9fa">
+  <div class="container">
+    <!-- セクションタイトル -->
+    <h2 class="title12-parts"> <%= t('.sparkle.title') %></h2>
+
+    <!-- 機能説明とデモ動画 -->
+    <div class="feature-content">
+      <!-- テキスト文 -->
+      <div class="feature-text">
+        <p>
+          <%= raw t('.sparkle.description_html') %>
+        </p>
+      </div>
+
+      <!-- デモ動画 -->
+      <div class="feature-demo">
+        <div class="demo-video-item">
+          <p class="demo-label"><%= t('.sparkle.demo_label_pc') %></p>
+          <%= image_tag 'sparkle-demo-pc.gif', alt: '輝き機能のデモ動画(PC版)', class: 'demo-gif' , loading: 'lazy'%>
+        </div>
+      </div>
+    </div>
+
+    <!-- モバイル版デモ動画 (モバイルのみ表示) -->
+    <div class="feature-demo-mobile">
+      <div class="demo-video-item">
+        <p class="demo-label"><%= t('.sparkle.demo_label_mobile') %></p>
+        <%= image_tag 'sparkle-demo-mb.gif', alt: '輝き機能のデモ動画(モバイル版)', class: 'demo-gif' , loading: 'lazy'%>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
      新規追加: グラデーション見出しセクション
      テンプレート: title12
      ======================================== -->
@@ -249,25 +302,6 @@
           <%= image_tag 'oshista-example-star3.png', alt: '星3', class: 'star-image' , loading: 'lazy'%>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========================================
-     新規追加: CTAセクション
-     テンプレート: ui-tools-cta1
-     ======================================== -->
-<section class="bg-gradient py-3" style="background: #f8f9fa">
-  <div class="container text-center py-5">
-    <h3 class="h2 fw-bold mb-4"><%= t('.cta1.title_html') %></h3>
-    <p class="lead mb-4">
-      <%= t('.cta1.description') %>
-    </p>
-    <div class="d-flex justify-content-center gap-3 flex-wrap">
-      <%= link_to new_survey_profile_path, 
-          class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow' do %>
-        <i class=" fa-solid fa-circle-plus me-2"></i><%= t('.cta1.button') %>
-      <% end %>
     </div>
   </div>
 </section>
@@ -399,40 +433,6 @@
         <div class="card-footer bg-light text-muted small">
           <%= t('.reasons.solution3.note') %>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 輝き機能セクション -->
-<section class="sparkle-feature-section py-5" style="background: #f8f9fa">
-  <div class="container">
-    <!-- セクションタイトル -->
-    <h2 class="title12-parts"> <%= t('.sparkle.title') %></h2>
-
-    <!-- 機能説明とデモ動画 -->
-    <div class="feature-content">
-      <!-- テキスト文 -->
-      <div class="feature-text">
-        <p>
-          <%= raw t('.sparkle.description_html') %>
-        </p>
-      </div>
-
-      <!-- デモ動画 -->
-      <div class="feature-demo">
-        <div class="demo-video-item">
-          <p class="demo-label"><%= t('.sparkle.demo_label_pc') %></p>
-          <%= image_tag 'sparkle-demo-pc.gif', alt: '輝き機能のデモ動画(PC版)', class: 'demo-gif' , loading: 'lazy'%>
-        </div>
-      </div>
-    </div>
-
-    <!-- モバイル版デモ動画 (モバイルのみ表示) -->
-    <div class="feature-demo-mobile">
-      <div class="demo-video-item">
-        <p class="demo-label"><%= t('.sparkle.demo_label_mobile') %></p>
-        <%= image_tag 'sparkle-demo-mb.gif', alt: '輝き機能のデモ動画(モバイル版)', class: 'demo-gif' , loading: 'lazy'%>
       </div>
     </div>
   </div>

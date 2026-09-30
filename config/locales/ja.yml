@@ -16,19 +16,19 @@ ja:
   static_pages:
     top:
       description_html: |
-        配信でのもやもやな結晶☁(想い)を<br>
-        成長の星⭐(目標)に変換するツール
+        まずは今のもやもやな結晶☁(想い)を<br>
+        成長の星⭐(目標)に変換しみよう！
       # ヒーローセクション
       hero:
         title_html: | 
-          最適な目標を<br class="d-md-none">
-          見つけて配信を続けよう！
+          配信を続けたい...<br class="d-md-none">
+          どうしたらいい？
         cta_button: "もやもや結晶☁を調査🔍"
         note: "※googleログインですぐに利用可能"
       
       # 悩みセクション
       problems:
-        title: "配信の悩みはきらめく星へ"
+        title: "推しスタについて"
         subtitle: "Star Streaming Support"
         description_html: |
           配信のモチベーション維持に悩んでいる方を<br>サポートするサイトです。<br>
