@@ -17,7 +17,7 @@ ja:
     top:
       description_html: |
         まずは今のもやもやな結晶☁(想い)を<br>
-        成長の星⭐(目標)に変換しみよう！
+        成長の星⭐(目標)に変えてみよう！
       # ヒーローセクション
       hero:
         title_html: | 
@@ -58,41 +58,33 @@ ja:
       # 3つの理由セクション
       reasons:
         title_html: |
-          配信者の「続けたい」を叶える<br>6つのポイント
+          「配信を続けたい」を叶える<br>様々なサポート
         
         # 理由1
         reason1:
           title_html: '<span class="text-primary fw-bold">「何を相談すればいいか」</span><br class="d-md-none d-lg-inline">
           がわかる'
           description_html: |
-            一般的なAIは自由度が高い反面、
-            <strong>「どう質問すればいいかわからない」</strong>という壁があります。<br>
-            <br>
-            <strong class="text-primary">推しスタなら、</strong><br>
+            <strong class="text-primary">推しスタは、</strong><br>
             もやもや分析シートで質問を構造化し、悩みを言語化しやすくします。
-            <strong>「何を相談すればいいかわからない」方にもおすすめです。</strong>
+            <strong>「何を相談すればいいかわからない」方への相談準備にもおすすめです。</strong>
         
         # 理由2
         reason2:
           title_html: '<span class="text-primary fw-bold">配信者特化のAI分析</span><br class="d-md-none d-lg-inline">
           で目標を提案'
           description_html: |
-            一般的なAIは汎用的なアドバイスになりがちで
-            <strong>配信者に合わせた回答がもらえない。</strong><br>
-            <br>
-            <strong class="text-primary">推しスタなら、</strong><br>
-            配信者特有の悩み(視聴者数、収益化、モチベーション維持など)に特化した分析基準を持ちます。
-            <strong>「どこを」「どう」改善すればいいのか具体的に提案します。</strong>
+            <strong class="text-primary">推しスタは、</strong><br>
+            配信者特有の悩み(視聴者数、収益化、モチベーションなど)に特化した分析基準で、
+            <strong>「どう改善すればいいのか具体的に提案します。</strong>
         
         # 理由3
         reason3:
-          title_html: '<span class="text-primary fw-bold">過去の記録を活用</span><br>して成長を実感'
+          title_html: '<span class="text-primary fw-bold">モチベーション低下の</span><br>原因を記録で明確化'
           description_html: |
-            <strong>目標への行動記録は毎日しなくてＯＫ、</strong>いつでも気軽に利用できます<br>
-            <br>
-            <strong class="text-primary">推しスタなら、</strong><br>
-            過去の目標を保存し、モチベーションが下がったときに見返せます。
-            <strong>「なぜモチベーションが低下したのか」を明確にし、同じ失敗を繰り返さないようサポートします。</strong>
+            <strong class="text-primary">推しスタは、</strong><br>
+            目標への努力やもやもやした気持ちを気軽に記録が可能。
+            <strong>記録から「なぜモチベーションが低下したのか」を明確にし、原因の改善へ導きます。</strong>
         
         # 解決後のイメージ
         solution_title_html: |
@@ -170,7 +162,7 @@ ja:
       
       # 最終CTAセクション
       final_cta:
-        title: "さあ、あなたがなりたい推し⭐になろう"
+        title: "あなたがなりたい推しになろう"
         description_html: |
           もやもやした気持ちはあなたをもっと輝かせる目標⭐になる<br>
           推しスタがあなたの配信の可能性を引き出します。
