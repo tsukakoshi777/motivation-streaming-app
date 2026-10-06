@@ -516,6 +516,14 @@ section {
   }
 }
 
+/* 星の画像テキスト */
+
+.star-caption {
+    margin-top: 0.5rem;
+    font-size: 1.55rem;
+    line-height: 1.5;
+}
+
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
   .problem-item {
