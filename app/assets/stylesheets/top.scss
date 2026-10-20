@@ -267,7 +267,7 @@
   }
 
   &:hover i {
-    transform: translateX(3px);
+    transform: none;
   }
 }
 
@@ -695,6 +695,15 @@ section {
         font-size: 1.3rem !important;
       }
     }
+  }
+}
+
+/* 最終CTAボタンのホバー */
+.final-cta .btn {
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
   }
 }
 
