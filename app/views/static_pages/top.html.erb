@@ -51,7 +51,7 @@
           <!-- CTAボタン -->
           <div class="hero-cta">
             <%= link_to new_survey_profile_path, 
-                class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg' do %>
+                class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg top-cta-button' do %>
               <i class=" fa-solid fa-circle-plus me-2"></i><%= t('.hero.cta_button') %>
             <% end %>
           </div>
@@ -156,7 +156,7 @@
     </p>
     <div class="d-flex justify-content-center gap-3 flex-wrap">
       <%= link_to new_survey_profile_path, 
-          class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow' do %>
+          class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow top-cta-button' do %>
         <i class=" fa-solid fa-circle-plus me-2"></i><%= t('.cta1.button') %>
       <% end %>
     </div>
@@ -503,7 +503,7 @@
       <%= t('.final_cta.description_html') %>
     </p>
     <%= link_to new_survey_profile_path, 
-        class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg' do %>
+        class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg top-cta-button' do %>
       <i class=" fa-solid fa-circle-plus me-2"></i><%= t('.final_cta.button') %>
     <% end %>
     <p class="text-muted mt-3 small">
