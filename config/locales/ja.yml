@@ -37,7 +37,8 @@ ja:
         # 悩み1
         problem1:
           title: "視聴者が増えない☁"
-          description: "どうすれば視聴者を増やせるのか助言が欲しい"
+          description_html: | 
+            どうすれば視聴者を増やせるのか<br>助言が欲しい
         
         # 悩み2
         problem2:
@@ -47,7 +48,8 @@ ja:
         # 悩み3
         problem3:
           title: "改善点が分からない☁"
-          description: "なんとなくやりたくない配信になっていてつまらない"
+          description_html: |
+            なんとなくやりたくない配信になって<br>いてつまらない
         
         # 星の説明文
         star1_caption: "配信時刻を覚えてもらおう"
