@@ -88,7 +88,7 @@ ja:
         
         # 理由3
         reason3:
-          title_html: '<span class="text-primary fw-bold">モチベーション低下の</span><br>原因を記録で明確化'
+          title_html: '<span class="text-primary fw-bold">モチベーション低下の</span><br>原因を明確化'
           description_html: |
             <strong class="text-primary">推しスタは、</strong><br>
             目標への努力やもやもやした気持ちを気軽に記録が可能。
