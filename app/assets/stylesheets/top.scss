@@ -267,7 +267,7 @@
   }
 
   &:hover i {
-    transform: translateX(3px);
+    transform: none;
   }
 }
 
@@ -516,6 +516,14 @@ section {
   }
 }
 
+/* 星の画像テキスト */
+
+.star-caption {
+    margin-top: 0.5rem;
+    font-size: 1.55rem;
+    line-height: 1.5;
+}
+
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
   .problem-item {
@@ -640,6 +648,7 @@ section {
     // レスポンシブ対応
     @media (max-width: 768px) {
       font-size: 1rem !important;
+      text-align: left;
     }
   }
 
@@ -686,6 +695,15 @@ section {
         font-size: 1.3rem !important;
       }
     }
+  }
+}
+
+/* 最終CTAボタンのホバー */
+.final-cta .btn {
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
   }
 }
 
@@ -815,4 +833,17 @@ section {
   .feature-text p {
     font-size: 1rem;
   }
+}
+
+/* ボタンやアイコンの色見調整 */
+.bg-primary.step-icon {
+  background-color:#4d94ff !important;
+}
+
+.btn-primary.top-cta-button {
+  background-color: #4d94ff !important;
+}
+
+.text-primary.text-icon {
+  color: #4d94ff !important;
 }

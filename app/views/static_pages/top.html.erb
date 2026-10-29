@@ -51,7 +51,7 @@
           <!-- CTAボタン -->
           <div class="hero-cta">
             <%= link_to new_survey_profile_path, 
-                class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg' do %>
+                class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg top-cta-button' do %>
               <i class=" fa-solid fa-circle-plus me-2"></i><%= t('.hero.cta_button') %>
             <% end %>
           </div>
@@ -67,279 +67,19 @@
 </div>
 
 <!-- ========================================
-     新規追加: グラデーション見出しセクション
-     テンプレート: title12
-     ======================================== -->
-<!-- 悩みセクション -->
-<section class="problems-section py-5">
-  <div class="container">
-    <h2 class="title12-parts text-center mt-2 mb-4">
-      <%= t('.problems.title') %>
-      <span class="small-parts d-block mt-2"><%= t('.problems.subtitle') %></span>
-    </h2>
-
-    <p class="text-center lead pt-1 mb-5">
-      <%= t('.problems.description_html') %>
-    </p>
-
-    <!-- 悩み3つ(PC: 横並び / スマホ: 縦並び) -->
-    <div class="row problems-stars-container">
-      <!-- 1つ目: 視聴者が増えない -->
-      <div class="col-12 col-md-4 mb-4 problem-star-pair">
-        <div class="problem-item text-center pb-md-0">
-          <i class="fa-solid fa-chart-line fa-3x text-primary mb-3"></i>
-          <h3><%= t('.problems.problem1.title') %></h3>
-          <p class="text-muted"><%= t('.problems.problem1.description') %></p>
-        </div>
-
-        <!-- 下向き矢印(スマホのみ表示) -->
-        <div class="arrow-down text-center mt-3 d-md-none">
-          <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
-        </div>
-
-        <!-- 星(スマホのみ表示) -->
-        <div class="star-item text-center mt-3 d-md-none">
-          <%= image_tag 'oshista-example-star1.png', alt: '星1', class: 'star-image' , loading: 'lazy'%>
-        </div>
-      </div>
-
-      <!-- 2つ目: ファンが少ない -->
-      <div class="col-12 col-md-4 mb-4 problem-star-pair">
-        <div class="problem-item text-center pb-md-0">
-          <i class="fa-solid fa-comments fa-3x text-primary mb-3"></i>
-          <h3><%= t('.problems.problem2.title') %></h3>
-          <p class="text-muted"><%= t('.problems.problem2.description') %></p>
-        </div>
-
-        <!-- 下向き矢印(スマホのみ表示) -->
-        <div class="arrow-down text-center mt-3 d-md-none">
-          <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
-        </div>
-
-        <!-- 星(スマホのみ表示) -->
-        <div class="star-item text-center mt-3 d-md-none">
-          <%= image_tag 'oshista-example-star2.png', alt: '星2', class: 'star-image' , loading: 'lazy'%>
-        </div>
-      </div>
-
-      <!-- 3つ目: 何を改善すべきか -->
-      <div class="col-12 col-md-4 mb-4 problem-star-pair">
-        <div class="problem-item text-center pb-md-0">
-          <i class="fa-solid fa-lightbulb fa-3x text-primary mb-3"></i>
-          <h3><%= t('.problems.problem3.title') %></h3>
-          <p class="text-muted"><%= t('.problems.problem3.description') %></p>
-        </div>
-
-        <!-- 下向き矢印(スマホのみ表示) -->
-        <div class="arrow-down text-center mt-3 d-md-none">
-          <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
-        </div>
-
-        <!-- 星(スマホのみ表示) -->
-        <div class="star-item text-center mt-3 d-md-none">
-          <%= image_tag 'oshista-example-star3.png', alt: '星3', class: 'star-image' , loading: 'lazy'%>
-        </div>
-      </div>
-    </div>
-
-    <!-- 星の画像(PCのみ表示) -->
-    <div class="row mt-4 d-none d-md-flex">
-      <div class="col-md-4 mb-4">
-        <div class="star-item text-center">
-          <!-- 下向き矢印を星の直上に配置 -->
-          <div class="arrow-down text-center mb-5">
-            <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
-          </div>
-          <%= image_tag 'oshista-example-star1.png', alt: '星1', class: 'star-image' , loading: 'lazy'%>
-        </div>
-      </div>
-      <div class="col-md-4 mb-4">
-        <div class="star-item text-center">
-          <!-- 下向き矢印を星の直上に配置 -->
-          <div class="arrow-down text-center mb-5">
-            <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
-          </div>
-          <%= image_tag 'oshista-example-star2.png', alt: '星2', class: 'star-image' , loading: 'lazy'%>
-        </div>
-      </div>
-      <div class="col-md-4 mb-4">
-        <div class="star-item text-center">
-          <!-- 下向き矢印を星の直上に配置 -->
-          <div class="arrow-down text-center mb-5">
-            <i class="fa-solid fa-arrow-down fa-2x text-primary"></i>
-          </div>
-          <%= image_tag 'oshista-example-star3.png', alt: '星3', class: 'star-image' , loading: 'lazy'%>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========================================
-     新規追加: CTAセクション
-     テンプレート: ui-tools-cta1
-     ======================================== -->
-<section class="bg-gradient py-3" style="background: #f8f9fa">
-  <div class="container text-center py-5">
-    <h3 class="h2 fw-bold mb-4"><%= t('.cta1.title_html') %></h3>
-    <p class="lead mb-4">
-      <%= t('.cta1.description') %>
-    </p>
-    <div class="d-flex justify-content-center gap-3 flex-wrap">
-      <%= link_to new_survey_profile_path, 
-          class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow' do %>
-        <i class=" fa-solid fa-circle-plus me-2"></i><%= t('.cta1.button') %>
-      <% end %>
-    </div>
-  </div>
-</section>
-
-<!-- ========================================
-     新規追加: ビフォーアフターセクション
-     テンプレート: list-before-after1
-     ======================================== -->
-<section class="container my-5 py-5">
-  <h2 class="text-center mb-5 h1 fw-bold"><%= t('.reasons.title_html') %></h2>
-
-  <div class="row g-4 mb-5">
-    <!-- 理由1: 分析シートで悩みを言語化 -->
-    <div class="col-md-4">
-      <div class="card h-100 border-0 shadow-sm">
-        <div class="card-body text-center p-4">
-          <div class="mb-3">
-            <i class="fa-solid fa-clipboard-list fa-4x text-primary"></i>
-          </div>
-          <h4 class="card-title h5 mb-3">
-            <%= raw t('.reasons.reason1.title_html') %>
-          </h4>
-          <p class="card-text text-muted text-start">
-            <%= raw t('.reasons.reason1.description_html') %>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 理由2: 配信者特化のAI分析 -->
-    <div class="col-md-4">
-      <div class="card h-100 border-0 shadow-sm">
-        <div class="card-body text-center p-4">
-          <div class="mb-3">
-            <i class="fa-solid fa-robot fa-4x text-primary"></i>
-          </div>
-          <h4 class="card-title h5 mb-3">
-            <%= raw t('.reasons.reason2.title_html') %>
-          </h4>
-          <p class="card-text text-muted text-start">
-             <%= raw t('.reasons.reason2.description_html') %>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 理由3: 過去の記録を活用した継続サポート -->
-    <div class="col-md-4">
-      <div class="card h-100 border-0 shadow-sm">
-        <div class="card-body text-center p-4">
-          <div class="mb-3">
-            <i class="fa-solid fa-chart-line fa-4x text-primary"></i>
-          </div>
-          <h4 class="card-title h5 mb-3">
-            <%= raw t('.reasons.reason3.title_html') %>
-          </h4>
-          <p class="card-text text-muted text-start">
-            <%= raw t('.reasons.reason3.description_html') %>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 矢印(下向き) -->
-  <div class="text-center my-5">
-    <i class="fa-solid fa-arrow-down fa-3x text-primary"></i>
-  </div>
-
-  <!-- 解決後のイメージ -->
-  <div class="text-center mb-5">
-    <h3 class="h2 fw-bold mb-4">
-      <%= raw t('.reasons.solution_title_html') %>
-    </h3>
-  </div>
-
-  <div class="row g-4">
-    <!-- 解決策1: 悩みの可視化と解決手順の提示 -->
-    <div class="col-md-4">
-      <div class="card h-100 border-primary border-2 shadow">
-        <div class="card-body text-center p-4">
-          <div class="mb-3">
-            <i class="fa-solid fa-lightbulb fa-4x text-primary"></i>
-          </div>
-          <h4 class="card-title h5 mb-3 text-primary fw-bold">
-            <%= raw t('.reasons.solution1.title_html') %>
-          </h4>
-          <p class="card-text text-start">
-            <%= raw t('.reasons.solution1.description_html') %>
-          </p>
-        </div>
-        <div class="card-footer bg-light text-muted small">
-          <%= t('.reasons.solution1.note') %>
-        </div>
-      </div>
-    </div>
-
-    <!-- 解決策2: 過去との比較による成長の実感 -->
-    <div class="col-md-4">
-      <div class="card h-100 border-primary border-2 shadow">
-        <div class="card-body text-center p-4">
-          <div class="mb-3">
-            <i class="fa-solid fa-chart-simple fa-4x text-primary"></i>
-          </div>
-          <h4 class="card-title h5 mb-3 text-primary fw-bold">
-            <%= raw t('.reasons.solution2.title_html') %>
-          </h4>
-          <p class="card-text text-start">
-            <%= raw t('.reasons.solution2.description_html') %>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 解決策3: 変化する目標に合わせた柔軟なサポート -->
-    <div class="col-md-4">
-      <div class="card h-100 border-primary border-2 shadow">
-        <div class="card-body text-center p-4">
-          <div class="mb-3">
-            <i class="fa-solid fa-bullseye fa-4x text-primary"></i>
-          </div>
-          <h4 class="card-title h5 mb-3 text-primary fw-bold">
-            <%= raw t('.reasons.solution3.title_html') %>
-          </h4>
-          <p class="card-text text-start">
-            <%= raw t('.reasons.solution3.description_html') %>
-          </p>
-        </div>
-        <div class="card-footer bg-light text-muted small">
-          <%= t('.reasons.solution3.note') %>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========================================
      新規追加: 使い方セクション
      テンプレート: ui-tools-steps1
      ======================================== -->
 <section class="bg-light py-4">
   <div class="container py-5">
-    <h2 class="text-center mb-5 h1 fw-bold"><%= t('.steps.title') %></h2>
+    <h2 class="text-center mb-5 h1 fw-bold"><%= t('.steps.title_html') %></h2>
 
     <div class="row g-5">
       <!-- ステップ1 -->
       <div class="col-md-4">
         <div class="text-center">
           <div class="mb-4">
-            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" 
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white step-icon"
                  style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
               1
             </div>
@@ -361,7 +101,7 @@
       <div class="col-md-4">
         <div class="text-center">
           <div class="mb-4">
-            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" 
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white step-icon"
                  style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
               2
             </div>
@@ -383,7 +123,7 @@
       <div class="col-md-4">
         <div class="text-center">
           <div class="mb-4">
-            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" 
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white step-icon"
                  style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
               3
             </div>
@@ -404,8 +144,27 @@
   </div>
 </section>
 
+<!-- ========================================
+     新規追加: CTAセクション
+     テンプレート: ui-tools-cta1
+     ======================================== -->
+<section class="bg-gradient py-3">
+  <div class="container text-center py-5">
+    <h3 class="h2 fw-bold mb-4"><%= t('.cta1.title_html') %></h3>
+    <p class="lead mb-4">
+      <%= t('.cta1.description') %>
+    </p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <%= link_to new_survey_profile_path, 
+          class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow top-cta-button' do %>
+        <i class=" fa-solid fa-circle-plus me-2"></i><%= t('.cta1.button') %>
+      <% end %>
+    </div>
+  </div>
+</section>
+
 <!-- 輝き機能セクション -->
-<section class="sparkle-feature-section py-5">
+<section class="sparkle-feature-section py-5" style="background: #f8f9fa">
   <div class="container">
     <!-- セクションタイトル -->
     <h2 class="title12-parts"> <%= t('.sparkle.title') %></h2>
@@ -439,6 +198,258 @@
 </section>
 
 <!-- ========================================
+     新規追加: グラデーション見出しセクション
+     テンプレート: title12
+     ======================================== -->
+<!-- 悩みセクション -->
+<section class="problems-section py-5">
+  <div class="container">
+    <h2 class="title12-parts text-center mt-2 mb-4">
+      <%= t('.problems.title') %>
+      <span class="small-parts d-block mt-2"><%= t('.problems.subtitle') %></span>
+    </h2>
+
+    <p class="text-center lead pt-1 mb-5">
+      <%= t('.problems.description_html') %>
+    </p>
+  </div>
+
+  <details>
+    <summary class="text-center text-muted fs-5 fw-bold mb-4"><%= t('.problems.more_label') %></summary>
+    <div class="container">
+    <!-- 悩み3つ(PC: 横並び / スマホ: 縦並び) -->
+    <div class="row problems-stars-container">
+      <!-- 1つ目: 視聴者が増えない -->
+      <div class="col-12 col-md-4 mb-4 problem-star-pair">
+        <div class="problem-item text-center pb-md-0">
+          <i class="fa-solid fa-chart-line fa-3x text-primary text-icon mb-3"></i>
+          <h3><%= t('.problems.problem1.title') %></h3>
+          <p class="text-muted"><%= t('.problems.problem1.description_html') %></p>
+        </div>
+
+        <!-- 下向き矢印(スマホのみ表示) -->
+        <div class="arrow-down text-center mt-3 d-md-none">
+          <i class="fa-solid fa-arrow-down fa-2x text-primary text-icon"></i>
+        </div>
+
+        <!-- 星(スマホのみ表示) -->
+        <div class="star-item text-center mt-3 d-md-none">
+          <%= image_tag 'oshista-example-star1.png', alt: '星1', class: 'star-image' , loading: 'lazy'%>
+          <p class="star-caption title12-parts mt-2 mb-0"><%= t('.problems.star1_caption') %></p>
+        </div>  
+      </div>
+
+      <!-- 2つ目: ファンが少ない -->
+      <div class="col-12 col-md-4 mb-4 problem-star-pair">
+        <div class="problem-item text-center pb-md-0">
+          <i class="fa-solid fa-comments fa-3x text-primary text-icon mb-3"></i>
+          <h3><%= t('.problems.problem2.title') %></h3>
+          <p class="text-muted"><%= t('.problems.problem2.description') %></p>
+        </div>
+
+        <!-- 下向き矢印(スマホのみ表示) -->
+        <div class="arrow-down text-center mt-3 d-md-none">
+          <i class="fa-solid fa-arrow-down fa-2x text-primary text-icon"></i>
+        </div>
+
+        <!-- 星(スマホのみ表示) -->
+        <div class="star-item text-center mt-3 d-md-none">
+          <%= image_tag 'oshista-example-star2.png', alt: '星2', class: 'star-image' , loading: 'lazy'%>
+          <p class="star-caption title12-parts mt-2 mb-0"><%= t('.problems.star2_caption') %></p>
+        </div>
+      </div>
+
+      <!-- 3つ目: 何を改善すべきか -->
+      <div class="col-12 col-md-4 mb-4 problem-star-pair">
+        <div class="problem-item text-center pb-md-0">
+          <i class="fa-solid fa-lightbulb fa-3x text-primary text-icon mb-3"></i>
+          <h3><%= t('.problems.problem3.title') %></h3>
+          <p class="text-muted"><%= t('.problems.problem3.description_html') %></p>
+        </div>
+
+        <!-- 下向き矢印(スマホのみ表示) -->
+        <div class="arrow-down text-center mt-3 d-md-none">
+          <i class="fa-solid fa-arrow-down fa-2x text-primary text-icon"></i>
+        </div>
+
+        <!-- 星(スマホのみ表示) -->
+        <div class="star-item text-center mt-3 d-md-none">
+          <%= image_tag 'oshista-example-star3.png', alt: '星3', class: 'star-image' , loading: 'lazy'%>
+          <p class="star-caption title12-parts mt-2 mb-0"><%= t('.problems.star3_caption') %></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 星の画像(PCのみ表示) -->
+    <div class="row mt-4 d-none d-md-flex">
+      <div class="col-md-4 mb-4">
+        <div class="star-item text-center">
+          <!-- 下向き矢印を星の直上に配置 -->
+          <div class="arrow-down text-center mb-5">
+            <i class="fa-solid fa-arrow-down fa-2x text-primary text-icon"></i>
+          </div>
+          <%= image_tag 'oshista-example-star1.png', alt: '星1', class: 'star-image' , loading: 'lazy'%>
+          <p class="star-caption title12-parts mt-2 mb-0"><%= t('.problems.star1_caption') %></p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="star-item text-center">
+          <!-- 下向き矢印を星の直上に配置 -->
+          <div class="arrow-down text-center mb-5">
+            <i class="fa-solid fa-arrow-down fa-2x text-primary text-icon"></i>
+          </div>
+          <%= image_tag 'oshista-example-star2.png', alt: '星2', class: 'star-image' , loading: 'lazy'%>
+          <p class="star-caption title12-parts mt-2 mb-0"><%= t('.problems.star2_caption') %></p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="star-item text-center">
+          <!-- 下向き矢印を星の直上に配置 -->
+          <div class="arrow-down text-center mb-5">
+            <i class="fa-solid fa-arrow-down fa-2x text-primary text-icon"></i>
+          </div>
+          <%= image_tag 'oshista-example-star3.png', alt: '星3', class: 'star-image' , loading: 'lazy'%>
+          <p class="star-caption title12-parts mt-2 mb-0"><%= t('.problems.star3_caption') %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- ========================================
+     新規追加: ビフォーアフターセクション
+     テンプレート: list-before-after1
+     ======================================== -->
+<section class="container my-5 py-5">
+  <h2 class="text-center mb-5 h1 fw-bold"><%= t('.reasons.title_html') %></h2>
+
+  <div class="row g-4 mb-5">
+    <!-- 理由1: 分析シートで悩みを言語化 -->
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <i class="fa-solid fa-clipboard-list fa-4x text-primary text-icon"></i>
+          </div>
+          <h4 class="card-title h5 mb-3">
+            <%= raw t('.reasons.reason1.title_html') %>
+          </h4>
+          <p class="card-text text-muted text-start">
+            <%= raw t('.reasons.reason1.description_html') %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 理由2: 配信者特化のAI分析 -->
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <i class="fa-solid fa-robot fa-4x text-primary text-icon"></i>
+          </div>
+          <h4 class="card-title h5 mb-3">
+            <%= raw t('.reasons.reason2.title_html') %>
+          </h4>
+          <p class="card-text text-muted text-start">
+             <%= raw t('.reasons.reason2.description_html') %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 理由3: 過去の記録を活用した継続サポート -->
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <i class="fa-solid fa-chart-line fa-4x text-primary text-icon"></i>
+          </div>
+          <h4 class="card-title h5 mb-3">
+            <%= raw t('.reasons.reason3.title_html') %>
+          </h4>
+          <p class="card-text text-muted text-start">
+            <%= raw t('.reasons.reason3.description_html') %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 矢印(下向き) -->
+  <div class="text-center my-5">
+    <i class="fa-solid fa-arrow-down fa-3x text-primary text-icon"></i>
+  </div>
+
+  <!-- 解決後のイメージ -->
+  <div class="text-center mb-5">
+    <h3 class="h2 fw-bold mb-4">
+      <%= raw t('.reasons.solution_title_html') %>
+    </h3>
+  </div>
+
+  <div class="row g-4">
+    <!-- 解決策1: 悩みの可視化と解決手順の提示 -->
+    <div class="col-md-4">
+      <div class="card h-100 border-primary border-2 shadow">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <i class="fa-solid fa-lightbulb fa-4x text-primary text-icon"></i>
+          </div>
+          <h4 class="card-title h5 mb-3 text-primary text-icon fw-bold">
+            <%= raw t('.reasons.solution1.title_html') %>
+          </h4>
+          <p class="card-text text-start">
+            <%= raw t('.reasons.solution1.description_html') %>
+          </p>
+        </div>
+        <div class="card-footer bg-light text-muted small">
+          <%= t('.reasons.solution1.note') %>
+        </div>
+      </div>
+    </div>
+
+    <!-- 解決策2: 過去との比較による成長の実感 -->
+    <div class="col-md-4">
+      <div class="card h-100 border-primary border-2 shadow">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <i class="fa-solid fa-chart-simple fa-4x text-primary text-icon"></i>
+          </div>
+          <h4 class="card-title h5 mb-3 text-primary text-icon fw-bold">
+            <%= raw t('.reasons.solution2.title_html') %>
+          </h4>
+          <p class="card-text text-start">
+            <%= raw t('.reasons.solution2.description_html') %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 解決策3: 変化する目標に合わせた柔軟なサポート -->
+    <div class="col-md-4">
+      <div class="card h-100 border-primary border-2 shadow">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <i class="fa-solid fa-bullseye fa-4x text-primary text-icon"></i>
+          </div>
+          <h4 class="card-title h5 mb-3 text-primary text-icon fw-bold">
+            <%= raw t('.reasons.solution3.title_html') %>
+          </h4>
+          <p class="card-text text-start">
+            <%= raw t('.reasons.solution3.description_html') %>
+          </p>
+        </div>
+        <div class="card-footer bg-light text-muted small">
+          <%= t('.reasons.solution3.note') %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</details>
+</section>
+
+<!-- ========================================
      開発者の想いセクション
      ======================================== -->
 <section class="bg3-parts text-white">
@@ -453,16 +464,16 @@
 
         <div class="developer-message">
           <p class="lead mb-4 text-white">
-            配信活動を続ける中で、 「何だか配信やる気がでない、、、」といったもやもや☁した言語化できない想いを抱えていませんか?
+            配信活動を続ける中で、 「何だか配信する気が起きない、、、」といったもやもや☁した言語化できない想いを抱えていませんか?
           </p>
 
           <p class="lead mb-4 text-white">
-            または、具体的に「リスナーが増えない」「ファンがいなくなってしまう」<br>
-            「配信活動を続けていていいと思える投げ銭の額の届いていない」など各々、活動を続ける限り様々な悩みがあると思います。
+            または、具体的に「リスナーが増えない」「ファンがいなくなってしまう」
+            「配信活動を続けていていいと思える投げ銭の額に届いていない」など各々、活動を続ける限り様々な悩みがあると思います。
           </p>
 
           <p class="lead mb-4 text-white">
-            ✦推しスタ✦ は、そんな配信者の皆さんが 「もやもやした気持ち」を「明確な目標⭐」に変え 、継続的に成長を実感できるように作りました。<br>
+            ✦推しスタ✦ は、配信者の皆さんが 「もやもやした気持ち」を「明確な目標⭐」に変え 、継続的に成長を実感できるように作りました。<br>
             悩んでしまうのは、あなたの心が成長したい！配信を続けたい！と言っているからです。<br>
             悩んだままなんとなく嫌になって、配信をやめてしまう方を減らしたいと思ってこの推しスタ⭐を運営しています。<br>
           </p>
@@ -485,14 +496,14 @@
 <!-- ========================================
      最終CTAセクション
      ======================================== -->
-<section class="container my-5 py-5">
+<section class="container my-5 py-5 final-cta">
   <div class="text-center">
     <h2 class="h1 fw-bold mb-4 title12-parts"><%= t('.final_cta.title') %></h2>
     <p class="lead mb-5">
       <%= t('.final_cta.description_html') %>
     </p>
     <%= link_to new_survey_profile_path, 
-        class: 'btn btn-primary btn-lg px-5 py-4 rounded-pill shadow-lg' do %>
+        class: 'btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg top-cta-button' do %>
       <i class=" fa-solid fa-circle-plus me-2"></i><%= t('.final_cta.button') %>
     <% end %>
     <p class="text-muted mt-3 small">

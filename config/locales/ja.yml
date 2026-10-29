@@ -16,27 +16,29 @@ ja:
   static_pages:
     top:
       description_html: |
-        配信でのもやもやな結晶☁(想い)を<br>
-        成長の星⭐(目標)に変換するツール
+        まずは今のもやもやな結晶☁(想い)を<br>
+        成長の星⭐(目標)に変えてみよう！
       # ヒーローセクション
       hero:
         title_html: | 
-          配信を続けたい！<br class="d-md-none">
-          でも自分には難しい？
+          配信を続けたい...<br class="d-md-none">
+          どうしたらいい？
         cta_button: "もやもや結晶☁を調査🔍"
         note: "※googleログインですぐに利用可能"
       
       # 悩みセクション
       problems:
-        title: "配信の悩みはきらめく星へ"
+        title: "推しスタについて"
         subtitle: "Star Streaming Support"
         description_html: |
           配信のモチベーション維持に悩んでいる方を<br>サポートするサイトです。<br>
-          あなたの配信の「悩み」を具体的な成長目標に変換します。
+          目標達成まで伴走し、「あなたがなりたい推し」で居続けれるように支援します。
+        more_label: "詳しく見る"
         # 悩み1
         problem1:
           title: "視聴者が増えない☁"
-          description: "どうすれば視聴者を増やせるのか具体的なアドバイスが欲しい"
+          description_html: | 
+            どうすれば視聴者を増やせるのか<br>助言が欲しい
         
         # 悩み2
         problem2:
@@ -46,7 +48,13 @@ ja:
         # 悩み3
         problem3:
           title: "改善点が分からない☁"
-          description: "自身が目指す配信への不足している点を具体的に把握したい"
+          description_html: |
+            なんとなくやりたくない配信になって<br>いてつまらない
+        
+        # 星の説明文
+        star1_caption: "配信時刻を覚えてもらおう"
+        star2_caption: "視聴者に感謝を伝えよう"
+        star3_caption: "配信する理由を決めよう"
 
       # CTAセクション1
       cta1:
@@ -58,41 +66,33 @@ ja:
       # 3つの理由セクション
       reasons:
         title_html: |
-          配信者の「続けたい」を叶える<br>6つのポイント
+          「配信を続けたい」を叶える<br>様々なサポート
         
         # 理由1
         reason1:
           title_html: '<span class="text-primary fw-bold">「何を相談すればいいか」</span><br class="d-md-none d-lg-inline">
           がわかる'
           description_html: |
-            一般的なAIは自由度が高い反面、
-            <strong>「どう質問すればいいかわからない」</strong>という壁があります。<br>
-            <br>
-            <strong class="text-primary">推しスタなら、</strong><br>
+            <strong class="text-primary">推しスタは、</strong><br>
             もやもや分析シートで質問を構造化し、悩みを言語化しやすくします。
-            <strong>「何を相談すればいいかわからない」方にもおすすめです。</strong>
+            <strong>「何を相談すればいいかわからない」方への相談準備にもおすすめです。</strong>
         
         # 理由2
         reason2:
           title_html: '<span class="text-primary fw-bold">配信者特化のAI分析</span><br class="d-md-none d-lg-inline">
           で目標を提案'
           description_html: |
-            一般的なAIは汎用的なアドバイスになりがちで
-            <strong>配信者に合わせた回答がもらえない。</strong><br>
-            <br>
-            <strong class="text-primary">推しスタなら、</strong><br>
-            配信者特有の悩み(視聴者数、収益化、モチベーション維持など)に特化した分析基準を持ちます。
-            <strong>「どこを」「どう」改善すればいいのか具体的に提案します。</strong>
+            <strong class="text-primary">推しスタは、</strong><br>
+            配信者特有の悩み(視聴者数、収益化、モチベーションなど)に特化した分析基準で、
+            <strong>「どう改善すればいいのか具体的に提案します。</strong>
         
         # 理由3
         reason3:
-          title_html: '<span class="text-primary fw-bold">過去の記録を活用</span><br>して成長を実感'
+          title_html: '<span class="text-primary fw-bold">モチベーション低下の</span><br>原因を明確化'
           description_html: |
-            <strong>目標への行動記録は毎日しなくてＯＫ、</strong>いつでも気軽に利用できます<br>
-            <br>
-            <strong class="text-primary">推しスタなら、</strong><br>
-            過去の目標を保存し、モチベーションが下がったときに見返せます。
-            <strong>「なぜモチベーションが低下したのか」を明確にし、同じ失敗を繰り返さないようサポートします。</strong>
+            <strong class="text-primary">推しスタは、</strong><br>
+            目標への努力やもやもやした気持ちを気軽に記録が可能。
+            <strong>記録から「なぜモチベーションが低下したのか」を明確にし、原因の改善へ導きます。</strong>
         
         # 解決後のイメージ
         solution_title_html: |
@@ -103,29 +103,29 @@ ja:
         solution1:
           title_html: '悩みの可視化と<br>解決手順の提示'
           description_html: |
-            漠然とした悩みを具体的な課題として認識でき、その課題を解決するための手順・ツール・情報を自分で調べなくても得られます。<br>
-            <strong>調べるのが苦手な人でも、適切な情報に迷わずたどり着けます。</strong>
+            悩みを可視化し目標に変換します。調べるのが苦手な人でも、
+            <strong>目標を達成できるように手順・ツールを提供します。</strong>
           note: "※ サービスや人脈の提供機能は今後実装予定"
         
         # 解決策2
         solution2:
           title_html: '星が成長することで<br>楽しく努力が可能'
           description_html: |
-            行動記録数に応じて星の輝きが増していき、成長を視覚的に実感できます。<br>
-            <strong>輝き件数に応じた獲得バッジや、各成長の星(目標)別のグラフで、これまでの努力を振り返れます。</strong>
+            行動記録数により星の輝きが増し、成長を視覚的に実感。
+            <strong>輝き件数による獲得バッジや、各目標別のグラフで、過去の努力を振り返れます。</strong>
         
         # 解決策3
         solution3:
           title_html: '変化する目標に<br>柔軟に対応'
           description_html: |
-            配信者の目標は変化し続けます。<br>
-            「雑談配信で楽しみたい」→「収益化を目指したい」→「特定のゲームで有名になりたい」<br>
-            <strong>その時々の目標に合わせた情報・ツール・人脈を提供し続けます。</strong>
+            配信者の目標は変化します。
+            「雑談配信で楽しみたい」→「収益化を目指したい」
+            <strong>その時々の目標に合わせた情報・人脈を提供し続けます。</strong>
           note: "※ サービスや人脈の提供機能は今後実装予定"
 
       # 使い方セクション
       steps:
-        title: "たった3ステップで心のもやもや☁を次の目標へ⭐"
+        title_html: '3ステップで心のもやもや<br class="d-md-none">を次の目標へ⭐'
         
         # ステップ1
         step1:
@@ -154,10 +154,10 @@ ja:
         description_html: |
           もやもや結晶の調査で成長の星を作成できたら、、、<br>
           <br>
-          星の輝きを加えていきましょう<br>
+          星の輝きを加えていきましょう❣<br>
           <br>
           成長の星(目標)に対する行った努力を記録したり、<br>
-          SNSに投稿するとリスナーに不快感を与えてしまうような<br>
+          SNSに投稿するとリスナーの方々に不快感を与えてしまうような<br class="d-none d-lg-inline">
           ネガティブな気持ちを吐き出すことができます。
         demo_label_pc: "PC版"
         demo_label_mobile: "モバイル版"
@@ -170,10 +170,10 @@ ja:
       
       # 最終CTAセクション
       final_cta:
-        title: "さあ、あなたがなりたい推し⭐になろう"
+        title: "あなたがなりたい推しになろう"
         description_html: |
-          もやもやした気持ちはあなたをもっと輝かせる目標⭐になる<br>
-          推しスタがあなたの配信の可能性を引き出します。
+          もやもやした気持ちは<br class="d-md-none">あなたをもっと輝かせる目標⭐になる。<br>
+          推しスタがあなたの配信の<br class="d-md-none">可能性を引き出します。
         button: "もやもや結晶☁を調査🔍"
         note: "※ googleログインですぐに利用可能"
  
